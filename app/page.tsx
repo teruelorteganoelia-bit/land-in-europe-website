@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
-// ─── City images (Unsplash) ───────────────────────────────────────────────────
+// ─── City images ──────────────────────────────────────────────────────────────
 const IMG = {
   barcelona: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1200&q=80",
   lisbon:    "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1200&q=80",
@@ -26,13 +26,12 @@ const STATS = [
 
 const LANGUAGES = ["German","Dutch","Danish","Spanish","Italian","Portuguese","French","Finnish","Norwegian"];
 
-// Service card accent colors (no stock photos — color blocks only)
 const SERVICE_COLORS = [
-  { bg: "#F5F0E8", number: "#C9A84C", text: "#8B6914" },   // warm cream
-  { bg: "#1C1F26", number: "#C9A84C", text: "#C9A84C" },   // dark charcoal
-  { bg: "#F0F4F8", number: "#3D5A80", text: "#3D5A80" },   // slate blue
-  { bg: "#F8F5F0", number: "#7C6D5A", text: "#7C6D5A" },   // warm taupe
-  { bg: "#111111", number: "#C9A84C", text: "#C9A84C" },   // near black (featured)
+  { bg: "#F7F4EF", number: "#C9A84C" },
+  { bg: "#1C1F26", number: "#C9A84C" },
+  { bg: "#F0F4F8", number: "#3D5A80" },
+  { bg: "#F8F5F0", number: "#7C6D5A" },
+  { bg: "#111111", number: "#C9A84C" },
 ];
 
 const SERVICES = [
@@ -87,14 +86,20 @@ const FAQS = [
 ];
 
 // ─── Scroll reveal hook ───────────────────────────────────────────────────────
-function useReveal() {
-  const ref = useRef<HTMLDivElement>(null);
+// Safe: only adds `visible` — never removes opacity from non-reveal elements
+function useReveal<T extends HTMLElement = HTMLDivElement>() {
+  const ref = useRef<T>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
-      { threshold: 0.12 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("visible");
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.1 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -102,7 +107,7 @@ function useReveal() {
   return ref;
 }
 
-// ─── Arrow icon ───────────────────────────────────────────────────────────────
+// ─── Arrow ────────────────────────────────────────────────────────────────────
 function Arrow() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -111,10 +116,10 @@ function Arrow() {
   );
 }
 
-// ─── Check icon ──────────────────────────────────────────────────────────────
-function Check({ color = "text-[#C9A84C]" }: { color?: string }) {
+// ─── Check ────────────────────────────────────────────────────────────────────
+function Check({ light = false }: { light?: boolean }) {
   return (
-    <svg className={`w-4 h-4 ${color} flex-shrink-0 mt-0.5`} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <svg className={`w-4 h-4 flex-shrink-0 mt-0.5 ${light ? "text-[#C9A84C]" : "text-[#C9A84C]"}`} viewBox="0 0 16 16" fill="none" aria-hidden="true">
       <path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
@@ -129,23 +134,21 @@ function Navbar() {
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
-
   const links = [["Approach","#approach"],["Services","#services"],["Testimonials","#testimonials"],["About","#about"],["FAQ","#faq"]] as const;
-
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${sc ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-100" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <a href="#" className="text-base font-bold text-gray-900 tracking-tight flex-shrink-0">Land in Europe</a>
-        <nav className="hidden md:flex items-center gap-7" aria-label="Main navigation">
+        <nav className="hidden md:flex items-center gap-7">
           {links.map(([l,h]) => (
-            <a key={h} href={h} className="text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors duration-200">{l}</a>
+            <a key={h} href={h} className="text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors">{l}</a>
           ))}
         </nav>
         <a href="#contact" className="hidden md:inline-flex items-center gap-1.5 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-gray-800 transition-colors flex-shrink-0">
           Get started <Arrow />
         </a>
-        <button className="md:hidden p-1" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
-          <div className="w-5 flex flex-col gap-[5px]" aria-hidden="true">
+        <button className="md:hidden p-1" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"}>
+          <div className="w-5 flex flex-col gap-[5px]">
             <span className={`h-0.5 bg-gray-900 transition-all ${open ? "rotate-45 translate-y-[7px]" : ""}`}/>
             <span className={`h-0.5 bg-gray-900 transition-opacity ${open ? "opacity-0" : ""}`}/>
             <span className={`h-0.5 bg-gray-900 transition-all ${open ? "-rotate-45 -translate-y-[7px]" : ""}`}/>
@@ -166,45 +169,37 @@ function Navbar() {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function Hero() {
-  const ref = useReveal();
+  const leftRef = useReveal();
   return (
     <section className="bg-white min-h-screen flex flex-col justify-center overflow-hidden pt-16">
       <div className="max-w-7xl mx-auto w-full px-6 grid lg:grid-cols-2 gap-0 lg:gap-16 items-center py-16 lg:py-24">
 
         {/* LEFT */}
-        <div ref={ref} className="reveal flex flex-col justify-center">
+        <div ref={leftRef} className="reveal flex flex-col justify-center">
           <div className="flex items-center gap-3 mb-10">
             <span className="w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse" aria-hidden="true"/>
             <span className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em]">Career Coach · International Recruiter</span>
           </div>
-
           <h1 className="font-serif text-[clamp(3rem,6vw,6.5rem)] font-bold text-gray-900 leading-[1.02] mb-8">
-            You have the<br/>
-            experience.<br/>
+            You have the<br/>experience.<br/>
             <span className="text-[#C9A84C]">Let Europe<br/>see it.</span>
           </h1>
-
           <p className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-md mb-8">
             I help international professionals position themselves, target the right companies, and land roles in Europe.
             As a working European recruiter, I know exactly what the other side of the table is looking for.
           </p>
-
           <div className="flex flex-col sm:flex-row gap-3">
             <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-white font-bold px-7 py-4 rounded-full hover:bg-[#b8953f] transition-colors text-sm shadow-lg shadow-[#C9A84C]/30">
               Tell me your situation
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </a>
             <a href="#services" className="inline-flex items-center justify-center gap-2 border border-gray-200 text-gray-600 font-semibold px-7 py-4 rounded-full hover:border-gray-300 hover:text-gray-900 transition-colors text-sm">
               See services
             </a>
           </div>
-
-          {/* Stats */}
           <div className="flex gap-8 sm:gap-10 items-center border-t border-gray-100 pt-8 mt-12">
-            {STATS.map(({ v, l }, i) => (
-              <div key={l} className={`reveal-delay-${i + 1}`}>
+            {STATS.map(({ v, l }) => (
+              <div key={l}>
                 <p className="font-serif text-3xl sm:text-4xl font-bold text-gray-900">{v}</p>
                 <p className="text-xs text-gray-400 mt-0.5 font-medium">{l}</p>
               </div>
@@ -212,48 +207,35 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: portrait + city images — desktop */}
+        {/* RIGHT: portrait — desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
           <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/10 ring-1 ring-gray-100 relative aspect-[3/4]">
-            <Image
-              src="/noelia2.png"
-              alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden"
-              fill
-              className="object-cover object-top"
-              priority
-              sizes="(max-width:1280px) 40vw, 420px"
-            />
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent" aria-hidden="true"/>
+            <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"/>
           </div>
           <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
             {[
-              { src: IMG.barcelona, alt: "Barcelona, Spain — recruiting market" },
-              { src: IMG.lisbon,    alt: "Lisbon, Portugal — recruiting market" },
-              { src: IMG.europe,    alt: "Athens, Greece — recruiting market" },
+              { src: IMG.barcelona, alt: "Barcelona, Spain" },
+              { src: IMG.lisbon,    alt: "Lisbon, Portugal" },
+              { src: IMG.europe,    alt: "Athens, Greece" },
             ].map(({ src, alt }) => (
               <div key={alt} className="flex-1 h-14 rounded-xl overflow-hidden relative">
                 <Image src={src} alt={alt} fill className="object-cover" sizes="120px"/>
               </div>
             ))}
           </div>
-          <p className="text-[10px] text-gray-300 font-medium text-right tracking-wide">
-            Recruiting for Barcelona · Lisbon · Athens
-          </p>
+          <p className="text-[10px] text-gray-300 font-medium text-right tracking-wide">Recruiting for Barcelona · Lisbon · Athens</p>
         </div>
 
-        {/* RIGHT: mobile portrait */}
+        {/* RIGHT: portrait — mobile */}
         <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
           <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-100 relative">
             <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
           </div>
           <div className="flex gap-2">
-            {[
-              { src: IMG.barcelona, alt: "Barcelona" },
-              { src: IMG.lisbon,    alt: "Lisbon" },
-              { src: IMG.europe,    alt: "Athens" },
-            ].map(({ src, alt }) => (
-              <div key={alt} className="w-20 h-12 rounded-lg overflow-hidden relative">
-                <Image src={src} alt={alt} fill className="object-cover" sizes="80px"/>
+            {[IMG.barcelona, IMG.lisbon, IMG.europe].map((src, i) => (
+              <div key={i} className="w-20 h-12 rounded-lg overflow-hidden relative">
+                <Image src={src} alt="" fill className="object-cover" sizes="80px"/>
               </div>
             ))}
           </div>
@@ -282,9 +264,9 @@ function Ticker() {
 
 // ─── Approach ─────────────────────────────────────────────────────────────────
 function Approach() {
-  const headRef = useReveal();
-  const cardRef = useReveal();
-  const painRef = useReveal();
+  const headRef  = useReveal();
+  const cardsRef = useReveal();
+  const painRef  = useReveal();
   return (
     <section id="approach" className="py-24 sm:py-28 px-6 bg-gray-50 border-t border-gray-100">
       <div className="max-w-7xl mx-auto">
@@ -300,16 +282,14 @@ function Approach() {
           </p>
         </div>
 
-        <div ref={cardRef} className="reveal grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+        {/* reveal-group: children stagger automatically */}
+        <div ref={cardsRef} className="reveal-group grid sm:grid-cols-2 md:grid-cols-3 gap-5">
           {[
-            { n:"01", t:"I work both sides",
-              b:"I recruit for European companies and coach candidates. I know which CVs get opened and why, because I open them every single day." },
-            { n:"02", t:"No templates",
-              b:"Every session starts with your specific situation, your industry, your target market. The output fits you, not a formula someone else used." },
-            { n:"03", t:"I find what is blocking you",
-              b:"Sometimes one sentence, one structure change, one clearer story completely transforms your chances. That is what I look for." },
+            { n:"01", t:"I work both sides", b:"I recruit for European companies and coach candidates. I know which CVs get opened and why, because I open them every single day." },
+            { n:"02", t:"No templates", b:"Every session starts with your specific situation, your industry, your target market. The output fits you, not a formula someone else used." },
+            { n:"03", t:"I find what is blocking you", b:"Sometimes one sentence, one structure change, one clearer story completely transforms your chances. That is what I look for." },
           ].map((c, i) => (
-            <div key={i} className={`rounded-2xl border border-gray-200 bg-white lift p-8 reveal reveal-delay-${i+1}`}>
+            <div key={i} className="rounded-2xl border border-gray-200 bg-white lift p-8">
               <p className="text-xs font-mono text-gray-200 mb-5">{c.n}</p>
               <h3 className="text-lg font-bold text-gray-900 mb-3">{c.t}</h3>
               <p className="text-sm text-gray-400 leading-relaxed">{c.b}</p>
@@ -317,17 +297,14 @@ function Approach() {
           ))}
         </div>
 
-        <div ref={painRef} className="reveal mt-5 grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+        <div ref={painRef} className="reveal-group mt-5 grid sm:grid-cols-2 md:grid-cols-3 gap-5">
           {[
-            { icon:"📄", title:"Your CV is not European-market ready",
-              body:"Format, structure and language expectations here are different. What worked at home often does not work the same way in Spain, Portugal or Greece." },
-            { icon:"🔍", title:"Recruiters cannot find you on LinkedIn",
-              body:"Without the right keywords and positioning you simply do not appear in searches. Opportunities go to other candidates while you wait." },
-            { icon:"🎯", title:"You are targeting the wrong companies",
-              body:"Sending 100 applications without strategy means 100 silences. The right 10 targeted applications beat that every time." },
+            { icon:"📄", title:"Your CV is not European-market ready", body:"Format, structure and language expectations here are different. What worked at home often does not work the same way in Spain, Portugal or Greece." },
+            { icon:"🔍", title:"Recruiters cannot find you on LinkedIn", body:"Without the right keywords and positioning you simply do not appear in searches. Opportunities go to other candidates while you wait." },
+            { icon:"🎯", title:"You are targeting the wrong companies", body:"Sending 100 applications without strategy means 100 silences. The right 10 targeted applications beat that every time." },
           ].map((c, i) => (
-            <div key={i} className={`bg-white border border-gray-200 rounded-2xl p-7 lift reveal reveal-delay-${i+1}`}>
-              <span className="text-3xl mb-5 block" aria-hidden="true">{c.icon}</span>
+            <div key={i} className="bg-white border border-gray-200 rounded-2xl p-7 lift">
+              <span className="text-3xl mb-5 block">{c.icon}</span>
               <h3 className="font-semibold text-gray-900 text-sm mb-2">{c.title}</h3>
               <p className="text-sm text-gray-400 leading-relaxed">{c.body}</p>
             </div>
@@ -338,7 +315,7 @@ function Approach() {
   );
 }
 
-// ─── Services — color block headers, no stock photos ─────────────────────────
+// ─── Services ─────────────────────────────────────────────────────────────────
 function Services() {
   const headRef = useReveal();
   const gridRef = useReveal();
@@ -355,63 +332,39 @@ function Services() {
           <p className="text-gray-400 leading-relaxed text-base">Every service is adapted to your specific situation and target market. No templates, no generic advice.</p>
         </div>
 
-        <div ref={gridRef} className="reveal grid md:grid-cols-2 gap-5">
+        <div ref={gridRef} className="reveal-group grid md:grid-cols-2 gap-5">
           {SERVICES.map((s, idx) => {
             const col = SERVICE_COLORS[idx] ?? SERVICE_COLORS[0];
             const isDark = idx === 1 || idx === 4;
             return (
-              <div
-                key={s.n}
-                className={`relative rounded-2xl overflow-hidden border flex flex-col lift ${
-                  s.featured ? "border-gray-900" : "border-gray-200"
-                }`}
-                style={{ background: isDark ? col.bg : "#ffffff" }}
-              >
-                {/* Color block header — no photo */}
-                <div
-                  className="h-36 flex items-end px-7 pb-5 relative overflow-hidden"
-                  style={{ background: col.bg }}
-                >
-                  {/* Large background number */}
+              <div key={s.n} className={`rounded-2xl overflow-hidden border flex flex-col lift ${s.featured ? "border-gray-900" : "border-gray-200"}`}>
+                {/* Color block header — no stock photo */}
+                <div className="h-36 flex items-end px-7 pb-5 relative overflow-hidden" style={{ background: col.bg }}>
                   <span
-                    className="absolute right-6 top-1/2 -translate-y-1/2 font-serif font-bold leading-none select-none pointer-events-none"
-                    style={{ fontSize: "clamp(5rem,10vw,8rem)", color: col.number, opacity: 0.18 }}
+                    className="absolute right-5 top-1/2 -translate-y-1/2 font-serif font-bold leading-none select-none pointer-events-none"
+                    style={{ fontSize: "clamp(5rem,10vw,8rem)", color: col.number, opacity: 0.15 }}
                     aria-hidden="true"
-                  >
-                    {s.n}
-                  </span>
+                  >{s.n}</span>
                   {s.featured && (
-                    <span className="absolute top-4 right-4 bg-[#C9A84C] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                      Most popular
-                    </span>
+                    <span className="absolute top-4 right-4 bg-[#C9A84C] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">Most popular</span>
                   )}
-                  <span className="text-xs font-mono relative z-10" style={{ color: col.text, opacity: 0.6 }}>{s.n}</span>
+                  <span className="text-xs font-mono relative z-10" style={{ color: col.number, opacity: 0.5 }}>{s.n}</span>
                 </div>
 
-                <div className={`p-7 sm:p-8 flex flex-col flex-1 ${isDark ? "bg-opacity-100" : "bg-white"}`}
-                  style={{ background: isDark ? col.bg : "#ffffff" }}>
+                <div className="p-7 sm:p-8 flex flex-col flex-1" style={{ background: isDark ? col.bg : "#ffffff" }}>
                   <p className="text-xs font-semibold uppercase tracking-[0.15em] mb-2" style={{ color: col.number }}>{s.tag}</p>
                   <h3 className={`text-xl font-bold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>{s.title}</h3>
                   <p className={`text-sm leading-relaxed mb-6 flex-1 ${isDark ? "text-white/50" : "text-gray-500"}`}>{s.body}</p>
-                  <ul className="space-y-2 mb-7" aria-label={`Included in ${s.title}`}>
+                  <ul className="space-y-2 mb-7">
                     {s.items.map(item => (
                       <li key={item} className="flex items-start gap-3 text-sm">
-                        <Check color={isDark ? "text-[#C9A84C]" : "text-[#C9A84C]"} />
+                        <Check />
                         <span className={isDark ? "text-white/50" : "text-gray-500"}>{item}</span>
                       </li>
                     ))}
                   </ul>
-                  {s.featured && (
-                    <p className="text-[11px] text-white/30 mb-3">Limited to 8 clients per month.</p>
-                  )}
-                  <a
-                    href="#contact"
-                    className={`inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-full transition-colors ${
-                      s.featured
-                        ? "bg-[#C9A84C] text-white hover:bg-[#b8953f]"
-                        : "bg-gray-900 text-white hover:bg-gray-800"
-                    }`}
-                  >
+                  {s.featured && <p className="text-[11px] text-white/30 mb-3">Limited to 8 clients per month.</p>}
+                  <a href="#contact" className={`inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-full transition-colors ${s.featured ? "bg-[#C9A84C] text-white hover:bg-[#b8953f]" : "bg-gray-900 text-white hover:bg-gray-800"}`}>
                     Get started <Arrow />
                   </a>
                 </div>
@@ -426,11 +379,12 @@ function Services() {
 
 // ─── How It Works ─────────────────────────────────────────────────────────────
 function HowItWorks() {
-  const ref = useReveal();
+  const headRef  = useReveal();
+  const cardsRef = useReveal();
   return (
     <section className="py-24 sm:py-28 px-6 bg-gray-900 border-t border-gray-800">
       <div className="max-w-7xl mx-auto">
-        <div ref={ref} className="reveal grid md:grid-cols-2 gap-12 md:gap-16 items-end mb-14 md:mb-16">
+        <div ref={headRef} className="reveal grid md:grid-cols-2 gap-12 md:gap-16 items-end mb-14 md:mb-16">
           <div>
             <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-4">Process</p>
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-white leading-tight">
@@ -439,14 +393,14 @@ function HowItWorks() {
           </div>
           <p className="text-white/40 leading-relaxed self-end">Simple. No long intake forms, no complicated onboarding. Just reach out and we start.</p>
         </div>
-        <div className="grid sm:grid-cols-3 gap-5">
+        <div ref={cardsRef} className="reveal-group grid sm:grid-cols-3 gap-5">
           {[
             { n:"01", t:"Reach out", b:"Send me a message describing where you are, what you are targeting, and what is not working." },
             { n:"02", t:"We align", b:"I recommend the service that fits your situation. Once confirmed we schedule and get started immediately." },
             { n:"03", t:"You move forward", b:"You leave with clarity, stronger documents, and a concrete plan. Most clients see results within 2 to 4 weeks." },
           ].map((s, i) => (
-            <div key={i} className={`bg-white/5 border border-white/8 rounded-2xl p-8 hover:bg-white/8 transition-colors reveal reveal-delay-${i+1}`}>
-              <p className="text-xs font-mono text-white/15 mb-8" aria-hidden="true">{s.n}</p>
+            <div key={i} className="bg-white/5 border border-white/8 rounded-2xl p-8 hover:bg-white/8 transition-colors">
+              <p className="text-xs font-mono text-white/15 mb-8">{s.n}</p>
               <h3 className="text-lg font-bold text-white mb-3">{s.t}</h3>
               <p className="text-sm text-white/40 leading-relaxed">{s.b}</p>
             </div>
@@ -459,53 +413,34 @@ function HowItWorks() {
 
 // ─── About ────────────────────────────────────────────────────────────────────
 function About() {
-  const ref = useReveal();
+  const imgRef  = useReveal();
+  const textRef = useReveal();
   return (
     <section id="about" className="py-24 sm:py-28 px-6 bg-white border-t border-gray-100">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-        <div ref={ref} className="reveal relative max-w-sm mx-auto lg:mx-0 w-full">
+        <div ref={imgRef} className="reveal relative max-w-sm mx-auto lg:mx-0 w-full">
           <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-black/8 ring-1 ring-gray-100 relative">
-            <Image
-              src="/noelia2.png"
-              alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden"
-              fill
-              className="object-cover object-top"
-              sizes="(max-width:1024px) 100vw, 50vw"
-            />
+            <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm, Sweden" fill className="object-cover object-top" sizes="(max-width:1024px) 100vw, 50vw"/>
           </div>
-          {/* Location badge */}
           <div className="absolute -bottom-4 left-4 right-4 max-w-[calc(24rem-2rem)] bg-gray-900 text-white rounded-xl px-5 py-4 shadow-xl">
             <p className="text-[10px] text-white/30 uppercase tracking-widest mb-0.5">Based in</p>
             <p className="text-sm font-semibold">Stockholm, Sweden</p>
           </div>
         </div>
 
-        <div className="lg:pt-4 mt-8 lg:mt-0">
+        <div ref={textRef} className="reveal lg:pt-4 mt-8 lg:mt-0">
           <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-5">About</p>
           <h2 className="font-serif text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-8">
             Hi,<br/>I'm <span className="text-[#C9A84C]">Noelia</span>
           </h2>
           <div className="space-y-4 text-gray-400 leading-relaxed text-sm">
-            <p>
-              I am an international recruiter and career coach with a Master's in Human Resources from the European University of Valencia.
-              I am based in Sweden and work daily with companies in Spain, Portugal and Greece looking for multilingual talent.
-            </p>
-            <p>
-              I built the coaching side because I kept meeting people whose experience was real but whose positioning was not landing.
-              Strong backgrounds being overlooked because of a CV structure, a missing keyword, or a LinkedIn profile that did not tell the right story.
-            </p>
+            <p>I am an international recruiter and career coach with a Master's in Human Resources from the European University of Valencia. I am based in Stockholm, Sweden, and work daily with companies in Spain, Portugal and Greece looking for multilingual talent.</p>
+            <p>I built the coaching side because I kept meeting people whose experience was real but whose positioning was not landing. Strong backgrounds being overlooked because of a CV structure, a missing keyword, or a LinkedIn profile that did not tell the right story.</p>
             <p>That felt like a problem I could fix. Because I see both sides of it every day.</p>
-            <p>
-              I coach in <strong className="text-gray-900 font-semibold">English and Spanish</strong>, and I work with professionals from all over the world.
-            </p>
+            <p>I coach in <strong className="text-gray-900 font-semibold">English and Spanish</strong>, and I work with professionals from all over the world.</p>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-3">
-            {[
-              "Active European recruiter",
-              "Multilingual talent specialist",
-              "English and Spanish coaching",
-              "9 languages placed across Europe",
-            ].map(item => (
+            {["Active European recruiter","Multilingual talent specialist","English and Spanish coaching","9 languages placed across Europe"].map(item => (
               <div key={item} className="flex items-center gap-2.5">
                 <Check />
                 <span className="text-sm text-gray-500">{item}</span>
@@ -523,7 +458,8 @@ function About() {
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 function Testimonials() {
-  const headRef = useReveal();
+  const headRef  = useReveal();
+  const cardsRef = useReveal();
   return (
     <section id="testimonials" className="py-24 sm:py-28 px-6 bg-gray-50 border-t border-gray-100">
       <div className="max-w-7xl mx-auto">
@@ -534,14 +470,14 @@ function Testimonials() {
               What clients <span className="text-[#C9A84C]">say</span>
             </h2>
           </div>
-          <p className="text-gray-400 leading-relaxed self-end">
-            Professionals from across the world who repositioned themselves and started moving forward.
-          </p>
+          <p className="text-gray-400 leading-relaxed self-end">Professionals from across the world who repositioned themselves and started moving forward.</p>
         </div>
-        <div className="flex md:grid md:grid-cols-3 gap-5 overflow-x-auto pb-4 md:pb-0 snap-x snap-mandatory md:snap-none -mx-6 px-6 md:mx-0 md:px-0">
+
+        {/* reveal-group: cards stagger in */}
+        <div ref={cardsRef} className="reveal-group flex md:grid md:grid-cols-3 gap-5 overflow-x-auto pb-4 md:pb-0 snap-x snap-mandatory md:snap-none -mx-6 px-6 md:mx-0 md:px-0">
           {TESTIMONIALS.map((t, i) => (
-            <div key={i} className={`bg-white border border-gray-200 rounded-2xl p-7 flex flex-col lift flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-auto snap-start reveal reveal-delay-${i+1}`}>
-              <div className="w-8 h-px bg-[#C9A84C] mb-5" aria-hidden="true"/>
+            <div key={i} className="bg-white border border-gray-200 rounded-2xl p-7 flex flex-col lift flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-auto snap-start">
+              <div className="w-8 h-px bg-[#C9A84C] mb-5"/>
               <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-5">{t.quote}</p>
               <p className="text-[11px] font-semibold text-[#C9A84C] mb-5 tracking-wide">{t.result}</p>
               <div className="border-t border-gray-100 pt-5">
@@ -557,18 +493,16 @@ function Testimonials() {
   );
 }
 
-// ─── For Companies (#6 dark section, clearly separate service) ────────────────
+// ─── For Companies ────────────────────────────────────────────────────────────
 function ForCompanies() {
   const ref = useReveal();
   return (
     <section className="py-24 sm:py-28 px-6 bg-[#1C1F26] border-t border-gray-800">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-16 flex items-center gap-4">
-          <div className="h-px flex-1 bg-white/10" aria-hidden="true"/>
-          <span className="text-xs font-semibold text-white/30 uppercase tracking-[0.3em] whitespace-nowrap">
-            Separate service · Cross Border Talents
-          </span>
-          <div className="h-px flex-1 bg-white/10" aria-hidden="true"/>
+          <div className="h-px flex-1 bg-white/10"/>
+          <span className="text-xs font-semibold text-white/30 uppercase tracking-[0.3em] whitespace-nowrap">Separate service · Cross Border Talents</span>
+          <div className="h-px flex-1 bg-white/10"/>
         </div>
 
         <div ref={ref} className="reveal grid lg:grid-cols-2 gap-14 lg:gap-16 items-start">
@@ -578,7 +512,7 @@ function ForCompanies() {
               I recruit multilingual talent <span className="text-[#C9A84C]">across Europe</span>
             </h2>
             <p className="text-white/50 leading-relaxed mb-5 text-sm">
-              Through <strong className="text-white font-semibold">Cross Border Talents</strong>, I work with companies in Barcelona, Lisbon, and Greece placing customer support and multilingual professionals. I am based in Sweden and work remotely across these markets.
+              Through <strong className="text-white font-semibold">Cross Border Talents</strong>, I work with companies in Barcelona, Lisbon, and Greece placing customer support and multilingual professionals. I am based in Sweden and operate remotely across these markets.
             </p>
             <p className="text-white/50 leading-relaxed mb-10 text-sm">
               This is entirely separate from career coaching. Whether you are a company looking for multilingual talent or a candidate open to new roles, reach out and I will let you know how I can help.
@@ -595,21 +529,13 @@ function ForCompanies() {
 
           <div>
             <div className="rounded-2xl overflow-hidden border border-white/10 mb-6 h-48 relative">
-              <Image
-                src={IMG.europe}
-                alt="European cities where Cross Border Talents places multilingual professionals"
-                fill
-                className="object-cover opacity-60"
-                sizes="(max-width:1024px) 100vw, 50vw"
-              />
+              <Image src={IMG.europe} alt="European cities where Cross Border Talents places multilingual professionals" fill className="object-cover opacity-60" sizes="(max-width:1024px) 100vw, 50vw"/>
             </div>
-            <p className="text-xs font-semibold text-white/30 uppercase tracking-[0.2em] mb-4">
-              Currently placing native and fluent speakers of
-            </p>
+            <p className="text-xs font-semibold text-white/30 uppercase tracking-[0.2em] mb-4">Currently placing native and fluent speakers of</p>
             <div className="grid grid-cols-3 gap-2.5">
               {LANGUAGES.map(l => (
                 <div key={l} className="border border-white/10 rounded-xl px-4 py-3 flex items-center gap-2 hover:border-[#C9A84C]/50 hover:bg-[#C9A84C]/8 transition-colors">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] flex-shrink-0" aria-hidden="true"/>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] flex-shrink-0"/>
                   <span className="text-sm font-medium text-white/60">{l}</span>
                 </div>
               ))}
@@ -638,29 +564,22 @@ function FAQ() {
             Ask me directly <Arrow />
           </a>
         </div>
-        <div ref={ref} className="reveal space-y-2" role="list">
+        <div ref={ref} className="reveal space-y-2">
           {FAQS.map((f, i) => {
             const isOpen = open === i;
             return (
-              <div key={i} className="bg-white border border-gray-200 rounded-2xl overflow-hidden" role="listitem">
+              <div key={i} className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <button
                   className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-gray-50 transition-colors"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
-                  aria-controls={`faq-answer-${i}`}
                 >
                   <span className="font-semibold text-gray-900 text-sm">{f.q}</span>
-                  <div className={`w-7 h-7 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-45" : ""}`} aria-hidden="true">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                      <path d="M5 2v6M2 5h6" stroke="white" strokeWidth="1.4" strokeLinecap="round"/>
-                    </svg>
+                  <div className={`w-7 h-7 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-45" : ""}`}>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2v6M2 5h6" stroke="white" strokeWidth="1.4" strokeLinecap="round"/></svg>
                   </div>
                 </button>
-                <div
-                  id={`faq-answer-${i}`}
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}`}
-                  aria-hidden={!isOpen}
-                >
+                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}`}>
                   <div className="px-6 pb-5 pt-3 border-t border-gray-100 text-gray-500 text-sm leading-relaxed">{f.a}</div>
                 </div>
               </div>
@@ -674,20 +593,18 @@ function FAQ() {
 
 // ─── Contact ──────────────────────────────────────────────────────────────────
 function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [status, setStatus] = useState<"idle"|"sending"|"sent"|"error">("idle");
   const [form, setForm] = useState({ name:"", email:"", service:"", message:"" });
   const ref = useReveal();
 
-  const ch = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  const ch = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const sub = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("sending");
+    e.preventDefault(); setStatus("sending");
     try {
       const r = await fetch("https://formspree.io/f/maqgdozn", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        method:"POST", headers:{"Content-Type":"application/json",Accept:"application/json"},
         body: JSON.stringify({ ...form, _replyto: form.email }),
       });
       if (r.ok) { setStatus("sent"); setForm({ name:"", email:"", service:"", message:"" }); }
@@ -705,14 +622,10 @@ function Contact() {
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
             Tell me your <span className="text-[#C9A84C]">situation</span>
           </h2>
-          <p className="text-gray-400 text-sm leading-relaxed mb-10 max-w-md">
-            Describe where you are in your search and what is not working. I will read it carefully and let you know exactly how I can help.
-          </p>
+          <p className="text-gray-400 text-sm leading-relaxed mb-10 max-w-md">Describe where you are in your search and what is not working. I will read it carefully and let you know exactly how I can help.</p>
           {["I typically reply within 24 hours","Sessions happen over Google Meet","English and Spanish, your choice"].map(item => (
             <div key={item} className="flex items-center gap-3 mb-4">
-              <div className="w-5 h-5 rounded-full bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0">
-                <Check color="text-[#C9A84C]" />
-              </div>
+              <div className="w-5 h-5 rounded-full bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0"><Check /></div>
               <span className="text-sm text-gray-500">{item}</span>
             </div>
           ))}
@@ -721,9 +634,7 @@ function Contact() {
         <div className="bg-gray-50 rounded-2xl p-7 sm:p-8 border border-gray-200">
           {status === "sent" ? (
             <div className="text-center py-12">
-              <div className="w-14 h-14 rounded-full bg-gray-900 flex items-center justify-center mx-auto mb-5">
-                <Check color="text-[#C9A84C]" />
-              </div>
+              <div className="w-14 h-14 rounded-full bg-gray-900 flex items-center justify-center mx-auto mb-5"><Check /></div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">Message received</h3>
               <p className="text-gray-400 text-sm">I will be back to you within 24 hours.</p>
             </div>
@@ -758,18 +669,12 @@ function Contact() {
                 <textarea id="message" required name="message" value={form.message} onChange={ch} rows={5} placeholder="Where are you in your job search? What is not working? What are you targeting?" className={`${inp} resize-none`}/>
               </div>
               {status === "error" && (
-                <p className="text-red-500 text-xs" role="alert">
-                  Something went wrong. Email me at{" "}
-                  <a href="mailto:teruelorteganoelia@gmail.com" className="underline">teruelorteganoelia@gmail.com</a>
-                </p>
+                <p className="text-red-500 text-xs">Something went wrong. Email me at <a href="mailto:teruelorteganoelia@gmail.com" className="underline">teruelorteganoelia@gmail.com</a></p>
               )}
               <button type="submit" disabled={status === "sending"} className="w-full bg-[#C9A84C] text-white font-bold py-4 rounded-xl hover:bg-[#b8953f] transition-colors disabled:opacity-50 text-sm shadow-lg shadow-[#C9A84C]/25">
                 {status === "sending" ? "Sending..." : "Send message"}
               </button>
-              <p className="text-center text-xs text-gray-300">
-                Or email:{" "}
-                <a href="mailto:teruelorteganoelia@gmail.com" className="underline hover:text-gray-500">teruelorteganoelia@gmail.com</a>
-              </p>
+              <p className="text-center text-xs text-gray-300">Or email: <a href="mailto:teruelorteganoelia@gmail.com" className="underline hover:text-gray-500">teruelorteganoelia@gmail.com</a></p>
             </form>
           )}
         </div>
@@ -789,7 +694,7 @@ function Footer() {
             <p className="text-xs text-white/30">Career Coaching for International Professionals</p>
             <p className="text-xs text-white/20 mt-1">Based in Stockholm, Sweden · Recruiting for Spain, Portugal and Greece</p>
           </div>
-          <nav className="flex flex-wrap gap-6 md:gap-8" aria-label="Footer navigation">
+          <nav className="flex flex-wrap gap-6 md:gap-8">
             {[["Services","#services"],["About","#about"],["Testimonials","#testimonials"],["FAQ","#faq"],["Contact","#contact"]].map(([l,h]) => (
               <a key={h} href={h} className="text-sm text-white/30 hover:text-white transition-colors">{l}</a>
             ))}
