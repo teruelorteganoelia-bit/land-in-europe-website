@@ -671,15 +671,15 @@ function Testimonials() {
 // ─── Irresistible Offer ───────────────────────────────────────────────────────
 const OFFER_SESSIONS = [
   { n:"01", title:"Clarity & Diagnosis",
-    desc:"We map exactly where you stand. What European recruiters see when they find your profile right now — and what needs to change first." },
+    desc:"We map exactly where you stand. What European recruiters see when they find your profile right now, and what needs to change first." },
   { n:"02", title:"Your European Positioning",
-    desc:"Repositioning your experience for this market. Your story, your pitch, your differentiator — made to resonate with European hiring managers." },
+    desc:"Repositioning your experience for this market. Your story, your pitch, your differentiator, made to resonate with European hiring managers." },
   { n:"03", title:"LinkedIn & Visibility",
     desc:"Full profile rewrite plus a proactive outreach strategy. Get found before you apply." },
   { n:"04", title:"Your Personal Target Map",
-    desc:"A curated list of companies actively hiring your profile, organized by country and language. No guessing, no wasted applications." },
+    desc:"A curated map of companies actively hiring your profile by country and language. Personalised to you: your industry, your languages, your target market." },
   { n:"05", title:"Applications & Momentum",
-    desc:"Cover letters, follow-up strategy, and how to turn a first interview into an offer. We keep your pipeline moving." },
+    desc:"Cover letters, follow-up strategy, and how to turn a first interview into an offer. We keep your pipeline moving until you land." },
 ];
 
 const OFFER_STACK = [
@@ -688,7 +688,7 @@ const OFFER_STACK = [
   { label:"LinkedIn Profile Optimization", value:"€250" },
   { label:"European Job Market Guide (ebook)", value:"€97" },
   { label:"Your Personal Target Company Map",  value:"€197" },
-  { label:"WhatsApp access — entire job search", value:"Priceless" },
+  { label:"WhatsApp access throughout your entire job search", value:"Priceless" },
   { label:'"Work With You Until You Win" Guarantee', value:"Priceless" },
 ];
 
@@ -712,8 +712,8 @@ function IrresistibleOffer() {
         {/* Headline */}
         <div ref={headRef} className="reveal text-center mb-20">
           <h2 className="font-serif text-4xl sm:text-5xl md:text-[3.5rem] font-bold text-white leading-tight mb-6">
-            Land your first European job offer —{" "}
-            <span className="text-[#C9A84C]">or I keep working with you until you do.</span>
+            Land your first European job offer.{" "}
+            <span className="text-[#C9A84C]">Or I keep working with you until you do.</span>
           </h2>
           <p className="text-white/40 text-lg max-w-2xl mx-auto leading-relaxed">
             Everything you need to go from invisible to hired in Europe. Built by someone who sits on both sides of the table.
@@ -725,7 +725,7 @@ function IrresistibleOffer() {
         <div ref={sessRef} className="reveal-group grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
           {OFFER_SESSIONS.map((s, i) => (
             <div key={i} className={`rounded-2xl border border-white/10 bg-white/[0.04] p-6 relative overflow-hidden ${i === 4 ? "sm:col-span-2 lg:col-span-1" : ""}`}>
-              <span className="font-serif font-bold text-5xl text-white/5 absolute top-4 right-5 select-none leading-none">{s.n}</span>
+              <span className="font-serif font-bold text-5xl text-white/20 absolute top-4 right-5 select-none leading-none">{s.n}</span>
               <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-[0.18em] mb-3">Session {s.n}</p>
               <p className="text-white font-semibold text-base mb-2 leading-snug">{s.title}</p>
               <p className="text-white/40 text-sm leading-relaxed">{s.desc}</p>
@@ -776,7 +776,7 @@ function IrresistibleOffer() {
           </h3>
           <p className="text-white/50 leading-relaxed max-w-2xl mx-auto mb-3 text-sm">
             If you complete the programme and do not receive a European job offer,{" "}
-            <strong className="text-white font-semibold">I keep working with you at no extra cost</strong> — more sessions, more coaching, more support — until you do.
+            <strong className="text-white font-semibold">I keep working with you at no extra cost.</strong> More sessions, more coaching, more support, until you do.
           </p>
           <p className="text-white/25 text-sm">
             I am a working recruiter. I know exactly what it takes to get hired here. That is why I can make this promise.
