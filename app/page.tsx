@@ -5,8 +5,8 @@ import Image from "next/image";
 // ─── City images ──────────────────────────────────────────────────────────────
 const IMG = {
   barcelona: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1200&q=80",
-  lisbon:    "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1200&q=80",
-  europe:    "https://images.unsplash.com/photo-1519999482648-25049ddd37b1?auto=format&fit=crop&w=1200&q=80",
+  lisbon:    "https://images.unsplash.com/photo-1548707309-dcebeab9ea9b?auto=format&fit=crop&w=1200&q=80",
+  athens:    "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1200&q=80",
 };
 
 const TICKER = [
@@ -217,7 +217,7 @@ function Hero() {
             {[
               { src: IMG.barcelona, alt: "Barcelona, Spain" },
               { src: IMG.lisbon,    alt: "Lisbon, Portugal" },
-              { src: IMG.europe,    alt: "Athens, Greece" },
+              { src: IMG.athens,    alt: "Athens, Greece" },
             ].map(({ src, alt }) => (
               <div key={alt} className="flex-1 h-14 rounded-xl overflow-hidden relative">
                 <Image src={src} alt={alt} fill className="object-cover" sizes="120px"/>
@@ -233,7 +233,7 @@ function Hero() {
             <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
           </div>
           <div className="flex gap-2">
-            {[IMG.barcelona, IMG.lisbon, IMG.europe].map((src, i) => (
+            {[IMG.barcelona, IMG.lisbon, IMG.athens].map((src, i) => (
               <div key={i} className="w-20 h-12 rounded-lg overflow-hidden relative">
                 <Image src={src} alt="" fill className="object-cover" sizes="80px"/>
               </div>
@@ -332,39 +332,50 @@ function Services() {
           <p className="text-gray-400 leading-relaxed text-base">Every service is adapted to your specific situation and target market. No templates, no generic advice.</p>
         </div>
 
-        <div ref={gridRef} className="reveal-group grid md:grid-cols-2 gap-5">
+        <div ref={gridRef} className="reveal-group grid md:grid-cols-2 gap-4">
           {SERVICES.map((s, idx) => {
-            const col = SERVICE_COLORS[idx] ?? SERVICE_COLORS[0];
-            const isDark = idx === 1 || idx === 4;
+            const isDark = s.featured;
             return (
-              <div key={s.n} className={`rounded-2xl overflow-hidden border flex flex-col lift ${s.featured ? "border-gray-900" : "border-gray-200"}`}>
-                {/* Color block header — no stock photo */}
-                <div className="h-36 flex items-end px-7 pb-5 relative overflow-hidden" style={{ background: col.bg }}>
-                  <span
-                    className="absolute right-5 top-1/2 -translate-y-1/2 font-serif font-bold leading-none select-none pointer-events-none"
-                    style={{ fontSize: "clamp(5rem,10vw,8rem)", color: col.number, opacity: 0.15 }}
-                    aria-hidden="true"
-                  >{s.n}</span>
-                  {s.featured && (
-                    <span className="absolute top-4 right-4 bg-[#C9A84C] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">Most popular</span>
-                  )}
-                  <span className="text-xs font-mono relative z-10" style={{ color: col.number, opacity: 0.5 }}>{s.n}</span>
-                </div>
+              <div
+                key={s.n}
+                className={`rounded-2xl border flex flex-col lift p-8 sm:p-10 relative overflow-hidden ${
+                  isDark
+                    ? "bg-gray-900 border-gray-900 text-white"
+                    : "bg-white border-gray-200"
+                }`}
+              >
+                {/* Large watermark number — purely decorative */}
+                <span
+                  className="absolute -right-4 -top-4 font-serif font-bold leading-none select-none pointer-events-none"
+                  style={{ fontSize: "clamp(7rem,14vw,11rem)", color: isDark ? "#C9A84C" : "#F0EBE0", opacity: isDark ? 0.12 : 1 }}
+                  aria-hidden="true"
+                >{s.n}</span>
 
-                <div className="p-7 sm:p-8 flex flex-col flex-1" style={{ background: isDark ? col.bg : "#ffffff" }}>
-                  <p className="text-xs font-semibold uppercase tracking-[0.15em] mb-2" style={{ color: col.number }}>{s.tag}</p>
-                  <h3 className={`text-xl font-bold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>{s.title}</h3>
-                  <p className={`text-sm leading-relaxed mb-6 flex-1 ${isDark ? "text-white/50" : "text-gray-500"}`}>{s.body}</p>
-                  <ul className="space-y-2 mb-7">
+                {s.featured && (
+                  <span className="absolute top-5 right-5 bg-[#C9A84C] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                    Most popular
+                  </span>
+                )}
+
+                <div className="relative z-10 flex flex-col flex-1">
+                  <p className={`text-xs font-semibold uppercase tracking-[0.2em] mb-3 ${isDark ? "text-[#C9A84C]" : "text-[#C9A84C]"}`}>{s.tag}</p>
+                  <h3 className={`font-serif text-2xl font-bold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>{s.title}</h3>
+                  <p className={`text-sm leading-relaxed mb-7 flex-1 ${isDark ? "text-white/50" : "text-gray-500"}`}>{s.body}</p>
+                  <ul className="space-y-2.5 mb-8">
                     {s.items.map(item => (
                       <li key={item} className="flex items-start gap-3 text-sm">
                         <Check />
-                        <span className={isDark ? "text-white/50" : "text-gray-500"}>{item}</span>
+                        <span className={isDark ? "text-white/60" : "text-gray-500"}>{item}</span>
                       </li>
                     ))}
                   </ul>
-                  {s.featured && <p className="text-[11px] text-white/30 mb-3">Limited to 8 clients per month.</p>}
-                  <a href="#contact" className={`inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-full transition-colors ${s.featured ? "bg-[#C9A84C] text-white hover:bg-[#b8953f]" : "bg-gray-900 text-white hover:bg-gray-800"}`}>
+                  {s.featured && <p className="text-[11px] text-white/30 mb-4">Limited to 8 clients per month.</p>}
+                  <a
+                    href="#contact"
+                    className={`inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-full transition-colors self-start ${
+                      isDark ? "bg-[#C9A84C] text-white hover:bg-[#b8953f]" : "bg-gray-900 text-white hover:bg-gray-800"
+                    }`}
+                  >
                     Get started <Arrow />
                   </a>
                 </div>
@@ -399,8 +410,8 @@ function HowItWorks() {
             { n:"02", t:"We align", b:"I recommend the service that fits your situation. Once confirmed we schedule and get started immediately." },
             { n:"03", t:"You move forward", b:"You leave with clarity, stronger documents, and a concrete plan. Most clients see results within 2 to 4 weeks." },
           ].map((s, i) => (
-            <div key={i} className="bg-white/5 border border-white/8 rounded-2xl p-8 hover:bg-white/8 transition-colors">
-              <p className="text-xs font-mono text-white/15 mb-8">{s.n}</p>
+            <div key={i} className="bg-white/5 border border-white/8 rounded-2xl p-8 hover:bg-white/8 transition-colors relative overflow-hidden">
+              <p className="font-serif text-7xl font-bold text-[#C9A84C]/20 leading-none mb-6 select-none" aria-hidden="true">{s.n}</p>
               <h3 className="text-lg font-bold text-white mb-3">{s.t}</h3>
               <p className="text-sm text-white/40 leading-relaxed">{s.b}</p>
             </div>
@@ -529,7 +540,7 @@ function ForCompanies() {
 
           <div>
             <div className="rounded-2xl overflow-hidden border border-white/10 mb-6 h-48 relative">
-              <Image src={IMG.europe} alt="European cities where Cross Border Talents places multilingual professionals" fill className="object-cover opacity-60" sizes="(max-width:1024px) 100vw, 50vw"/>
+              <Image src={IMG.athens} alt="European cities where Cross Border Talents places multilingual professionals" fill className="object-cover opacity-60" sizes="(max-width:1024px) 100vw, 50vw"/>
             </div>
             <p className="text-xs font-semibold text-white/30 uppercase tracking-[0.2em] mb-4">Currently placing native and fluent speakers of</p>
             <div className="grid grid-cols-3 gap-2.5">
