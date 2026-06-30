@@ -15,6 +15,7 @@ body {
 
 .font-serif { font-family: 'Playfair Display', Georgia, serif; }
 
+/* ── Ticker ─────────────────────────────────────────────────────────────────── */
 @keyframes ticker {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -22,14 +23,71 @@ body {
 .ticker-inner {
   display: flex;
   width: max-content;
-  animation: ticker 32s linear infinite;
+  animation: ticker 36s linear infinite;
 }
 .ticker-inner:hover { animation-play-state: paused; }
 
+/* ── Hover lift ─────────────────────────────────────────────────────────────── */
 .lift {
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
 }
 .lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px -8px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px -10px rgba(0,0,0,0.13);
+}
+
+/* ── Scroll reveal ──────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+
+/* ── Animated underline on headings ────────────────────────────────────────── */
+.heading-line {
+  position: relative;
+  display: inline-block;
+}
+.heading-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 3px;
+  width: 0;
+  background: #C9A84C;
+  border-radius: 2px;
+  transition: width 0.7s cubic-bezier(0.16,1,0.3,1) 0.3s;
+}
+.heading-line.visible::after {
+  width: 100%;
+}
+
+/* ── Stat counter pulse ─────────────────────────────────────────────────────── */
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.stat-number {
+  animation: none;
+}
+.stat-number.visible {
+  animation: countUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ── Gold highlight span ────────────────────────────────────────────────────── */
+.gold-mark {
+  background: linear-gradient(120deg, #C9A84C22 0%, #C9A84C33 100%);
+  border-radius: 4px;
+  padding: 0 4px;
+  color: #9a7a30;
 }
