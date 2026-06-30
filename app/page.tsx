@@ -18,6 +18,27 @@ const TICKER = [
   "Stuck for months → Finance Manager, Lisbon",
 ];
 
+const COUNTRIES = [
+  { flag:"🇮🇳", name:"India" },
+  { flag:"🇦🇪", name:"UAE" },
+  { flag:"🇺🇸", name:"United States" },
+  { flag:"🇧🇷", name:"Brazil" },
+  { flag:"🇦🇷", name:"Argentina" },
+  { flag:"🇨🇴", name:"Colombia" },
+  { flag:"🇵🇱", name:"Poland" },
+  { flag:"🇷🇴", name:"Romania" },
+  { flag:"🇳🇬", name:"Nigeria" },
+  { flag:"🇵🇭", name:"Philippines" },
+  { flag:"🇲🇽", name:"Mexico" },
+  { flag:"🇻🇪", name:"Venezuela" },
+  { flag:"🇵🇹", name:"Portugal" },
+  { flag:"🇪🇸", name:"Spain" },
+  { flag:"🇫🇷", name:"France" },
+  { flag:"🇩🇪", name:"Germany" },
+  { flag:"🇮🇹", name:"Italy" },
+  { flag:"🇬🇧", name:"United Kingdom" },
+];
+
 const STATS = [
   { v: "50+", l: "Professionals coached" },
   { v: "15+", l: "Nationalities" },
@@ -326,6 +347,26 @@ function Ticker() {
   );
 }
 
+// ─── Country strip ────────────────────────────────────────────────────────────
+function CountryStrip() {
+  const all = [...COUNTRIES, ...COUNTRIES];
+  return (
+    <div className="bg-white border-t border-b border-gray-100 py-5 overflow-hidden">
+      <p className="text-center text-[10px] font-semibold text-gray-300 uppercase tracking-[0.3em] mb-4">
+        Professionals I have worked with from
+      </p>
+      <div className="ticker-inner" style={{ animationDuration: "40s" }}>
+        {all.map((c, i) => (
+          <div key={i} className="flex items-center gap-2.5 px-7 flex-shrink-0">
+            <span className="text-2xl leading-none">{c.flag}</span>
+            <span className="text-sm font-medium text-gray-400 whitespace-nowrap">{c.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Approach ─────────────────────────────────────────────────────────────────
 function Approach() {
   const headRef  = useReveal();
@@ -531,10 +572,22 @@ function About() {
   );
 }
 
-// ─── Testimonials ─────────────────────────────────────────────────────────────
+// ─── Testimonials carousel ────────────────────────────────────────────────────
 function Testimonials() {
-  const headRef  = useReveal();
-  const cardsRef = useReveal();
+  const headRef = useReveal();
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const total = TESTIMONIALS.length;
+
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(() => setActive(a => (a + 1) % total), 5000);
+    return () => clearInterval(t);
+  }, [paused, total]);
+
+  // Desktop: show 3 cards, centered on `active`
+  const visible = [0, 1, 2].map(offset => (active + offset) % total);
+
   return (
     <section id="testimonials" className="py-24 sm:py-28 px-6 bg-gray-50 border-t border-gray-100">
       <div className="max-w-7xl mx-auto">
@@ -545,13 +598,60 @@ function Testimonials() {
               What clients <span className="text-[#C9A84C]">say</span>
             </h2>
           </div>
-          <p className="text-gray-400 leading-relaxed self-end">Professionals from across the world who repositioned themselves and started moving forward.</p>
+          <p className="text-gray-400 leading-relaxed self-end">
+            Professionals from across the world who repositioned themselves and started moving forward.
+          </p>
         </div>
 
-        {/* reveal-group: cards stagger in */}
-        <div ref={cardsRef} className="reveal-group flex md:grid md:grid-cols-3 gap-5 overflow-x-auto pb-4 md:pb-0 snap-x snap-mandatory md:snap-none -mx-6 px-6 md:mx-0 md:px-0">
+        {/* Desktop carousel — 3 cards, auto-advances */}
+        <div
+          className="hidden md:grid md:grid-cols-3 gap-5 mb-8"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          {visible.map((tIdx, pos) => {
+            const t = TESTIMONIALS[tIdx];
+            const isCenter = pos === 0;
+            return (
+              <div
+                key={tIdx}
+                onClick={() => setActive(tIdx)}
+                className={`bg-white rounded-2xl p-7 flex flex-col cursor-pointer transition-all duration-500 ${
+                  isCenter
+                    ? "border-2 border-[#C9A84C] shadow-lg shadow-[#C9A84C]/10 scale-[1.02]"
+                    : "border border-gray-200 opacity-70 hover:opacity-90"
+                }`}
+              >
+                <div className="w-8 h-px bg-[#C9A84C] mb-5"/>
+                <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-5">{t.quote}</p>
+                <p className="text-[11px] font-semibold text-[#C9A84C] mb-5 tracking-wide">{t.result}</p>
+                <div className="border-t border-gray-100 pt-5">
+                  <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
+                  <p className="text-gray-400 text-xs mt-0.5">{t.role}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Dots */}
+        <div className="hidden md:flex items-center justify-center gap-2 mb-2">
+          {TESTIMONIALS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setActive(i); setPaused(true); setTimeout(() => setPaused(false), 6000); }}
+              className={`rounded-full transition-all duration-300 ${
+                i === active ? "w-6 h-2 bg-[#C9A84C]" : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Go to testimonial ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Mobile: horizontal scroll (unchanged) */}
+        <div className="flex md:hidden gap-5 overflow-x-auto pb-4 snap-x snap-mandatory -mx-6 px-6">
           {TESTIMONIALS.map((t, i) => (
-            <div key={i} className="bg-white border border-gray-200 rounded-2xl p-7 flex flex-col lift flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-auto snap-start">
+            <div key={i} className="bg-white border border-gray-200 rounded-2xl p-7 flex flex-col flex-shrink-0 w-[85vw] snap-start">
               <div className="w-8 h-px bg-[#C9A84C] mb-5"/>
               <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-5">{t.quote}</p>
               <p className="text-[11px] font-semibold text-[#C9A84C] mb-5 tracking-wide">{t.result}</p>
@@ -643,19 +743,28 @@ function FAQ() {
           {FAQS.map((f, i) => {
             const isOpen = open === i;
             return (
-              <div key={i} className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+              <div
+                key={i}
+                className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
+                  isOpen
+                    ? "border-[#C9A84C]/50 shadow-md shadow-[#C9A84C]/8 bg-white"
+                    : "border-gray-200 bg-white"
+                }`}
+              >
                 <button
-                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left transition-colors"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
                 >
-                  <span className="font-semibold text-gray-900 text-sm">{f.q}</span>
-                  <div className={`w-7 h-7 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-45" : ""}`}>
+                  <span className={`font-semibold text-sm transition-colors duration-200 ${isOpen ? "text-[#C9A84C]" : "text-gray-900"}`}>
+                    {f.q}
+                  </span>
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200 ${isOpen ? "bg-[#C9A84C] rotate-45" : "bg-gray-900"}`}>
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2v6M2 5h6" stroke="white" strokeWidth="1.4" strokeLinecap="round"/></svg>
                   </div>
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}`}>
-                  <div className="px-6 pb-5 pt-3 border-t border-gray-100 text-gray-500 text-sm leading-relaxed">{f.a}</div>
+                  <div className="px-6 pb-5 pt-3 border-t border-[#C9A84C]/20 text-gray-600 text-sm leading-relaxed">{f.a}</div>
                 </div>
               </div>
             );
@@ -792,6 +901,7 @@ export default function Home() {
       <Navbar/>
       <Hero/>
       <Ticker/>
+      <CountryStrip/>
       <Approach/>
       <Services/>
       <HowItWorks/>
