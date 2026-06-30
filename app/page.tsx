@@ -42,8 +42,8 @@ const SERVICES = [
 ];
 
 const TESTIMONIALS = [
-  { name:"Valdrin Januzi", role:"International Professional",
-    quote:"I reviewed the final CV and I am very happy with the result. My experience and technical background are represented accurately and professionally. I really appreciate your help throughout this process.", featured:true },
+  { name:"Valdrin Januzi", role:"Electrical Engineer, Energy Metering & Power Systems",
+    quote:"I reviewed the final CV and I am very happy with the result. My experience and technical background are represented accurately and professionally. I really appreciate your help throughout this process." },
   { name:"Bartosz W.", role:"Senior Finance and Strategic Planning Manager",
     quote:"A very valuable and concrete session. Focused, honest, straight to the point. I left with clarity I had been missing for months." },
   { name:"Sandrine M.", role:"B2B Event Marketing Manager",
@@ -212,16 +212,11 @@ function Approach() {
 
         <div className="grid md:grid-cols-3 gap-5">
           {[
-            { n:"01", t:"I work both sides", b:"I recruit for European companies and coach candidates. I know which CVs get opened and why, because I open them every single day.", img: IMG.meeting },
-            { n:"02", t:"No templates", b:"Every session starts with your specific situation, your industry, your target market. The output fits you, not a formula someone else used." , img: null },
-            { n:"03", t:"I find what is blocking you", b:"Sometimes one sentence, one structure change, one clearer story completely transforms your chances. That is what I look for.", img: null },
+            { n:"01", t:"I work both sides", b:"I recruit for European companies and coach candidates. I know which CVs get opened and why, because I open them every single day." },
+            { n:"02", t:"No templates", b:"Every session starts with your specific situation, your industry, your target market. The output fits you, not a formula someone else used." },
+            { n:"03", t:"I find what is blocking you", b:"Sometimes one sentence, one structure change, one clearer story completely transforms your chances. That is what I look for." },
           ].map((c,i) => (
-            <div key={i} className={`rounded-2xl overflow-hidden border border-gray-200 bg-white lift ${i===0?"md:row-span-1":""}`}>
-              {c.img && (
-                <div className="h-44 overflow-hidden">
-                  <img src={c.img} alt={c.t} className="w-full h-full object-cover"/>
-                </div>
-              )}
+            <div key={i} className="rounded-2xl overflow-hidden border border-gray-200 bg-white lift">
               <div className="p-8">
                 <p className="text-xs font-mono text-gray-200 mb-5">{c.n}</p>
                 <h3 className="text-lg font-bold text-gray-900 mb-3">{c.t}</h3>
@@ -385,17 +380,9 @@ function Testimonials() {
           <p className="text-gray-400 leading-relaxed self-end">Professionals from across the world who repositioned themselves and started moving forward.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-5">
-          <div className="md:row-span-2 bg-[#C9A84C] rounded-2xl p-8 flex flex-col lift">
-            <div className="font-serif text-6xl text-white/20 leading-none mb-4">"</div>
-            <p className="font-serif text-xl font-semibold text-white leading-relaxed flex-1 mb-8">{TESTIMONIALS[0].quote}</p>
-            <div className="border-t border-white/20 pt-6">
-              <p className="font-bold text-white text-sm">{TESTIMONIALS[0].name}</p>
-              <p className="text-white/60 text-xs mt-0.5">{TESTIMONIALS[0].role}</p>
-            </div>
-          </div>
-          {TESTIMONIALS.slice(1).map((t,i) => (
+          {TESTIMONIALS.map((t,i) => (
             <div key={i} className="bg-white border border-gray-200 rounded-2xl p-7 flex flex-col lift">
-              <div className="font-serif text-4xl text-[#C9A84C]/20 leading-none mb-3">"</div>
+              <div className="font-serif text-4xl text-[#C9A84C]/25 leading-none mb-3">"</div>
               <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-6">{t.quote}</p>
               <div className="border-t border-gray-100 pt-5">
                 <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
