@@ -23,6 +23,10 @@ const TICKER = [
 const LANGUAGES = ["German","Dutch","Danish","Spanish","Italian","Portuguese","French","Finnish","Norwegian"];
 
 const SERVICES = [
+  { n:"00", title:"Quick Diagnosis Session", tag:"30 minutes. Fast clarity.",
+    body:"Your profile is almost there but something is not landing. In 30 minutes we identify exactly what needs fixing and you leave with a clear next step.",
+    items:["CV or LinkedIn quick review","Pinpoint what is blocking you","One clear action to take immediately","Ideal if you are close but stuck"],
+    img: IMG.meeting },
   { n:"01", title:"Career Strategy Session", tag:"60 minutes. Concrete plan.",
     body:"We audit your positioning, identify what is blocking you, and build an action plan you can start using immediately. No fluff.",
     items:["CV and LinkedIn audit","Target market strategy","Personalized action plan","Written follow-up summary"],
@@ -523,7 +527,8 @@ function Contact() {
                 <label className="block text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-1.5">What are you looking for?</label>
                 <select name="service" value={form.service} onChange={ch} className={inp}>
                   <option value="">Select (optional)</option>
-                  <option value="session">Career Strategy Session</option>
+                  <option value="quick">Quick Diagnosis Session (30 min)</option>
+                  <option value="session">Career Strategy Session (60 min)</option>
                   <option value="cv">CV Rewrite</option>
                   <option value="linkedin">LinkedIn Optimization</option>
                   <option value="package">Full Coaching Package</option>
