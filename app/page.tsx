@@ -574,6 +574,16 @@ function About() {
 
           {/* Visual block */}
           <div className="relative">
+            {/* Photo */}
+            <div className="flex justify-center mb-8">
+              <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-gold-500/30 shadow-xl">
+                <img
+                  src="/noelia.png"
+                  alt="Noelia Teruel Ortega — Career Coach"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
             <div className="bg-navy-900 rounded-3xl p-10 text-cream-50">
               <p className="font-serif text-2xl font-semibold leading-snug mb-6 text-cream-50">
                 "Most coaches advise. I know exactly what recruiters skip past — and why. Because I am one."
