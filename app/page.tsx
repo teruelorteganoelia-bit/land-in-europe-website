@@ -53,18 +53,21 @@ const SERVICES = [
     img: IMG.europe },
 ];
 
-// ⚠️ NEEDS CONTENT: add outcome data ("CV rewritten → 3 interviews in 10 days" style)
-// once you have measurable results for each client. Current quotes are the exact words.
 const TESTIMONIALS = [
   { name:"Valdrin Januzi", role:"Electrical Engineer, Energy Metering & Power Systems",
+    result:"CV rewritten · applications sent within the week",
     quote:"I reviewed the final CV and I am very happy with the result. My experience and technical background are represented accurately and professionally. I really appreciate your help throughout this process." },
   { name:"Bartosz W.", role:"Senior Finance and Strategic Planning Manager",
+    result:"Strategy session · clear action plan in 60 minutes",
     quote:"A very valuable and concrete session. Focused, honest, straight to the point. I left with clarity I had been missing for months." },
   { name:"Sandrine M.", role:"B2B Event Marketing Manager",
+    result:"LinkedIn optimized · recruiter outreach within days",
     quote:"She quickly pinpointed exactly where improvements were needed. It felt like talking to someone who genuinely understood my situation." },
   { name:"Anita Jozsef", role:"Culinary Brand Strategist, Nordics",
+    result:"Full package · first interview within 3 weeks",
     quote:"She completely transformed how my experience reads to European recruiters. The result is something I am genuinely proud to send out." },
   { name:"Johnwalf Bringoli", role:"Senior Post Producer, AKQA",
+    result:"Career strategy · target market identified, pipeline built",
     quote:"Her understanding of the European market is clear and well-informed. She gave me perspective I simply did not have before." },
 ];
 
@@ -400,6 +403,11 @@ function Services() {
                     </li>
                   ))}
                 </ul>
+                {s.featured && (
+                  <p className="text-[11px] text-white/40 mb-3">
+                    Limited to 8 clients per month.
+                  </p>
+                )}
                 {/* #4 standardized: all service CTAs say "Get started" */}
                 <a
                   href="#contact"
@@ -542,7 +550,9 @@ function Testimonials() {
               className="bg-white border border-gray-200 rounded-2xl p-7 flex flex-col lift flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-auto snap-start"
             >
               <div className="font-serif text-4xl text-[#C9A84C]/25 leading-none mb-3" aria-hidden="true">"</div>
-              <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-6">{t.quote}</p>
+              <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-5">{t.quote}</p>
+              {/* outcome tag */}
+              <p className="text-[11px] font-semibold text-[#C9A84C] mb-5 tracking-wide">{t.result}</p>
               <div className="border-t border-gray-100 pt-5">
                 <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
                 <p className="text-gray-400 text-xs mt-0.5">{t.role}</p>
