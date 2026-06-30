@@ -404,7 +404,7 @@ function Approach() {
 
         <div ref={painRef} className="reveal-group mt-5 grid sm:grid-cols-2 md:grid-cols-3 gap-5">
           {[
-            { icon:"📄", title:"Your CV is not European-market ready", body:"Format, structure and language expectations here are different. What worked at home often does not work the same way in Spain, Portugal or Greece." },
+            { icon:"📄", title:"Your CV is not European-market ready", body:"Format, structure and language expectations here are different. What worked at home often does not translate to the European market." },
             { icon:"🔍", title:"Recruiters cannot find you on LinkedIn", body:"Without the right keywords and positioning you simply do not appear in searches. Opportunities go to other candidates while you wait." },
             { icon:"🎯", title:"You are targeting the wrong companies", body:"Sending 100 applications without strategy means 100 silences. The right 10 targeted applications beat that every time." },
           ].map((c, i) => (
