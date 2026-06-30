@@ -222,7 +222,7 @@ function Navbar() {
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
-  const links = [["Approach","#approach"],["Services","#services"],["Testimonials","#testimonials"],["About","#about"],["FAQ","#faq"]] as const;
+  const links = [["Approach","#approach"],["Services","#services"],["Package","#full-package"],["Testimonials","#testimonials"],["About","#about"],["FAQ","#faq"]] as const;
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${sc ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-100" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -668,6 +668,145 @@ function Testimonials() {
   );
 }
 
+// ─── Irresistible Offer ───────────────────────────────────────────────────────
+const OFFER_SESSIONS = [
+  { n:"01", title:"Clarity & Diagnosis",
+    desc:"We map exactly where you stand. What European recruiters see when they find your profile right now — and what needs to change first." },
+  { n:"02", title:"Your European Positioning",
+    desc:"Repositioning your experience for this market. Your story, your pitch, your differentiator — made to resonate with European hiring managers." },
+  { n:"03", title:"LinkedIn & Visibility",
+    desc:"Full profile rewrite plus a proactive outreach strategy. Get found before you apply." },
+  { n:"04", title:"Your Personal Target Map",
+    desc:"A curated list of companies actively hiring your profile, organized by country and language. No guessing, no wasted applications." },
+  { n:"05", title:"Applications & Momentum",
+    desc:"Cover letters, follow-up strategy, and how to turn a first interview into an offer. We keep your pipeline moving." },
+];
+
+const OFFER_STACK = [
+  { label:"5 Themed Coaching Sessions",    value:"€750" },
+  { label:"Full CV Rewrite",               value:"€350" },
+  { label:"LinkedIn Profile Optimization", value:"€250" },
+  { label:"European Job Market Guide (ebook)", value:"€97" },
+  { label:"Your Personal Target Company Map",  value:"€197" },
+  { label:"WhatsApp access — entire job search", value:"Priceless" },
+  { label:'"Work With You Until You Win" Guarantee', value:"Priceless" },
+];
+
+function IrresistibleOffer() {
+  const headRef   = useReveal();
+  const sessRef   = useReveal();
+  const stackRef  = useReveal();
+  const guarRef   = useReveal();
+
+  return (
+    <section id="full-package" className="py-24 sm:py-32 px-6 bg-[#0D0F12] border-t border-white/5">
+      <div className="max-w-5xl mx-auto">
+
+        {/* Badge */}
+        <div className="flex justify-center mb-10">
+          <span className="inline-flex items-center gap-2 bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#C9A84C] text-xs font-semibold uppercase tracking-[0.2em] px-5 py-2 rounded-full">
+            ✦ Most popular · Full Coaching Package
+          </span>
+        </div>
+
+        {/* Headline */}
+        <div ref={headRef} className="reveal text-center mb-20">
+          <h2 className="font-serif text-4xl sm:text-5xl md:text-[3.5rem] font-bold text-white leading-tight mb-6">
+            Land your first European job offer —{" "}
+            <span className="text-[#C9A84C]">or I keep working with you until you do.</span>
+          </h2>
+          <p className="text-white/40 text-lg max-w-2xl mx-auto leading-relaxed">
+            Everything you need to go from invisible to hired in Europe. Built by someone who sits on both sides of the table.
+          </p>
+        </div>
+
+        {/* 5 Sessions */}
+        <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-5 text-center">The 5 Coaching Sessions</p>
+        <div ref={sessRef} className="reveal-group grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+          {OFFER_SESSIONS.map((s, i) => (
+            <div key={i} className={`rounded-2xl border border-white/10 bg-white/[0.04] p-6 relative overflow-hidden ${i === 4 ? "sm:col-span-2 lg:col-span-1" : ""}`}>
+              <span className="font-serif font-bold text-5xl text-white/5 absolute top-4 right-5 select-none leading-none">{s.n}</span>
+              <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-[0.18em] mb-3">Session {s.n}</p>
+              <p className="text-white font-semibold text-base mb-2 leading-snug">{s.title}</p>
+              <p className="text-white/40 text-sm leading-relaxed">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Value stack */}
+        <div ref={stackRef} className="reveal bg-[#1A1D24] rounded-3xl border border-white/10 overflow-hidden">
+          <div className="px-8 py-7 border-b border-white/8 text-center">
+            <p className="text-white font-semibold text-lg">Everything You Get</p>
+          </div>
+          <div className="px-8 py-8 space-y-5">
+            {OFFER_STACK.map((item, i) => (
+              <div key={i} className="flex items-center gap-4">
+                <svg className="w-4 h-4 flex-shrink-0 text-[#C9A84C]" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span className="text-white/70 text-sm flex-1">{item.label}</span>
+                <span className="flex-1 border-t border-dashed border-white/10"/>
+                <span className={`text-sm font-semibold flex-shrink-0 ${item.value === "Priceless" ? "text-[#C9A84C]" : "text-white/40 line-through"}`}>
+                  {item.value}
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="px-8 py-6 bg-white/[0.03] border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-5">
+            <div>
+              <p className="text-white/25 text-xs mb-0.5">Total standalone value</p>
+              <p className="text-white/35 text-2xl font-bold line-through">€1,644+</p>
+            </div>
+            <a href="#contact" className="inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-8 py-4 rounded-full hover:bg-[#e8c96d] transition-colors shadow-lg shadow-[#C9A84C]/20">
+              Apply for a spot <Arrow/>
+            </a>
+          </div>
+        </div>
+
+        {/* Guarantee */}
+        <div ref={guarRef} className="reveal mt-8 rounded-3xl border border-[#C9A84C]/25 bg-gradient-to-br from-[#C9A84C]/8 to-transparent p-8 sm:p-10 text-center">
+          <div className="w-14 h-14 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/35 flex items-center justify-center mx-auto mb-6">
+            <svg className="w-7 h-7 text-[#C9A84C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.955 11.955 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+            </svg>
+          </div>
+          <p className="text-[#C9A84C] text-[11px] font-semibold uppercase tracking-[0.25em] mb-4">The Guarantee</p>
+          <h3 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-5 leading-tight">
+            Work With You Until You Win
+          </h3>
+          <p className="text-white/50 leading-relaxed max-w-2xl mx-auto mb-3 text-sm">
+            If you complete the programme and do not receive a European job offer,{" "}
+            <strong className="text-white font-semibold">I keep working with you at no extra cost</strong> — more sessions, more coaching, more support — until you do.
+          </p>
+          <p className="text-white/25 text-sm">
+            I am a working recruiter. I know exactly what it takes to get hired here. That is why I can make this promise.
+          </p>
+        </div>
+
+        {/* WhatsApp */}
+        <div className="mt-5 flex items-start gap-4 bg-white/[0.03] border border-white/8 rounded-2xl px-6 py-5">
+          <span className="text-2xl flex-shrink-0 mt-0.5" aria-hidden="true">💬</span>
+          <div>
+            <p className="text-white font-semibold text-sm mb-1">WhatsApp access throughout your entire job search</p>
+            <p className="text-white/35 text-sm leading-relaxed">
+              Not just during sessions. Send me your draft cover letter at 11pm. Ask me if a company is worth targeting. I am in your corner until you land.
+            </p>
+          </div>
+        </div>
+
+        {/* Final CTA */}
+        <div className="mt-14 text-center">
+          <a href="#contact" className="inline-flex items-center gap-2.5 bg-[#C9A84C] text-black font-bold text-base px-10 py-5 rounded-full hover:bg-[#e8c96d] transition-colors shadow-xl shadow-[#C9A84C]/20">
+            Apply for a spot <Arrow/>
+          </a>
+          <p className="text-white/20 text-xs mt-4">Limited to 8 clients per month · 100% personalised</p>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
 // ─── For Companies ────────────────────────────────────────────────────────────
 function ForCompanies() {
   const ref = useReveal();
@@ -907,6 +1046,7 @@ export default function Home() {
       <HowItWorks/>
       <About/>
       <Testimonials/>
+      <IrresistibleOffer/>
       <ForCompanies/>
       <FAQ/>
       <Contact/>
