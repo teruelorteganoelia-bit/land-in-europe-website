@@ -6,6 +6,7 @@ import Image from "next/image";
 const IMG = {
   barcelona: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1200&q=80",
   lisbon:    "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1200&q=80",
+  videocall: "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?auto=format&fit=crop&w=900&q=80",
   meeting:   "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=900&q=80",
   cv:        "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=900&q=80",
   linkedin:  "https://images.unsplash.com/photo-1611944212129-29977ae1398c?auto=format&fit=crop&w=900&q=80",
@@ -34,7 +35,7 @@ const SERVICES = [
   { n:"00", title:"Quick Diagnosis Session", tag:"30 minutes. Fast clarity.",
     body:"Your profile is almost there but something is not landing. In 30 minutes we identify exactly what needs fixing and you leave with a clear next step.",
     items:["CV or LinkedIn quick review","Pinpoint what is blocking you","One clear action to take immediately","Ideal if you are close but stuck"],
-    img: IMG.meeting },
+    img: IMG.videocall },
   { n:"01", title:"Career Strategy Session", tag:"60 minutes. Concrete plan.",
     body:"We audit your positioning, identify what is blocking you, and build an action plan you can start using immediately. No fluff.",
     items:["CV and LinkedIn audit","Target market strategy","Personalized action plan","Written follow-up summary"],
@@ -162,47 +163,33 @@ function Navbar() {
   );
 }
 
-// ─── Hero (#8 mobile-responsive, #9 next/image for local photo) ──────────────
+// ─── Hero — two-column layout, photo fills right side ────────────────────────
 function Hero() {
   return (
-    <section className="bg-white min-h-screen flex flex-col justify-center px-6 pt-20 pb-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto w-full">
+    <section className="bg-white min-h-screen flex flex-col justify-center overflow-hidden pt-16">
+      <div className="max-w-7xl mx-auto w-full px-6 grid lg:grid-cols-2 gap-0 lg:gap-16 items-center py-16 lg:py-24">
 
-        {/* Top label + photo */}
-        <div className="flex items-center justify-between mb-10 sm:mb-14">
-          <div className="flex items-center gap-3">
+        {/* LEFT: label + headline + CTA + stats */}
+        <div className="flex flex-col justify-center">
+          <div className="flex items-center gap-3 mb-10">
             <span className="w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse" aria-hidden="true"/>
             <span className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em]">
               Career Coach · International Recruiter
             </span>
           </div>
-          {/* #9 next/image for local asset */}
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden ring-2 ring-gray-100 shadow-md flex-shrink-0 relative">
-            <Image
-              src="/noelia2.png"
-              alt="Noelia Teruel Ortega, career coach and international recruiter"
-              fill
-              className="object-cover object-top"
-              priority
-              sizes="56px"
-            />
-          </div>
-        </div>
 
-        {/* Headline */}
-        <h1 className="font-serif text-[clamp(2.8rem,9vw,8rem)] font-bold text-gray-900 leading-[1.02] mb-8 sm:mb-10">
-          You have the<br/>
-          experience.<br/>
-          <span className="text-[#C9A84C]">Let Europe<br/>see it.</span>
-        </h1>
+          <h1 className="font-serif text-[clamp(3rem,6vw,6.5rem)] font-bold text-gray-900 leading-[1.02] mb-8">
+            You have the<br/>
+            experience.<br/>
+            <span className="text-[#C9A84C]">Let Europe<br/>see it.</span>
+          </h1>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-end">
-          <p className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-lg">
+          <p className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-md mb-8">
             I help international professionals position themselves, target the right companies, and land roles in Europe.
             As a working European recruiter, I know exactly what the other side of the table is looking for.
           </p>
-          {/* #4 standardized: primary = "Tell me your situation", secondary = "See services" */}
-          <div className="flex flex-col sm:flex-row gap-3 md:justify-end">
+
+          <div className="flex flex-col sm:flex-row gap-3">
             <a
               href="#contact"
               className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-white font-bold px-7 py-4 rounded-full hover:bg-[#b8953f] transition-colors text-sm shadow-lg shadow-[#C9A84C]/30"
@@ -219,11 +206,9 @@ function Hero() {
               See services
             </a>
           </div>
-        </div>
 
-        {/* Stats + city images (#8 mobile stack, #2 updated to 9 languages) */}
-        <div className="mt-16 sm:mt-20 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex gap-6 sm:gap-10 items-center border-t border-gray-100 pt-8 sm:pt-10">
+          {/* Stats */}
+          <div className="flex gap-8 sm:gap-10 items-center border-t border-gray-100 pt-8 mt-12">
             {STATS.map(({ v, l }) => (
               <div key={l}>
                 <p className="font-serif text-3xl sm:text-4xl font-bold text-gray-900">{v}</p>
@@ -231,42 +216,66 @@ function Hero() {
               </div>
             ))}
           </div>
-          {/* #9 next/image for Unsplash strips */}
-          <div className="flex gap-3 items-end border-t border-gray-100 pt-8 sm:pt-10">
-            <div className="flex-1 h-16 sm:h-20 rounded-xl overflow-hidden relative">
-              <Image
-                src={IMG.barcelona}
-                alt="Barcelona city skyline, Spain"
-                fill
-                className="object-cover"
-                sizes="(max-width:768px) 30vw, 200px"
-              />
-            </div>
-            <div className="flex-1 h-16 sm:h-20 rounded-xl overflow-hidden relative">
-              <Image
-                src={IMG.lisbon}
-                alt="Lisbon waterfront, Portugal"
-                fill
-                className="object-cover"
-                sizes="(max-width:768px) 30vw, 200px"
-              />
-            </div>
-            <div className="flex-1 h-16 sm:h-20 rounded-xl overflow-hidden relative">
-              <Image
-                src={IMG.europe}
-                alt="European city at night"
-                fill
-                className="object-cover"
-                sizes="(max-width:768px) 30vw, 200px"
-              />
-            </div>
-            <div className="flex items-end pb-2 flex-shrink-0">
-              <p className="text-[10px] text-gray-300 font-medium leading-relaxed text-right">
-                Barcelona<br/>Lisbon<br/>Greece
-              </p>
-            </div>
+        </div>
+
+        {/* RIGHT: Noelia's photo + floating city strip */}
+        <div className="hidden lg:flex flex-col items-end gap-4 relative">
+          {/* Main portrait */}
+          <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/10 ring-1 ring-gray-100 relative aspect-[3/4]">
+            <Image
+              src="/noelia2.png"
+              alt="Noelia Teruel Ortega, career coach and international recruiter"
+              fill
+              className="object-cover object-top"
+              priority
+              sizes="(max-width:1280px) 40vw, 420px"
+            />
+            {/* Subtle gradient overlay at bottom */}
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/30 to-transparent" aria-hidden="true"/>
+          </div>
+
+          {/* City image strip below the photo */}
+          <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
+            {[
+              { src: IMG.barcelona, alt: "Barcelona, Spain" },
+              { src: IMG.lisbon,    alt: "Lisbon, Portugal" },
+              { src: IMG.europe,    alt: "Athens, Greece" },
+            ].map(({ src, alt }) => (
+              <div key={alt} className="flex-1 h-14 rounded-xl overflow-hidden relative">
+                <Image src={src} alt={alt} fill className="object-cover" sizes="120px"/>
+              </div>
+            ))}
+          </div>
+          <p className="text-[10px] text-gray-300 font-medium text-right tracking-wide">
+            Barcelona · Lisbon · Athens
+          </p>
+        </div>
+
+        {/* MOBILE: show smaller portrait inline */}
+        <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
+          <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-100 relative">
+            <Image
+              src="/noelia2.png"
+              alt="Noelia Teruel Ortega, career coach and international recruiter"
+              fill
+              className="object-cover object-top"
+              priority
+              sizes="192px"
+            />
+          </div>
+          <div className="flex gap-2">
+            {[
+              { src: IMG.barcelona, alt: "Barcelona" },
+              { src: IMG.lisbon,    alt: "Lisbon" },
+              { src: IMG.europe,    alt: "Athens" },
+            ].map(({ src, alt }) => (
+              <div key={alt} className="w-20 h-12 rounded-lg overflow-hidden relative">
+                <Image src={src} alt={alt} fill className="object-cover" sizes="80px"/>
+              </div>
+            ))}
           </div>
         </div>
+
       </div>
     </section>
   );
