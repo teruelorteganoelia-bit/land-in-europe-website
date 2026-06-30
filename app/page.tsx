@@ -683,11 +683,11 @@ const OFFER_SESSIONS = [
 ];
 
 const OFFER_STACK = [
-  { label:"5 Themed Coaching Sessions",    value:"€750" },
-  { label:"Full CV Rewrite",               value:"€350" },
-  { label:"LinkedIn Profile Optimization", value:"€250" },
+  { label:"5 Themed Coaching Sessions (€99 each)",    value:"€495" },
+  { label:"Full CV Rewrite",               value:"€179" },
+  { label:"LinkedIn Profile Optimization", value:"€149" },
   { label:"European Job Market Guide (ebook)", value:"€97" },
-  { label:"Your Personal Target Company Map",  value:"€197" },
+  { label:"Your Personal Target Company Map",  value:"€97" },
   { label:"WhatsApp access throughout your entire job search", value:"Priceless" },
   { label:'"Work With You Until You Win" Guarantee', value:"Priceless" },
 ];
@@ -755,7 +755,7 @@ function IrresistibleOffer() {
           <div className="px-8 py-6 bg-white/[0.03] border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-5">
             <div>
               <p className="text-white/25 text-xs mb-0.5">Total standalone value</p>
-              <p className="text-white/35 text-2xl font-bold line-through">€1,644+</p>
+              <p className="text-white/35 text-2xl font-bold line-through">€1,017+</p>
             </div>
             <a href="#contact" className="inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-8 py-4 rounded-full hover:bg-[#e8c96d] transition-colors shadow-lg shadow-[#C9A84C]/20">
               Apply for a spot <Arrow/>
