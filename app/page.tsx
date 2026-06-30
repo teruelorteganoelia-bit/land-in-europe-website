@@ -35,21 +35,21 @@ const SERVICE_COLORS = [
 ];
 
 const SERVICES = [
-  { n:"00", title:"Quick Diagnosis Session", tag:"30 minutes. Fast clarity.",
+  { n:"01", title:"Quick Diagnosis Session", tag:"30 minutes. Fast clarity.",
     body:"Your profile is almost there but something is not landing. In 30 minutes we identify exactly what needs fixing and you leave with a clear next step.",
     items:["CV or LinkedIn quick review","Pinpoint what is blocking you","One clear action to take immediately","Ideal if you are close but stuck"] },
-  { n:"01", title:"Career Strategy Session", tag:"60 minutes. Concrete plan.",
+  { n:"02", title:"Career Strategy Session", tag:"60 minutes. Concrete plan.",
     body:"We audit your positioning, identify what is blocking you, and build an action plan you can start using immediately. No fluff.",
     items:["CV and LinkedIn audit","Target market strategy","Personalized action plan","Written follow-up summary"] },
-  { n:"02", title:"CV Rewrite", tag:"Built for the European market.",
+  { n:"03", title:"CV Rewrite", tag:"Built for the European market.",
     body:"Rewritten by someone who screens CVs daily. ATS-optimized, achievement-focused, adapted to the roles you are targeting.",
     items:["Full rewrite from scratch","ATS optimization","Achievement-led format","Editable Word version","One revision included"] },
-  { n:"03", title:"LinkedIn Optimization", tag:"Get found before you apply.",
+  { n:"04", title:"LinkedIn Optimization", tag:"Get found before you apply.",
     body:"A profile that ranks higher in recruiter searches and makes the right people stop and reach out to you.",
     items:["Headline and summary rewrite","Experience optimization","Keyword strategy","Visibility recommendations"] },
-  { n:"04", title:"Full Coaching Package", tag:"Start to offer, two weeks.", featured:true,
+  { n:"05", title:"Full Coaching Package", tag:"Start to offer, two weeks.", featured:true,
     body:"Complete support covering positioning, documents, targeting, and outreach. For professionals who want to move fast.",
-    items:["Career strategy session","Full CV rewrite","LinkedIn optimization","Target company research","Application strategy","WhatsApp support throughout"] },
+    items:["Career strategy sessions","Full CV rewrite","LinkedIn optimization","Target company research","Application strategy","WhatsApp support throughout"] },
 ];
 
 const TESTIMONIALS = [
@@ -84,6 +84,73 @@ const FAQS = [
   { q:"Do you coach in Spanish?",
     a:"Yes. I work in both English and Spanish. Just reach out in whichever language feels natural." },
 ];
+
+// ─── Scroll progress bar + floating CTA ──────────────────────────────────────
+function ScrollEffects() {
+  useEffect(() => {
+    const bar = document.getElementById("scroll-bar");
+    const cta = document.getElementById("float-cta");
+    const onScroll = () => {
+      const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      if (bar) bar.style.width = `${Math.min(pct, 100)}%`;
+      if (cta) {
+        if (window.scrollY > window.innerHeight * 0.6) cta.classList.add("show");
+        else cta.classList.remove("show");
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <>
+      <div id="scroll-bar" aria-hidden="true"/>
+      <div id="float-cta">
+        <a href="#contact" className="flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-full shadow-xl hover:bg-[#C9A84C] transition-colors duration-300">
+          Get started
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </a>
+      </div>
+    </>
+  );
+}
+
+// ─── Animated stat counter ────────────────────────────────────────────────────
+function StatCounter({ value, label }: { value: string; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [display, setDisplay] = useState("0");
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const numStr = value.replace(/\D/g, "");
+    const suffix = value.replace(/\d/g, "");
+    const target = parseInt(numStr, 10);
+    if (isNaN(target)) { setDisplay(value); return; }
+
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      obs.unobserve(el);
+      const duration = 1000;
+      const start = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setDisplay(Math.floor(eased * target) + suffix);
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [value]);
+
+  return (
+    <div ref={ref}>
+      <p className="font-serif text-3xl sm:text-4xl font-bold text-gray-900">{display}</p>
+      <p className="text-xs text-gray-400 mt-0.5 font-medium">{label}</p>
+    </div>
+  );
+}
 
 // ─── Scroll reveal hook ───────────────────────────────────────────────────────
 // Safe: only adds `visible` — never removes opacity from non-reveal elements
@@ -199,10 +266,7 @@ function Hero() {
           </div>
           <div className="flex gap-8 sm:gap-10 items-center border-t border-gray-100 pt-8 mt-12">
             {STATS.map(({ v, l }) => (
-              <div key={l}>
-                <p className="font-serif text-3xl sm:text-4xl font-bold text-gray-900">{v}</p>
-                <p className="text-xs text-gray-400 mt-0.5 font-medium">{l}</p>
-              </div>
+              <StatCounter key={l} value={v} label={l} />
             ))}
           </div>
         </div>
@@ -724,6 +788,7 @@ function Footer() {
 export default function Home() {
   return (
     <main>
+      <ScrollEffects/>
       <Navbar/>
       <Hero/>
       <Ticker/>
