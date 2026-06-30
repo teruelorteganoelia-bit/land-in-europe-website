@@ -2,42 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:wght@400;500;600;700;800&display=swap');
 
-:root {
-  --font-inter: 'Inter', system-ui, sans-serif;
-  --font-playfair: 'Playfair Display', Georgia, serif;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: #FAFAF8;
-  color: #1A2332;
-  font-family: var(--font-inter);
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-.font-serif {
-  font-family: var(--font-playfair);
+.font-display { font-family: 'Bricolage Grotesque', sans-serif; }
+
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Subtle animated underline for nav links */
-.nav-link {
-  position: relative;
+.hero-gradient {
+  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.15) 0%, transparent 70%),
+              radial-gradient(ellipse 60% 40% at 80% 50%, rgba(139,92,246,0.08) 0%, transparent 60%),
+              #ffffff;
 }
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: #D4A853;
-  transition: width 0.3s ease;
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.nav-link:hover::after {
-  width: 100%;
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -12px rgba(99,102,241,0.15);
 }
