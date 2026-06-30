@@ -2,60 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700;1,800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 html { scroll-behavior: smooth; }
 
 body {
-  background: #FAFAF7;
-  color: #1A1A1A;
+  background: #ffffff;
+  color: #0a0a0a;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .font-serif { font-family: 'Playfair Display', Georgia, serif; }
 
-/* Ticker animation */
 @keyframes ticker {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-.ticker-track {
+.ticker-inner {
   display: flex;
   width: max-content;
-  animation: ticker 30s linear infinite;
+  animation: ticker 28s linear infinite;
 }
-.ticker-track:hover { animation-play-state: paused; }
+.ticker-inner:hover { animation-play-state: paused; }
 
-/* Fade up on scroll */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.fade-up { animation: fadeUp 0.6s ease forwards; }
-
-/* Gold underline on headings */
-.gold-underline {
-  position: relative;
-  display: inline-block;
-}
-.gold-underline::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: #C9A84C;
-  border-radius: 2px;
-}
-
-/* Card subtle lift */
 .lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 .lift:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 40px -8px rgba(27,58,47,0.12);
+  box-shadow: 0 20px 48px -10px rgba(0,0,0,0.10);
 }
+
+.gold-btn {
+  background: linear-gradient(135deg, #C9A84C 0%, #E2C06A 100%);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 9999px;
+  transition: filter 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 24px -4px rgba(201,168,76,0.40);
+}
+.gold-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
