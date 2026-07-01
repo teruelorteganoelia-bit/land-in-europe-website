@@ -3,21 +3,21 @@ import "./globals.css";
 
 // #12 canonical + Open Graph
 export const metadata: Metadata = {
-  metadataBase: new URL("https://land-in-europe-website.vercel.app"),
+  metadataBase: new URL("https://landineuropecoaching.com"),
   title: "Land in Europe | Career Coaching for International Professionals",
   description:
     "Career coaching by a working European recruiter. CV rewrites, LinkedIn optimization, and strategic job search support for international professionals in Spain, Portugal and Greece.",
   keywords:
     "career coach Europe, CV writing Europe, LinkedIn optimization, career coaching internationals, job search Europe, expat career coach, Barcelona career coach, career coach Spain, career coach Portugal",
   alternates: {
-    canonical: "https://land-in-europe-website.vercel.app",
+    canonical: "https://landineuropecoaching.com",
   },
   openGraph: {
     title: "Land in Europe | Career Coaching for International Professionals",
     description:
       "Career coaching by a working European recruiter. CV rewrites, LinkedIn optimization, and strategic job search support.",
     type: "website",
-    url: "https://land-in-europe-website.vercel.app",
+    url: "https://landineuropecoaching.com",
     siteName: "Land in Europe",
     locale: "en_US",
     images: [
@@ -50,8 +50,8 @@ const schemaOrg = {
   name: "Land in Europe",
   description:
     "Career coaching and CV writing for international professionals looking for roles in Europe. Services include CV rewrite, LinkedIn optimization, career strategy sessions, and full coaching packages.",
-  url: "https://land-in-europe-website.vercel.app",
-  image: "https://land-in-europe-website.vercel.app/noelia2.png",
+  url: "https://landineuropecoaching.com",
+  image: "https://landineuropecoaching.com/noelia2.png",
   founder: {
     "@type": "Person",
     name: "Noelia Teruel Ortega",
