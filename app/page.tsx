@@ -10,12 +10,12 @@ const IMG = {
 };
 
 const TICKER = [
-  "CV rewritten → 3 interviews in 10 days",
-  "Relocated from Brazil → Hired in Barcelona",
-  "6 months of silence → First offer in 3 weeks",
-  "Career pivot → New role in the Netherlands",
-  "LinkedIn optimized → Recruiter reached out in 48 h",
-  "Stuck for months → Finance Manager, Lisbon",
+  "CV rewritten · 3 interviews in 10 days",
+  "Relocated from Brazil · Hired in Barcelona",
+  "6 months of silence · First offer in 3 weeks",
+  "Career pivot · New role in the Netherlands",
+  "LinkedIn optimized · Recruiter reached out in 48 h",
+  "Stuck for months · Finance Manager, Lisbon",
 ];
 
 const COUNTRIES = [
@@ -56,25 +56,25 @@ const SERVICE_COLORS = [
 ];
 
 const SERVICES = [
-  { n:"01", title:"Quick Diagnosis Session", tag:"30 minutes. Fast clarity.",
-    body:"Your profile is almost there but something is not landing. In 30 minutes we identify exactly what needs fixing and you leave with a clear next step.",
-    items:["CV or LinkedIn quick review","Pinpoint what is blocking you","One clear action to take immediately","Ideal if you are close but stuck"],
+  { n:"01", title:"Quick Diagnosis Session", tag:"30 minutes.",
+    body:"Something is not working but you are not sure what. In 30 minutes I tell you exactly where the problem is and what to fix first.",
+    items:["CV or LinkedIn review","Identify what is blocking you","One clear next step","Good if you are close but stuck"],
     href:"/career-coaching" },
-  { n:"02", title:"Career Strategy Session", tag:"60 minutes. Concrete plan.",
-    body:"We audit your positioning, identify what is blocking you, and build an action plan you can start using immediately. No fluff.",
-    items:["CV and LinkedIn audit","Target market strategy","Personalized action plan","Written follow-up summary"],
+  { n:"02", title:"Career Strategy Session", tag:"60 minutes.",
+    body:"We look at your full picture — where you are, where you want to go, and what is standing between you and getting there. You leave with a plan you can act on the same day.",
+    items:["Full CV and LinkedIn audit","Target market and company strategy","Personalised action plan","Written summary after the session"],
     href:"/career-coaching" },
-  { n:"03", title:"CV Rewrite", tag:"Built for the European market.",
-    body:"Rewritten by someone who screens CVs daily. ATS-optimized, achievement-focused, adapted to the roles you are targeting.",
-    items:["Full rewrite from scratch","ATS optimization","Achievement-led format","Editable Word version","One revision included"],
+  { n:"03", title:"CV Rewrite", tag:"Built for European recruiters.",
+    body:"I rewrite it from scratch. Not a light edit. A full rewrite by someone who screens CVs for European companies and knows in the first ten seconds whether something will land.",
+    items:["Full rewrite from scratch","ATS-optimised","Achievement-led, not responsibility-led","Editable Word version","One revision included"],
     href:"/cv-rewrite" },
   { n:"04", title:"LinkedIn Optimization", tag:"Get found before you apply.",
-    body:"A profile that ranks higher in recruiter searches and makes the right people stop and reach out to you.",
-    items:["Headline and summary rewrite","Experience optimization","Keyword strategy","Visibility recommendations"],
+    body:"Most international professionals have a LinkedIn profile. Very few have one that actually shows up in recruiter searches. I fix that.",
+    items:["Headline and summary rewritten","Experience section optimised","Keyword strategy for your target market","Visibility recommendations"],
     href:"/linkedin-optimization" },
-  { n:"05", title:"Full Coaching Package", tag:"Start to offer, two weeks.", featured:true,
-    body:"Complete support covering positioning, documents, targeting, and outreach. For professionals who want to move fast.",
-    items:["Career strategy sessions","Full CV rewrite","LinkedIn optimization","Target company research","Application strategy","WhatsApp support throughout"],
+  { n:"05", title:"Full Coaching Package", tag:"Start to offer.", featured:true,
+    body:"Everything. Five sessions, a full CV rewrite, LinkedIn optimisation, a personalised company map, and WhatsApp access throughout your search. And if you do not get an offer, I keep working with you until you do.",
+    items:["5 themed coaching sessions","Full CV rewrite","LinkedIn optimisation","Personalised target company map","WhatsApp support throughout your search"],
     href:"#full-package" },
 ];
 
@@ -97,18 +97,18 @@ const TESTIMONIALS = [
 ];
 
 const FAQS = [
-  { q:"Is this for me if I am not in Europe yet?",
-    a:"Yes. Many of my clients are outside Europe and planning their move. The earlier you work on your positioning, the better your chances when you start applying." },
-  { q:"What if I only need help with my CV?",
-    a:"A standalone CV rewrite is available without booking a session first. Just reach out and describe your situation." },
+  { q:"I am not in Europe yet. Can you still help?",
+    a:"Yes, and honestly the earlier the better. Most of my clients start working on their positioning before they arrive. By the time you land, your CV and LinkedIn are already built for the market." },
+  { q:"What if I just need my CV fixed?",
+    a:"That is a standalone service. You do not need to book a full session first. Just reach out and tell me what you are targeting." },
   { q:"Do you work with all industries?",
-    a:"Yes. Finance, tech, marketing, operations, creative industries and more. The positioning and targeting principles apply across fields." },
-  { q:"How does a session work?",
-    a:"We connect on Google Meet. You tell me your situation, I ask questions, and we build a clear picture of what is blocking you. You leave with a concrete action plan." },
-  { q:"How long until I see results?",
-    a:"Most clients start getting interview requests within 2 to 4 weeks of implementing the changes. The Full Package is designed to get you moving in under two weeks." },
-  { q:"Do you coach in Spanish?",
-    a:"Yes. I work in both English and Spanish. Just reach out in whichever language feels natural." },
+    a:"Yes. Finance, tech, marketing, operations, creative, sales. The fundamentals of how European recruiters read CVs and search LinkedIn apply across all of them." },
+  { q:"What actually happens in a session?",
+    a:"We meet on Google Meet. You walk me through your situation, I ask questions, and we work out exactly what is blocking you. You leave with a written action plan, not just a list of things to think about." },
+  { q:"How long before I start getting replies?",
+    a:"Most clients start hearing back within two to four weeks of making the changes. Some faster. It depends on your sector and how active the market is for your profile." },
+  { q:"Do you work in Spanish?",
+    a:"Yes. English and Spanish, whichever feels more comfortable. Just message me in whatever language you prefer." },
 ];
 
 // ─── Scroll progress bar + floating CTA ──────────────────────────────────────
@@ -278,8 +278,7 @@ function Hero() {
             <span className="text-[#C9A84C]">Let Europe<br/>see it.</span>
           </h1>
           <p className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-md mb-8">
-            I help international professionals position themselves, target the right companies, and land roles in Europe.
-            As a working European recruiter, I know exactly what the other side of the table is looking for.
+            I help international professionals get hired in Europe. Not with templates or theory. With the same knowledge I use every day as a working recruiter — because I know what happens when your application lands on a desk.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-white font-bold px-7 py-4 rounded-full hover:bg-[#b8953f] transition-colors text-sm shadow-lg shadow-[#C9A84C]/30">
@@ -388,16 +387,16 @@ function Approach() {
             </h2>
           </div>
           <p className="text-gray-400 leading-relaxed text-base self-end">
-            Most career coaches give you templates and theory. I give you insider knowledge from someone actively recruiting for European companies today. That is the difference.
+            Most career coaches have never hired anyone. I recruit for European companies every week. That changes what I can tell you.
           </p>
         </div>
 
         {/* reveal-group: children stagger automatically */}
         <div ref={cardsRef} className="reveal-group grid sm:grid-cols-2 md:grid-cols-3 gap-5">
           {[
-            { n:"01", t:"I work both sides", b:"I recruit for European companies and coach candidates. I know which CVs get opened and why, because I open them every single day." },
-            { n:"02", t:"No templates", b:"Every session starts with your specific situation, your industry, your target market. The output fits you, not a formula someone else used." },
-            { n:"03", t:"I find what is blocking you", b:"Sometimes one sentence, one structure change, one clearer story completely transforms your chances. That is what I look for." },
+            { n:"01", t:"I work both sides", b:"I recruit for European companies and coach candidates at the same time. I know which CVs get opened and why — because I open them every day." },
+            { n:"02", t:"No templates", b:"Your situation is specific. Your industry, your background, your target country. I work from that, not from a formula built for someone else." },
+            { n:"03", t:"I find what is actually blocking you", b:"Usually it is one thing. One sentence on a CV. One missing keyword. One story that is not landing. That is what I look for first." },
           ].map((c, i) => (
             <div key={i} className="rounded-2xl border border-gray-200 bg-white lift p-8">
               <p className="text-xs font-mono text-gray-200 mb-5">{c.n}</p>
@@ -409,9 +408,9 @@ function Approach() {
 
         <div ref={painRef} className="reveal-group mt-5 grid sm:grid-cols-2 md:grid-cols-3 gap-5">
           {[
-            { icon:"📄", title:"Your CV is not European-market ready", body:"Format, structure and language expectations here are different. What worked at home often does not translate to the European market." },
-            { icon:"🔍", title:"Recruiters cannot find you on LinkedIn", body:"Without the right keywords and positioning you simply do not appear in searches. Opportunities go to other candidates while you wait." },
-            { icon:"🎯", title:"You are targeting the wrong companies", body:"Sending 100 applications without strategy means 100 silences. The right 10 targeted applications beat that every time." },
+            { icon:"📄", title:"Your CV was built for a different market", body:"What worked at home often does not land the same way here. European recruiters read CVs differently, and the format matters more than most people think." },
+            { icon:"🔍", title:"Recruiters are not finding you on LinkedIn", body:"If your profile does not have the right keywords, you are invisible in searches. The jobs go to people who did not even apply." },
+            { icon:"🎯", title:"You are applying everywhere and hearing nothing", body:"Volume is not the answer. Ten well-targeted applications to the right companies will always beat a hundred sent into the void." },
           ].map((c, i) => (
             <div key={i} className="bg-white border border-gray-200 rounded-2xl p-7 lift">
               <span className="text-3xl mb-5 block">{c.icon}</span>
@@ -439,7 +438,7 @@ function Services() {
               How I can <span className="text-[#C9A84C]">help</span>
             </h2>
           </div>
-          <p className="text-gray-400 leading-relaxed text-base">Every service is adapted to your specific situation and target market. No templates, no generic advice.</p>
+          <p className="text-gray-400 leading-relaxed text-base">Pick where you need help most. Everything is built around your situation, not a standard package.</p>
         </div>
 
         <div ref={gridRef} className="reveal-group grid md:grid-cols-2 gap-4">
@@ -522,13 +521,13 @@ function HowItWorks() {
               How it <span className="text-[#C9A84C]">works</span>
             </h2>
           </div>
-          <p className="text-white/40 leading-relaxed self-end">Simple. No long intake forms, no complicated onboarding. Just reach out and we start.</p>
+          <p className="text-white/40 leading-relaxed self-end">No intake forms. No complicated process. Tell me where you are and we figure out the rest together.</p>
         </div>
         <div ref={cardsRef} className="reveal-group grid sm:grid-cols-3 gap-5">
           {[
-            { n:"01", t:"Reach out", b:"Send me a message describing where you are, what you are targeting, and what is not working." },
-            { n:"02", t:"We align", b:"I recommend the service that fits your situation. Once confirmed we schedule and get started immediately." },
-            { n:"03", t:"You move forward", b:"You leave with clarity, stronger documents, and a concrete plan. Most clients see results within 2 to 4 weeks." },
+            { n:"01", t:"Tell me your situation", b:"Send a message with where you are, what you are targeting, and what has not been working. The more specific, the better." },
+            { n:"02", t:"We pick what makes sense", b:"I tell you which service fits your situation best. Once you confirm, we schedule and start. No waiting around." },
+            { n:"03", t:"You start moving", b:"Clearer positioning, stronger documents, a real plan. Most clients get their first interview requests within two to four weeks." },
           ].map((s, i) => (
             <div key={i} className="bg-white/5 border border-white/8 rounded-2xl p-8 hover:bg-white/8 transition-colors relative overflow-hidden">
               <p className="font-serif text-7xl font-bold text-[#C9A84C]/20 leading-none mb-6 select-none" aria-hidden="true">{s.n}</p>
@@ -565,10 +564,10 @@ function About() {
             Hi,<br/>I'm <span className="text-[#C9A84C]">Noelia</span>
           </h2>
           <div className="space-y-4 text-gray-400 leading-relaxed text-sm">
-            <p>I am an international recruiter and career coach with a Master's in Human Resources from the European University of Valencia. I am based in Stockholm, Sweden, and work daily with companies in Spain, Portugal and Greece looking for multilingual talent.</p>
-            <p>I built the coaching side because I kept meeting people whose experience was real but whose positioning was not landing. Strong backgrounds being overlooked because of a CV structure, a missing keyword, or a LinkedIn profile that did not tell the right story.</p>
-            <p>That felt like a problem I could fix. Because I see both sides of it every day.</p>
-            <p>I coach in <strong className="text-gray-900 font-semibold">English and Spanish</strong>, and I work with professionals from all over the world.</p>
+            <p>I am a recruiter and career coach based in Stockholm. I have a Master's in Human Resources from the European University of Valencia, and I recruit multilingual professionals for companies across Europe every week through Cross Border Talents.</p>
+            <p>The coaching started because I kept seeing the same thing. People with strong backgrounds, real experience, years of results — not getting replies. Not because they were unqualified. Because their CV was built for a different market, or their LinkedIn was invisible to European recruiters, or no one had told them how the hiring process here actually works.</p>
+            <p>I could see the problem clearly because I sit on the other side of it every day. So I started fixing it.</p>
+            <p>I work in <strong className="text-gray-900 font-semibold">English and Spanish</strong> with professionals from all over the world.</p>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-3">
             {["Active European recruiter","Multilingual talent specialist","English and Spanish coaching","9 languages placed across Europe"].map(item => (
@@ -614,7 +613,7 @@ function Testimonials() {
             </h2>
           </div>
           <p className="text-gray-400 leading-relaxed self-end">
-            Professionals from across the world who repositioned themselves and started moving forward.
+            In their words, not mine.
           </p>
         </div>
 
@@ -731,7 +730,7 @@ function IrresistibleOffer() {
             <span className="text-[#C9A84C]">Or I keep working with you until you do.</span>
           </h2>
           <p className="text-white/40 text-lg max-w-2xl mx-auto leading-relaxed">
-            Everything you need to go from invisible to hired in Europe. Built by someone who sits on both sides of the table.
+            Five sessions, a full CV rewrite, LinkedIn, a company map, and WhatsApp access for your entire search. Built by someone who recruits for European companies and knows exactly what gets people hired.
           </p>
         </div>
 
@@ -888,7 +887,7 @@ function FAQ() {
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-5">
             Common <span className="text-[#C9A84C]">questions</span>
           </h2>
-          <p className="text-gray-400 text-sm leading-relaxed">Still not sure? These are the questions I get most. If yours is not here, just ask me directly.</p>
+          <p className="text-gray-400 text-sm leading-relaxed">These come up a lot. If your situation is more specific, just message me directly — I actually reply.</p>
           <a href="#contact" className="inline-flex items-center gap-2 mt-7 bg-gray-900 text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-gray-800 transition-colors">
             Ask me directly <Arrow />
           </a>
@@ -960,8 +959,8 @@ function Contact() {
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
             Tell me your <span className="text-[#C9A84C]">situation</span>
           </h2>
-          <p className="text-gray-400 text-sm leading-relaxed mb-10 max-w-md">Describe where you are in your search and what is not working. I will read it carefully and let you know exactly how I can help.</p>
-          {["I typically reply within 24 hours","Sessions happen over Google Meet","English and Spanish, your choice"].map(item => (
+          <p className="text-gray-400 text-sm leading-relaxed mb-10 max-w-md">Tell me where you are, what you are targeting, and what has not been working. I read every message and I answer every one.</p>
+          {["I reply within 24 hours","Sessions on Google Meet","English or Spanish, your call"].map(item => (
             <div key={item} className="flex items-center gap-3 mb-4">
               <div className="w-5 h-5 rounded-full bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0"><Check /></div>
               <span className="text-sm text-gray-500">{item}</span>
