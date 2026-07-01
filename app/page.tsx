@@ -58,19 +58,24 @@ const SERVICE_COLORS = [
 const SERVICES = [
   { n:"01", title:"Quick Diagnosis Session", tag:"30 minutes. Fast clarity.",
     body:"Your profile is almost there but something is not landing. In 30 minutes we identify exactly what needs fixing and you leave with a clear next step.",
-    items:["CV or LinkedIn quick review","Pinpoint what is blocking you","One clear action to take immediately","Ideal if you are close but stuck"] },
+    items:["CV or LinkedIn quick review","Pinpoint what is blocking you","One clear action to take immediately","Ideal if you are close but stuck"],
+    href:"/career-coaching" },
   { n:"02", title:"Career Strategy Session", tag:"60 minutes. Concrete plan.",
     body:"We audit your positioning, identify what is blocking you, and build an action plan you can start using immediately. No fluff.",
-    items:["CV and LinkedIn audit","Target market strategy","Personalized action plan","Written follow-up summary"] },
+    items:["CV and LinkedIn audit","Target market strategy","Personalized action plan","Written follow-up summary"],
+    href:"/career-coaching" },
   { n:"03", title:"CV Rewrite", tag:"Built for the European market.",
     body:"Rewritten by someone who screens CVs daily. ATS-optimized, achievement-focused, adapted to the roles you are targeting.",
-    items:["Full rewrite from scratch","ATS optimization","Achievement-led format","Editable Word version","One revision included"] },
+    items:["Full rewrite from scratch","ATS optimization","Achievement-led format","Editable Word version","One revision included"],
+    href:"/cv-rewrite" },
   { n:"04", title:"LinkedIn Optimization", tag:"Get found before you apply.",
     body:"A profile that ranks higher in recruiter searches and makes the right people stop and reach out to you.",
-    items:["Headline and summary rewrite","Experience optimization","Keyword strategy","Visibility recommendations"] },
+    items:["Headline and summary rewrite","Experience optimization","Keyword strategy","Visibility recommendations"],
+    href:"/linkedin-optimization" },
   { n:"05", title:"Full Coaching Package", tag:"Start to offer, two weeks.", featured:true,
     body:"Complete support covering positioning, documents, targeting, and outreach. For professionals who want to move fast.",
-    items:["Career strategy sessions","Full CV rewrite","LinkedIn optimization","Target company research","Application strategy","WhatsApp support throughout"] },
+    items:["Career strategy sessions","Full CV rewrite","LinkedIn optimization","Target company research","Application strategy","WhatsApp support throughout"],
+    href:"#full-package" },
 ];
 
 const TESTIMONIALS = [
@@ -222,7 +227,7 @@ function Navbar() {
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
-  const links = [["Approach","#approach"],["Services","#services"],["Package","#full-package"],["Testimonials","#testimonials"],["About","#about"],["FAQ","#faq"]] as const;
+  const links = [["Services","#services"],["Package","#full-package"],["CV Rewrite","/cv-rewrite"],["LinkedIn","/linkedin-optimization"],["About","#about"],["FAQ","#faq"]] as const;
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${sc ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-100" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -475,14 +480,24 @@ function Services() {
                     ))}
                   </ul>
                   {s.featured && <p className="text-[11px] text-white/30 mb-4">Limited to 8 clients per month.</p>}
-                  <a
-                    href="#contact"
-                    className={`inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-full transition-colors self-start ${
-                      isDark ? "bg-[#C9A84C] text-white hover:bg-[#b8953f]" : "bg-gray-900 text-white hover:bg-gray-800"
-                    }`}
-                  >
-                    Get started <Arrow />
-                  </a>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <a
+                      href="#contact"
+                      className={`inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-full transition-colors ${
+                        isDark ? "bg-[#C9A84C] text-white hover:bg-[#b8953f]" : "bg-gray-900 text-white hover:bg-gray-800"
+                      }`}
+                    >
+                      Get started <Arrow />
+                    </a>
+                    <a
+                      href={s.href}
+                      className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors ${
+                        isDark ? "text-white/40 hover:text-white" : "text-gray-400 hover:text-gray-900"
+                      }`}
+                    >
+                      Learn more <Arrow />
+                    </a>
+                  </div>
                 </div>
               </div>
             );
