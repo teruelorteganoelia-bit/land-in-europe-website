@@ -11,6 +11,7 @@ export default function PageNav() {
           <Link href="/cv-rewrite" className="hover:text-gray-900 transition-colors">CV Rewrite</Link>
           <Link href="/linkedin-optimization" className="hover:text-gray-900 transition-colors">LinkedIn</Link>
           <Link href="/career-coaching" className="hover:text-gray-900 transition-colors">Coaching</Link>
+          <Link href="/blog" className="hover:text-gray-900 transition-colors">Blog</Link>
         </nav>
         <Link
           href="/#contact"

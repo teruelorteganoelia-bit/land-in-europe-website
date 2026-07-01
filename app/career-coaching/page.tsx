@@ -44,7 +44,7 @@ const SERVICES = [
     n: "04",
     title: "LinkedIn Optimization",
     duration: "Delivered within the week",
-    desc: "Headline, summary, experience, keywords — everything rewritten so European recruiters find you before you even apply.",
+    desc: "Headline, summary, experience, keywords: everything rewritten so European recruiters find you before you even apply.",
     href: "/linkedin-optimization",
   },
   {
@@ -60,7 +60,7 @@ const SERVICES = [
 const FAQS = [
   {
     q: "What makes this different from other career coaches?",
-    a: "I recruit for European companies through Cross Border Talents. I am not guessing what European recruiters want — I am one. I see both sides of the process every week, which means the advice I give is grounded in what actually happens when your application lands on a recruiter's desk.",
+    a: "I recruit for European companies through Cross Border Talents. I am not guessing what European recruiters want. I am one. I see both sides of the process every week, which means the advice I give is grounded in what actually happens when your application lands on a recruiter's desk.",
   },
   {
     q: "I am not in Europe yet. Can you still help me?",
@@ -72,7 +72,7 @@ const FAQS = [
   },
   {
     q: "What is the guarantee on the Full Package?",
-    a: "If you complete the Full Coaching Package and do not receive a European job offer, I keep working with you at no extra cost — more sessions, more coaching, more support — until you do.",
+    a: "If you complete the Full Coaching Package and do not receive a European job offer, I keep working with you at no extra cost: more sessions, more coaching, more support, until you do.",
   },
   {
     q: "Do you work in Spanish?",

@@ -6,14 +6,14 @@ import PageFooter from "../components/PageFooter";
 export const metadata: Metadata = {
   title: "LinkedIn Optimization for International Professionals in Europe | Land in Europe",
   description:
-    "Get found by European recruiters before you even apply. LinkedIn profile optimization by a working European recruiter — headline, summary, keywords, and visibility strategy.",
+    "Get found by European recruiters before you even apply. LinkedIn profile optimization by a working European recruiter, including headline, summary, keywords, and visibility strategy.",
   keywords:
     "LinkedIn optimization Europe, LinkedIn profile for expats, LinkedIn international job search, LinkedIn for jobs in Spain, LinkedIn profile Europe, get found by European recruiters",
   alternates: { canonical: "/linkedin-optimization" },
   openGraph: {
     title: "LinkedIn Optimization for International Professionals | Land in Europe",
     description:
-      "A LinkedIn profile that ranks higher in European recruiter searches — and makes the right people reach out to you.",
+      "A LinkedIn profile that ranks higher in European recruiter searches, making the right people reach out to you.",
     url: "/linkedin-optimization",
   },
 };
@@ -23,12 +23,12 @@ const WHAT_YOU_GET = [
   "About section that tells your story and converts profile visitors",
   "Experience section optimized with achievements, not just responsibilities",
   "Keyword strategy so European recruiters find you when they search",
-  "Visibility recommendations — what to post, how often, and why",
+  "Visibility recommendations: what to post, how often, and why",
   "Written summary of all changes so you understand what was done and why",
 ];
 
 const WHO_ITS_FOR = [
-  "You have been applying and getting silence — your profile is not being found",
+  "You have been applying and getting silence because your profile is not being found",
   "Recruiters are not reaching out to you even though you have strong experience",
   "You are relocating to Europe and need your profile to reflect that",
   "You want someone who actually recruits in Europe to tell you what works",
@@ -55,7 +55,7 @@ const STEPS = [
 const FAQS = [
   {
     q: "How does LinkedIn work differently for the European market?",
-    a: "European recruiters use LinkedIn's search filters heavily — they search by keyword, location, language, and job title. If your profile is not using the right terms, you are invisible. I know which keywords and formats European recruiters in Spain, Portugal and Greece actually search for.",
+    a: "European recruiters use LinkedIn's search filters heavily. They search by keyword, location, language, and job title. If your profile is not using the right terms, you are invisible. I know which keywords and formats European recruiters in Spain, Portugal and Greece actually search for.",
   },
   {
     q: "Will this help me even if I am not based in Europe yet?",
@@ -94,7 +94,7 @@ export default function LinkedInPage() {
               <span className="text-[#C9A84C]">before you even apply.</span>
             </h1>
             <p className="text-gray-400 text-lg leading-relaxed max-w-2xl mb-10">
-              Most international professionals have a LinkedIn profile. Very few have one that ranks in European recruiter searches. There is a difference — and it is fixable.
+              Most international professionals have a LinkedIn profile. Very few have one that ranks in European recruiter searches. There is a difference. It is fixable.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link

@@ -14,6 +14,7 @@ export default function PageFooter() {
             ["CV Rewrite", "/cv-rewrite"],
             ["LinkedIn", "/linkedin-optimization"],
             ["Coaching", "/career-coaching"],
+            ["Blog", "/blog"],
             ["Contact", "/#contact"],
           ].map(([l, h]) => (
             <Link key={h} href={h} className="text-sm text-white/30 hover:text-white transition-colors">

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 const WHAT_YOU_GET = [
-  "Full CV rewritten from scratch — not just edited",
+  "Full CV rewritten from scratch . Not just edited",
   "ATS-optimised so automated filters do not reject you before a human reads it",
   "Achievement-led format that European hiring managers respond to",
   "Adapted to the specific countries and roles you are targeting",
@@ -121,7 +121,7 @@ export default function CVRewritePage() {
             </p>
             <div className="h-px flex-1 bg-gray-200 hidden sm:block" />
             <p className="text-sm text-gray-400 text-center sm:text-right max-w-md">
-              I recruit multilingual professionals for European companies through Cross Border Talents. I know exactly what makes a recruiter stop on a CV — and what makes them skip it.
+              I recruit multilingual professionals for European companies through Cross Border Talents. I know exactly what makes a recruiter stop on a CV, and what makes them skip it.
             </p>
           </div>
         </section>

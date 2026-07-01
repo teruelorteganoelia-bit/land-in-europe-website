@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         url: "/noelia2.png",
         width: 800,
         height: 1000,
-        alt: "Noelia Teruel Ortega — career coach and international recruiter",
+        alt: "Noelia Teruel Ortega, career coach and international recruiter",
       },
     ],
   },

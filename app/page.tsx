@@ -227,7 +227,7 @@ function Navbar() {
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
-  const links = [["Services","#services"],["Package","#full-package"],["CV Rewrite","/cv-rewrite"],["LinkedIn","/linkedin-optimization"],["About","#about"],["FAQ","#faq"]] as const;
+  const links = [["Services","#services"],["Package","#full-package"],["CV Rewrite","/cv-rewrite"],["LinkedIn","/linkedin-optimization"],["Blog","/blog"],["FAQ","#faq"]] as const;
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${sc ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-100" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
