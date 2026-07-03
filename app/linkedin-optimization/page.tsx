@@ -55,19 +55,19 @@ const STEPS = [
 const FAQS = [
   {
     q: "How does LinkedIn work differently for the European market?",
-    a: "European recruiters use LinkedIn's search filters heavily. They search by keyword, location, language, and job title. If your profile is not using the right terms, you are invisible. I know which keywords and formats European recruiters in Spain, Portugal and Greece actually search for.",
+    a: "European recruiters use LinkedIn Recruiter with filters — keyword, location, language, job title. If your profile does not contain the right terms in the right places, you do not appear in results. I know which keywords European recruiters in Spain, Portugal, Greece and across Europe actually search for, because I am one of them.",
   },
   {
-    q: "Will this help me even if I am not based in Europe yet?",
-    a: "Yes. Many of my clients optimise their profiles before they relocate. A profile that signals your intent to work in Europe and uses European market keywords will start attracting the right attention before you arrive.",
+    q: "Will this help me if I am not based in Europe yet?",
+    a: "Yes. Many clients do this before they relocate. A profile with the right European keywords and your target location already set will start getting attention before you arrive.",
   },
   {
-    q: "How quickly will I start seeing results?",
-    a: "Most clients start receiving recruiter messages within 2 to 4 weeks of implementing the changes. The speed depends on your sector and how actively you engage on the platform.",
+    q: "How quickly will I see results?",
+    a: "Most clients start receiving recruiter messages within two to four weeks of making the changes. How fast depends on your sector and how active you are on the platform.",
   },
   {
     q: "Should I combine this with a CV rewrite?",
-    a: "If you are job searching actively, yes. Your CV and LinkedIn should tell the same story. I offer both as part of the Full Coaching Package, or separately if you only need one.",
+    a: "If you are actively job searching, yes. Your CV and LinkedIn should be telling the same story in the same language. I offer both together in the Full Coaching Package, or separately if you only need one.",
   },
 ];
 

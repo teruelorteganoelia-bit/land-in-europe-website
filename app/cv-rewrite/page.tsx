@@ -55,19 +55,19 @@ const STEPS = [
 const FAQS = [
   {
     q: "How is a European CV different from an American or British one?",
-    a: "European CVs vary by country but generally follow a cleaner, more structured format. They tend to be shorter, more achievement-focused, and often include a professional summary. In Spain, Portugal and Greece, hiring managers expect a very clear layout and no unnecessary filler. I adapt your CV specifically to the markets you are targeting.",
+    a: "Length, format, section order, level of detail — all of it is different. In Spain, Portugal and Greece, hiring managers want a clean two-page document with a short summary at the top, achievements with numbers, and clear language skills. No objective statements, no full addresses, no 'references available upon request.' I adapt your CV to the specific countries you are targeting.",
   },
   {
     q: "What if I am applying to multiple countries?",
-    a: "I take this into account during the rewrite. The core document works across markets, and I flag where you may want to adapt specific sections depending on the country.",
+    a: "I account for that in the rewrite. The core document is built to work across markets, and I note where you may want to adjust specific sections depending on the country.",
   },
   {
     q: "Do you rewrite CVs for all industries?",
-    a: "Yes. Finance, tech, marketing, operations, creative industries and more. The formatting and positioning principles apply across fields, and I have placed professionals in all of these sectors.",
+    a: "Yes. Finance, tech, marketing, operations, creative, sales. I have placed professionals across all of these sectors through Cross Border Talents and the same principles apply.",
   },
   {
     q: "How long does it take?",
-    a: "You receive your rewritten CV within 5 business days. If you need it sooner, reach out and I will let you know if it is possible.",
+    a: "You receive the rewritten CV within 5 business days. If you need it sooner, send me a message and I will tell you what is possible.",
   },
 ];
 
