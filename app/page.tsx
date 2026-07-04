@@ -237,10 +237,15 @@ function Check({ light = false }: { light?: boolean }) {
 // ─── Announcement bar ─────────────────────────────────────────────────────────
 function AnnouncementBar() {
   return (
-    <div className="bg-[#C9A84C] text-white text-center py-2.5 px-4 text-xs font-semibold tracking-wide z-50 relative">
-      <span className="opacity-80">Only 3 coaching spots left this month.</span>{" "}
-      <a href="#contact" className="underline underline-offset-2 hover:opacity-80 transition-opacity">Claim yours →</a>
-    </div>
+    <a href="#contact" className="block bg-[#C9A84C] hover:bg-[#b8953f] transition-colors z-50 relative">
+      <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-center gap-3 text-white">
+        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse flex-shrink-0" aria-hidden="true"/>
+        <p className="text-xs font-semibold text-center">
+          Limited availability: 3 coaching spots open this month. Message me to book yours.
+        </p>
+        <span className="text-white/70 text-xs flex-shrink-0">→</span>
+      </div>
+    </a>
   );
 }
 
@@ -325,7 +330,7 @@ function Hero() {
         {/* RIGHT: portrait — desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
           <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/10 ring-1 ring-gray-100 relative aspect-[3/4]">
-            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
+            <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
             <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"/>
           </div>
           <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
@@ -345,7 +350,7 @@ function Hero() {
         {/* RIGHT: portrait — mobile */}
         <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
           <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-100 relative">
-            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
+            <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
           </div>
           <div className="flex gap-2">
             {[IMG.barcelona, IMG.lisbon, IMG.athens].map((src, i) => (
@@ -576,7 +581,7 @@ function About() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
         <div ref={imgRef} className="reveal relative max-w-sm mx-auto lg:mx-0 w-full">
           <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-black/8 ring-1 ring-gray-100 relative">
-            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm, Sweden" fill className="object-cover object-top" sizes="(max-width:1024px) 100vw, 50vw"/>
+            <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm, Sweden" fill className="object-cover object-top" sizes="(max-width:1024px) 100vw, 50vw"/>
           </div>
           <div className="absolute -bottom-4 left-4 right-4 max-w-[calc(24rem-2rem)] bg-gray-900 text-white rounded-xl px-5 py-4 shadow-xl">
             <p className="text-[10px] text-white/30 uppercase tracking-widest mb-0.5">Based in</p>
