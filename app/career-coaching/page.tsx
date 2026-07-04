@@ -177,7 +177,6 @@ export default function CareerCoachingPage() {
                 {[
                   { v: "50+", l: "Professionals coached" },
                   { v: "15+", l: "Nationalities" },
-                  { v: "9",   l: "Languages placed" },
                 ].map((s) => (
                   <div key={s.l}>
                     <p className="font-serif text-3xl font-bold text-gray-900">{s.v}</p>
@@ -190,7 +189,7 @@ export default function CareerCoachingPage() {
               {[
                 "Working recruiter in Spain, Portugal and Greece",
                 "Coached professionals from 15+ nationalities",
-                "Placed candidates speaking 9 European languages",
+                "Works with professionals from 15+ nationalities",
                 "Based in Stockholm, operating across European markets",
                 "Works in English and Spanish",
               ].map((item, i) => (

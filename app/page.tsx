@@ -42,7 +42,6 @@ const COUNTRIES = [
 const STATS = [
   { v: "50+", l: "Professionals coached" },
   { v: "15+", l: "Nationalities" },
-  { v: "9",   l: "Languages placed" },
 ];
 
 const LANGUAGES = ["German","Dutch","Danish","Spanish","Italian","Portuguese","French","Finnish","Norwegian"];
@@ -597,7 +596,7 @@ function About() {
             <p>I work in <strong className="text-gray-900 font-semibold">English and Spanish</strong> with professionals from all over the world.</p>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-3">
-            {["Active European recruiter","Multilingual talent specialist","English and Spanish coaching","9 languages placed across Europe"].map(item => (
+            {["Active European recruiter","Multilingual talent specialist","English and Spanish coaching","Works with professionals from 15+ nationalities"].map(item => (
               <div key={item} className="flex items-center gap-2.5">
                 <Check />
                 <span className="text-sm text-gray-500">{item}</span>
