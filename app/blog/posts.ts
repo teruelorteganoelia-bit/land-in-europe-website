@@ -185,8 +185,6 @@ export const POSTS: Post[] = [
       { type: "p", text: "Get a real review from someone who works in the European market. One conversation can explain months of silence." },
     ],
   },
-];
-
   {
     slug: "will-ai-replace-your-job-in-europe",
     title: "Will AI Replace Your Job in Europe? What International Professionals Need to Know",
