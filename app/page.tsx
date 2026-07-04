@@ -235,6 +235,16 @@ function Check({ light = false }: { light?: boolean }) {
   );
 }
 
+// ─── Announcement bar ─────────────────────────────────────────────────────────
+function AnnouncementBar() {
+  return (
+    <div className="bg-[#C9A84C] text-white text-center py-2.5 px-4 text-xs font-semibold tracking-wide z-50 relative">
+      <span className="opacity-80">Only 3 coaching spots left this month.</span>{" "}
+      <a href="#contact" className="underline underline-offset-2 hover:opacity-80 transition-opacity">Claim yours →</a>
+    </div>
+  );
+}
+
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -295,11 +305,11 @@ function Hero() {
             <span className="text-[#C9A84C]">Let Europe<br/>see it.</span>
           </h1>
           <p className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-md mb-8">
-            I help international professionals get hired in Europe. Not with templates or theory. With the same knowledge I use every day as a working recruiter — because I know what happens when your application lands on a desk.
+            I help international professionals get hired in Europe. I work in recruitment. I know what happens when your application lands on a desk — and I know exactly why most of them get skipped.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-white font-bold px-7 py-4 rounded-full hover:bg-[#b8953f] transition-colors text-sm shadow-lg shadow-[#C9A84C]/30">
-              Tell me your situation
+              Get your free diagnosis
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </a>
             <a href="#services" className="inline-flex items-center justify-center gap-2 border border-gray-200 text-gray-600 font-semibold px-7 py-4 rounded-full hover:border-gray-300 hover:text-gray-900 transition-colors text-sm">
@@ -316,7 +326,7 @@ function Hero() {
         {/* RIGHT: portrait — desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
           <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/10 ring-1 ring-gray-100 relative aspect-[3/4]">
-            <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
+            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
             <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"/>
           </div>
           <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
@@ -336,7 +346,7 @@ function Hero() {
         {/* RIGHT: portrait — mobile */}
         <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
           <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-100 relative">
-            <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
+            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
           </div>
           <div className="flex gap-2">
             {[IMG.barcelona, IMG.lisbon, IMG.athens].map((src, i) => (
@@ -567,7 +577,7 @@ function About() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
         <div ref={imgRef} className="reveal relative max-w-sm mx-auto lg:mx-0 w-full">
           <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-black/8 ring-1 ring-gray-100 relative">
-            <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm, Sweden" fill className="object-cover object-top" sizes="(max-width:1024px) 100vw, 50vw"/>
+            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm, Sweden" fill className="object-cover object-top" sizes="(max-width:1024px) 100vw, 50vw"/>
           </div>
           <div className="absolute -bottom-4 left-4 right-4 max-w-[calc(24rem-2rem)] bg-gray-900 text-white rounded-xl px-5 py-4 shadow-xl">
             <p className="text-[10px] text-white/30 uppercase tracking-widest mb-0.5">Based in</p>
@@ -976,7 +986,7 @@ function Contact() {
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
             Tell me your <span className="text-[#C9A84C]">situation</span>
           </h2>
-          <p className="text-gray-400 text-sm leading-relaxed mb-10 max-w-md">Tell me where you are, what you are targeting, and what has not been working. I read every message and I answer every one.</p>
+          <p className="text-gray-400 text-sm leading-relaxed mb-10 max-w-md">Most people spend months applying and wondering what is wrong. One conversation is usually enough to figure it out. Tell me where you are and what has not been working.</p>
           {["I reply within 24 hours","Sessions on Google Meet","English or Spanish, your call"].map(item => (
             <div key={item} className="flex items-center gap-3 mb-4">
               <div className="w-5 h-5 rounded-full bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0"><Check /></div>
@@ -1126,6 +1136,7 @@ function EmailCapture() {
 export default function Home() {
   return (
     <main>
+      <AnnouncementBar/>
       <ScrollEffects/>
       <Navbar/>
       <Hero/>

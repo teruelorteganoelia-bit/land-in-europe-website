@@ -187,6 +187,38 @@ export const POSTS: Post[] = [
   },
 ];
 
+  {
+    slug: "will-ai-replace-your-job-in-europe",
+    title: "Will AI Replace Your Job in Europe? What International Professionals Need to Know",
+    description:
+      "Everyone is asking this question. Here is an honest answer from someone working inside European recruitment right now — what is actually changing, what is not, and what you should be doing about it.",
+    date: "2026-07-04",
+    readTime: "6 min read",
+    category: "Job Search",
+    content: [
+      { type: "p", text: "This is the question I get more than any other right now. From candidates in my inbox, from professionals in sessions, from people who have been applying for months and are starting to wonder if the whole process has changed underneath them." },
+      { type: "p", text: "I work in recruitment. I see what companies are actually doing — not what they are announcing in press releases, but what they are doing when they need to hire someone. Here is what is real and what is noise." },
+      { type: "h2", text: "What AI is actually changing in hiring" },
+      { type: "p", text: "ATS systems — the automated filters that screen CVs before a human sees them — have been around for years. AI is making them smarter. Some companies now use tools that scan for keyword matches, score candidates automatically, and flag profiles that do not fit a pattern." },
+      { type: "p", text: "This means a CV that was written for a different market, or without the right terminology for the role, gets filtered out faster than before. Not because a recruiter decided you were not right. Because a system never passed you through." },
+      { type: "p", text: "That part is real and it is already happening." },
+      { type: "h2", text: "What AI is not replacing" },
+      { type: "p", text: "The decision to hire someone is still made by a person. A hiring manager still has to meet you, read your presence in an interview, and decide if they want to work with you. AI is changing the front end of the funnel — who gets seen — but not the back end." },
+      { type: "p", text: "It is also not replacing the things that make international candidates valuable in the first place. Language skills, cultural fluency, the ability to work across different contexts — these are specifically what AI cannot replicate and specifically what European companies in Barcelona, Lisbon, Athens and beyond are hiring for." },
+      { type: "h2", text: "Which roles are actually at risk" },
+      { type: "p", text: "Repetitive tasks. Data entry, basic content writing, template-heavy work, rule-based administrative processes. These are genuinely at risk and it would be dishonest to say otherwise." },
+      { type: "p", text: "Roles that involve judgment, relationship-building, cultural navigation, complex communication, or working with ambiguity are far more resilient. This is not reassuring talk. It is what the hiring data actually shows." },
+      { type: "h2", text: "What this means for your job search right now" },
+      { type: "p", text: "If your CV is not written for the European market and optimized for ATS filters, you are more invisible than ever. The bar for getting through the automated screen has gone up, not down." },
+      { type: "p", text: "If your LinkedIn profile does not use the exact keywords European recruiters search for, you are not appearing in searches at all — not because you are unqualified, but because the system does not know you exist." },
+      { type: "tip", text: "AI screening systems look for keyword matches between your profile and the job description. Read the job posting carefully and make sure the language in your CV mirrors the language in the role — not synonyms, the exact terms they used." },
+      { type: "h2", text: "The honest answer" },
+      { type: "p", text: "AI is not going to replace your job in the next year if you are a skilled professional with real experience and the ability to work across cultures. But it is changing how you get found, how your application gets filtered, and how quickly the wrong document gets discarded." },
+      { type: "p", text: "The professionals I see getting hired fast are not the ones ignoring these changes. They are the ones who understood the new rules and adapted their positioning accordingly. That is the part you can control." },
+    ],
+  },
+];
+
 export function getPost(slug: string): Post | undefined {
   return POSTS.find((p) => p.slug === slug);
 }
