@@ -1075,7 +1075,7 @@ function Footer() {
           </nav>
         </div>
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-white/15">
-          <p>© {new Date().getFullYear()} Noelia Teruel Ortega. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Noelia Teruel Ortega. All rights reserved. · <a href="/privacy-policy" className="hover:text-white/40 transition-colors">Privacy Policy</a></p>
           <div className="flex items-center gap-5">
             <p>Stockholm, Sweden</p>
             <a href="https://www.linkedin.com/in/noelia-teruel-ortega/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-white/30 hover:text-white transition-colors">
