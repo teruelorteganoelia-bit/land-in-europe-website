@@ -55,7 +55,7 @@ const STEPS = [
 const FAQS = [
   {
     q: "How does LinkedIn work differently for the European market?",
-    a: "European recruiters use LinkedIn Recruiter with filters — keyword, location, language, job title. If your profile does not contain the right terms in the right places, you do not appear in results. I know which keywords European recruiters in Spain, Portugal, Greece and across Europe actually search for, because I am one of them.",
+    a: "European recruiters use LinkedIn Recruiter with filters keyword, location, language, job title. If your profile does not contain the right terms in the right places, you do not appear in results. I know which keywords European recruiters in Spain, Portugal, Greece and across Europe actually search for, because I am one of them.",
   },
   {
     q: "Will this help me if I am not based in Europe yet?",

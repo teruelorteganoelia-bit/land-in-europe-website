@@ -60,7 +60,7 @@ const SERVICES = [
     items:["CV or LinkedIn review","Identify what is blocking you","One clear next step","Good if you are close but stuck"],
     href:"/career-coaching" },
   { n:"02", title:"Career Strategy Session", tag:"60 minutes.",
-    body:"We look at your full picture — where you are, where you want to go, and what is standing between you and getting there. You leave with a plan you can act on the same day.",
+    body:"We look at your full picture: where you are, where you want to go, and what is standing between you and getting there. You leave with a plan you can act on the same day.",
     items:["Full CV and LinkedIn audit","Target market and company strategy","Personalised action plan","Written summary after the session"],
     href:"/career-coaching" },
   { n:"03", title:"CV Rewrite", tag:"Built for European recruiters.",
@@ -195,7 +195,7 @@ function StatCounter({ value, label }: { value: string; label: string }) {
 }
 
 // ─── Scroll reveal hook ───────────────────────────────────────────────────────
-// Safe: only adds `visible` — never removes opacity from non-reveal elements
+// Safe: only adds `visible` never removes opacity from non-reveal elements
 function useReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
   useEffect(() => {
@@ -309,7 +309,7 @@ function Hero() {
             <span className="text-[#C9A84C]">Let Europe<br/>see it.</span>
           </h1>
           <p className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-md mb-8">
-            I help international professionals get hired in Europe. I work in recruitment. I know what happens when your application lands on a desk — and I know exactly why most of them get skipped.
+            I help international professionals get hired in Europe. I work in recruitment. I know what happens when your application lands on a desk. And I know exactly why most of them get skipped.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-white font-bold px-7 py-4 rounded-full hover:bg-[#b8953f] transition-colors text-sm shadow-lg shadow-[#C9A84C]/30">
@@ -327,7 +327,7 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: portrait — desktop */}
+        {/* RIGHT: portrait desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
           <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/10 ring-1 ring-gray-100 relative aspect-[3/4]">
             <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
@@ -347,7 +347,7 @@ function Hero() {
           <p className="text-[10px] text-gray-300 font-medium text-right tracking-wide">Recruiting for Barcelona · Lisbon · Athens</p>
         </div>
 
-        {/* RIGHT: portrait — mobile */}
+        {/* RIGHT: portrait mobile */}
         <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
           <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-100 relative">
             <Image src="/noelia2.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
@@ -425,7 +425,7 @@ function Approach() {
         {/* reveal-group: children stagger automatically */}
         <div ref={cardsRef} className="reveal-group grid sm:grid-cols-2 md:grid-cols-3 gap-5">
           {[
-            { n:"01", t:"I work both sides", b:"I recruit for European companies and coach candidates at the same time. I know which CVs get opened and why — because I open them every day." },
+            { n:"01", t:"I work both sides", b:"I recruit for European companies and coach candidates at the same time. I know which CVs get opened and why because I open them every day." },
             { n:"02", t:"No templates", b:"Your situation is specific. Your industry, your background, your target country. I work from that, not from a formula built for someone else." },
             { n:"03", t:"I find what is actually blocking you", b:"Usually it is one thing. One sentence on a CV. One missing keyword. One story that is not landing. That is what I look for first." },
           ].map((c, i) => (
@@ -484,7 +484,7 @@ function Services() {
                     : "bg-white border-gray-200"
                 }`}
               >
-                {/* Large watermark number — purely decorative */}
+                {/* Large watermark number purely decorative */}
                 <span
                   className="absolute -right-4 -top-4 font-serif font-bold leading-none select-none pointer-events-none"
                   style={{ fontSize: "clamp(7rem,14vw,11rem)", color: isDark ? "#C9A84C" : "#F0EBE0", opacity: isDark ? 0.12 : 1 }}
@@ -596,7 +596,7 @@ function About() {
           </h2>
           <div className="space-y-4 text-gray-400 leading-relaxed text-sm">
             <p>I am a recruiter and career coach based in Stockholm. I have a Master's in Human Resources from the European University of Valencia, and I recruit multilingual professionals for companies across Europe every week through Cross Border Talents.</p>
-            <p>The coaching started because I kept seeing the same thing. People with strong backgrounds, real experience, years of results — not getting replies. Not because they were unqualified. Because their CV was built for a different market, or their LinkedIn was invisible to European recruiters, or no one had told them how the hiring process here actually works.</p>
+            <p>The coaching started because I kept seeing the same thing. People with strong backgrounds, real experience, years of results not getting replies. Not because they were unqualified. Because their CV was built for a different market, or their LinkedIn was invisible to European recruiters, or no one had told them how the hiring process here actually works.</p>
             <p>I could see the problem clearly because I sit on the other side of it every day. So I started fixing it.</p>
             <p>I work in <strong className="text-gray-900 font-semibold">English and Spanish</strong> with professionals from all over the world.</p>
           </div>
@@ -654,7 +654,7 @@ function Testimonials() {
           </p>
         </div>
 
-        {/* Desktop carousel — 3 cards, auto-advances */}
+        {/* Desktop carousel 3 cards, auto-advances */}
         <div
           className="hidden md:grid md:grid-cols-3 gap-5 mb-8"
           onMouseEnter={() => setPaused(true)}
@@ -924,7 +924,7 @@ function FAQ() {
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-5">
             Common <span className="text-[#C9A84C]">questions</span>
           </h2>
-          <p className="text-gray-400 text-sm leading-relaxed">These come up a lot. If your situation is more specific, just message me directly — I actually reply.</p>
+          <p className="text-gray-400 text-sm leading-relaxed">These come up a lot. If your situation is more specific, just message me directly I actually reply.</p>
           <a href="#contact" className="inline-flex items-center gap-2 mt-7 bg-gray-900 text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-gray-800 transition-colors">
             Ask me directly <Arrow />
           </a>

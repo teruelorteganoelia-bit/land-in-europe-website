@@ -55,7 +55,7 @@ const STEPS = [
 const FAQS = [
   {
     q: "How is a European CV different from an American or British one?",
-    a: "Length, format, section order, level of detail — all of it is different. In Spain, Portugal and Greece, hiring managers want a clean two-page document with a short summary at the top, achievements with numbers, and clear language skills. No objective statements, no full addresses, no 'references available upon request.' I adapt your CV to the specific countries you are targeting.",
+    a: "Length, format, section order, level of detail: all of it is different. In Spain, Portugal and Greece, hiring managers want a clean two-page document with a short summary at the top, achievements with numbers, and clear language skills. No objective statements, no full addresses, no 'references available upon request.' I adapt your CV to the specific countries you are targeting.",
   },
   {
     q: "What if I am applying to multiple countries?",
