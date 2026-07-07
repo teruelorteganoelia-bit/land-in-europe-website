@@ -1121,7 +1121,17 @@ function EmailCapture() {
           What recruiters actually check before they call you. 12 things most international applicants miss. I send it straight to your inbox.
         </p>
         {status === "done" ? (
-          <p className="text-gray-900 font-semibold text-lg">On its way. Check your inbox.</p>
+          <div className="space-y-4">
+            <p className="text-gray-900 font-semibold text-lg">Here it is. Click below to download.</p>
+            <a
+              href="/european-job-search-checklist.pdf"
+              download
+              className="inline-flex items-center gap-2 bg-[#C9A84C] text-white font-bold text-sm px-8 py-4 rounded-full hover:bg-[#b8953f] transition-colors shadow-lg shadow-[#C9A84C]/20"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M3.5 6l3.5 3.5L10.5 6M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Download the checklist
+            </a>
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
             <input
