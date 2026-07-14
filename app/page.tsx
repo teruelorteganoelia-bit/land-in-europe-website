@@ -595,7 +595,7 @@ function About() {
             Hi,<br/>I'm <span className="text-[#C9A84C]">Noelia</span>
           </h2>
           <div className="space-y-4 text-gray-400 leading-relaxed text-sm">
-            <p>I am a recruiter and career coach based in Stockholm. I have a Master's in Human Resources from the European University of Valencia, and I recruit multilingual professionals for companies across Europe every week through Cross Border Talents.</p>
+            <p>I am a recruiter and career coach based in Stockholm. I have a Master's in Human Resources from the European University of Valencia, and I have worked inside recruitment placing multilingual professionals for companies across Europe.</p>
             <p>The coaching started because I kept seeing the same thing. People with strong backgrounds, real experience, years of results not getting replies. Not because they were unqualified. Because their CV was built for a different market, or their LinkedIn was invisible to European recruiters, or no one had told them how the hiring process here actually works.</p>
             <p>I could see the problem clearly because I sit on the other side of it every day. So I started fixing it.</p>
             <p>I work in <strong className="text-gray-900 font-semibold">English and Spanish</strong> with professionals from all over the world.</p>
@@ -866,7 +866,7 @@ function ForCompanies() {
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 md:mb-16 flex items-center gap-4">
           <div className="h-px flex-1 bg-white/10"/>
-          <span className="text-xs font-semibold text-white/30 uppercase tracking-[0.3em] whitespace-nowrap">Separate service · Cross Border Talents</span>
+          <span className="text-xs font-semibold text-white/30 uppercase tracking-[0.3em] whitespace-nowrap">Separate service · Multilingual Recruiting</span>
           <div className="h-px flex-1 bg-white/10"/>
         </div>
 
@@ -877,7 +877,7 @@ function ForCompanies() {
               I recruit multilingual talent <span className="text-[#C9A84C]">across Europe</span>
             </h2>
             <p className="text-white/50 leading-relaxed mb-5 text-sm">
-              Through <strong className="text-white font-semibold">Cross Border Talents</strong>, I work with companies in Barcelona, Lisbon, and Greece placing customer support and multilingual professionals. I am based in Sweden and operate remotely across these markets.
+              I work independently with companies across Europe placing multilingual professionals in customer support and sales roles. I am based in Sweden and operate remotely across these markets.
             </p>
             <p className="text-white/50 leading-relaxed mb-10 text-sm">
               This is entirely separate from career coaching. Whether you are a company looking for multilingual talent or a candidate open to new roles, reach out and I will let you know how I can help.
@@ -894,7 +894,7 @@ function ForCompanies() {
 
           <div>
             <div className="rounded-2xl overflow-hidden border border-white/10 mb-6 h-48 relative">
-              <Image src={IMG.athens} alt="European cities where Cross Border Talents places multilingual professionals" fill className="object-cover opacity-60" sizes="(max-width:1024px) 100vw, 50vw"/>
+              <Image src={IMG.athens} alt="European cities where Noelia places multilingual professionals" fill className="object-cover opacity-60" sizes="(max-width:1024px) 100vw, 50vw"/>
             </div>
             <p className="text-xs font-semibold text-white/30 uppercase tracking-[0.2em] mb-4">Currently placing native and fluent speakers of</p>
             <div className="grid grid-cols-3 gap-2.5">

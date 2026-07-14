@@ -63,7 +63,7 @@ const FAQS = [
   },
   {
     q: "Do you rewrite CVs for all industries?",
-    a: "Yes. Finance, tech, marketing, operations, creative, sales. I have placed professionals across all of these sectors through Cross Border Talents and the same principles apply.",
+    a: "Yes. Finance, tech, marketing, operations, creative, sales. I have worked with professionals across all of these sectors and the same principles apply.",
   },
   {
     q: "How long does it take?",
@@ -121,7 +121,7 @@ export default function CVRewritePage() {
             </p>
             <div className="h-px flex-1 bg-gray-200 hidden sm:block" />
             <p className="text-sm text-gray-400 text-center sm:text-right max-w-md">
-              I recruit multilingual professionals for European companies through Cross Border Talents. I know exactly what makes a recruiter stop on a CV, and what makes them skip it.
+              I have worked inside recruitment, sourcing multilingual professionals for European companies. I know exactly what makes a recruiter stop on a CV, and what makes them skip it.
             </p>
           </div>
         </section>

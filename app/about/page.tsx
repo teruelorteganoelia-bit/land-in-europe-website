@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 const CREDENTIALS = [
-  "International Recruiter at Cross Border Talents",
+  "Independent International Recruiter specializing in multilingual talent",
   "HR and recruitment background since 2023",
   "Master's in Human Resources, European University of Valencia",
   "Based in Stockholm, working across European markets",
@@ -31,7 +31,7 @@ const CREDENTIALS = [
 const FAQS = [
   {
     q: "Do you only work with people targeting Spain, Portugal and Greece?",
-    a: "No. Those are the markets I recruit for through Cross Border Talents, but the coaching and document work applies across Europe. I have worked with clients targeting the Netherlands, Germany, Sweden, France and more.",
+    a: "No. The coaching and document work applies across Europe. I have worked with clients targeting the Netherlands, Germany, Sweden, France, Spain, Portugal and more.",
   },
   {
     q: "Do I need to be based in Europe already?",
@@ -131,7 +131,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 text-gray-400 text-sm leading-relaxed">
                 <p>I have a Master's in Human Resources from the European University of Valencia. My career started in administrative and recruitment roles in Valencia, where I learned how hiring actually works from the inside.</p>
-                <p>I now work as an international recruiter through Cross Border Talents, focused on placing multilingual professionals in companies across Europe. I search for candidates, review profiles, and understand what makes a hiring manager stop and pay attention.</p>
+                <p>I have worked as an international recruiter placing multilingual professionals in companies across Europe. I searched for candidates, reviewed profiles, and learned exactly what makes a hiring manager stop and pay attention.</p>
                 <p>That recruiter perspective is exactly what I bring to every coaching session. I am not teaching theory. I am telling you what I actually see.</p>
               </div>
             </div>

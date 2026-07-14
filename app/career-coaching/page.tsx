@@ -60,7 +60,7 @@ const SERVICES = [
 const FAQS = [
   {
     q: "What makes this different from other career coaches?",
-    a: "I recruit for European companies through Cross Border Talents. I am not guessing what European recruiters want. I am one. I see both sides of the process every week, which means the advice I give is grounded in what actually happens when your application lands on a recruiter's desk.",
+    a: "I have worked inside recruitment for European companies. I am not guessing what European recruiters want. I have been one. I have seen both sides of the process, which means the advice I give is grounded in what actually happens when your application lands on a recruiter's desk.",
   },
   {
     q: "I am not in Europe yet. Can you still help me?",
@@ -168,7 +168,7 @@ export default function CareerCoachingPage() {
                 I know what European recruiters actually read.
               </h2>
               <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                Through Cross Border Talents I place multilingual professionals in companies across Barcelona, Lisbon and Athens. I screen CVs, I shortlist candidates, and I know exactly what makes a hiring manager stop and pay attention.
+                I have worked inside recruitment, placing multilingual professionals in companies across Europe. I have screened CVs, shortlisted candidates, and learned exactly what makes a hiring manager stop and pay attention.
               </p>
               <p className="text-gray-400 text-sm leading-relaxed mb-8">
                 That recruiter perspective is what I bring to every coaching session. Not generic advice. Insider knowledge from someone actively working in these markets.

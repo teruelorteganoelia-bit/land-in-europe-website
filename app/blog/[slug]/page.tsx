@@ -121,7 +121,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
               Noelia Teruel Ortega
             </h2>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
-              Career coach and international recruiter based in Stockholm. I coach international professionals targeting jobs in Europe and recruit multilingual talent for companies in Spain, Portugal and Greece through Cross Border Talents.
+              Career coach and international recruiter based in Stockholm. I help international professionals get hired in Europe through CV rewrites, LinkedIn optimization, and 1:1 coaching.
             </p>
             <Link
               href="/#contact"
