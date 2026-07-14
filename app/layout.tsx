@@ -75,7 +75,7 @@ const schemaOrg = {
   inLanguage: ["en", "es"],
   contactPoint: {
     "@type": "ContactPoint",
-    email: "teruelorteganoelia@gmail.com",
+    email: "noelia@landineuropecoaching.com",
     contactType: "customer service",
     availableLanguage: ["English", "Spanish"],
   },

@@ -1043,12 +1043,12 @@ function Contact() {
                 <textarea id="message" required name="message" value={form.message} onChange={ch} rows={5} placeholder="Where are you in your job search? What is not working? What are you targeting?" className={`${inp} resize-none`}/>
               </div>
               {status === "error" && (
-                <p className="text-red-500 text-xs">Something went wrong. Email me at <a href="mailto:teruelorteganoelia@gmail.com" className="underline">teruelorteganoelia@gmail.com</a></p>
+                <p className="text-red-500 text-xs">Something went wrong. Email me at <a href="mailto:noelia@landineuropecoaching.com" className="underline">noelia@landineuropecoaching.com</a></p>
               )}
               <button type="submit" disabled={status === "sending"} className="w-full bg-[#C9A84C] text-white font-bold py-4 rounded-xl hover:bg-[#b8953f] transition-colors disabled:opacity-50 text-sm shadow-lg shadow-[#C9A84C]/25">
                 {status === "sending" ? "Sending..." : "Send message"}
               </button>
-              <p className="text-center text-xs text-gray-300">Or email: <a href="mailto:teruelorteganoelia@gmail.com" className="underline hover:text-gray-500">teruelorteganoelia@gmail.com</a></p>
+              <p className="text-center text-xs text-gray-300">Or email: <a href="mailto:noelia@landineuropecoaching.com" className="underline hover:text-gray-500">noelia@landineuropecoaching.com</a></p>
             </form>
           )}
         </div>

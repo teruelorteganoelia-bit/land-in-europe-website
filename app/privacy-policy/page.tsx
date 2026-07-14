@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: "Who is responsible for your data",
-    body: "The data controller is Noelia Teruel Ortega, operating under the brand Land in Europe, based in Stockholm, Sweden. You can contact her at teruelorteganoelia@gmail.com with any questions about how your data is handled.",
+    body: "The data controller is Noelia Teruel Ortega, operating under the brand Land in Europe, based in Stockholm, Sweden. You can contact her at noelia@landineuropecoaching.com with any questions about how your data is handled.",
   },
   {
     title: "What data we collect and why",
@@ -19,7 +19,7 @@ const SECTIONS = [
   },
   {
     title: "Legal basis for processing",
-    body: "We process your data on the basis of your consent, given when you submit a form on this website. You can withdraw your consent at any time by contacting us at teruelorteganoelia@gmail.com.",
+    body: "We process your data on the basis of your consent, given when you submit a form on this website. You can withdraw your consent at any time by contacting us at noelia@landineuropecoaching.com.",
   },
   {
     title: "Who we share your data with",
@@ -35,7 +35,7 @@ const SECTIONS = [
   },
   {
     title: "Your rights under GDPR",
-    body: "If you are based in the European Union or European Economic Area, you have the right to access the personal data we hold about you, request that we correct or delete it, withdraw your consent at any time, and lodge a complaint with your local data protection authority. To exercise any of these rights, contact us at teruelorteganoelia@gmail.com. We will respond within 30 days.",
+    body: "If you are based in the European Union or European Economic Area, you have the right to access the personal data we hold about you, request that we correct or delete it, withdraw your consent at any time, and lodge a complaint with your local data protection authority. To exercise any of these rights, contact us at noelia@landineuropecoaching.com. We will respond within 30 days.",
   },
   {
     title: "Changes to this policy",
@@ -66,7 +66,7 @@ export default function PrivacyPolicyPage() {
               ))}
             </div>
             <div className="mt-14 pt-8 border-t border-gray-100">
-              <p className="text-gray-400 text-sm">Questions about this policy? Email <a href="mailto:teruelorteganoelia@gmail.com" className="text-gray-900 underline underline-offset-2">teruelorteganoelia@gmail.com</a></p>
+              <p className="text-gray-400 text-sm">Questions about this policy? Email <a href="mailto:noelia@landineuropecoaching.com" className="text-gray-900 underline underline-offset-2">noelia@landineuropecoaching.com</a></p>
             </div>
           </div>
         </section>
