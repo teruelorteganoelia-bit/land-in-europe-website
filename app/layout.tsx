@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/noelianew.png",
+        url: "/noeliareal.png",
         width: 800,
         height: 1000,
         alt: "Noelia Teruel Ortega, career coach and international recruiter",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: "Land in Europe | Career Coaching for International Professionals",
     description:
       "Career coaching by a working European recruiter. CV rewrites, LinkedIn optimization, and strategic job search support.",
-    images: ["/noelianew.png"],
+    images: ["/noeliareal.png"],
   },
   // #13 favicon
   icons: {
@@ -51,7 +51,7 @@ const schemaOrg = {
   description:
     "Career coaching and CV writing for international professionals looking for roles in Europe. Services include CV rewrite, LinkedIn optimization, career strategy sessions, and full coaching packages.",
   url: "https://landineuropecoaching.com",
-  image: "https://landineuropecoaching.com/noelianew.png",
+  image: "https://landineuropecoaching.com/noeliareal.png",
   founder: {
     "@type": "Person",
     name: "Noelia Teruel Ortega",
