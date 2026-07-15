@@ -4,9 +4,9 @@ import Image from "next/image";
 
 // ─── City images ──────────────────────────────────────────────────────────────
 const IMG = {
-  barcelona: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1200&q=80",
-  lisbon:    "https://images.unsplash.com/photo-1548707309-dcebeab9ea9b?auto=format&fit=crop&w=1200&q=80",
-  athens:    "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1200&q=80",
+  barcelona: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80",
+  lisbon:    "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80",
+  athens:    "https://images.unsplash.com/photo-1509356843151-3e7d96241e11?auto=format&fit=crop&w=1200&q=80",
 };
 
 const TICKER = [
@@ -335,16 +335,16 @@ function Hero() {
           </div>
           <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
             {[
-              { src: IMG.barcelona, alt: "Barcelona, Spain" },
-              { src: IMG.lisbon,    alt: "Lisbon, Portugal" },
-              { src: IMG.athens,    alt: "Athens, Greece" },
+              { src: IMG.barcelona, alt: "Switzerland" },
+              { src: IMG.lisbon,    alt: "France" },
+              { src: IMG.athens,    alt: "Sweden" },
             ].map(({ src, alt }) => (
               <div key={alt} className="flex-1 h-14 rounded-xl overflow-hidden relative">
                 <Image src={src} alt={alt} fill className="object-cover" sizes="120px"/>
               </div>
             ))}
           </div>
-          <p className="text-[10px] text-gray-300 font-medium text-right tracking-wide">Recruiting for Barcelona · Lisbon · Athens</p>
+          <p className="text-[10px] text-gray-300 font-medium text-right tracking-wide">Recruiting across Switzerland · France · Sweden · Luxembourg · UK</p>
         </div>
 
         {/* RIGHT: portrait mobile */}
