@@ -1162,7 +1162,6 @@ function EmailCapture() {
 export default function Home() {
   return (
     <main>
-      <AnnouncementBar/>
       <ScrollEffects/>
       <Navbar/>
       <Hero/>
