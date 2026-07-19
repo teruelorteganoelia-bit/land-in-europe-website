@@ -178,6 +178,51 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Viral post */}
+        <section className="py-20 px-6 bg-white border-t border-gray-100">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-4">How it started</p>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-6">
+                One post changed everything.
+              </h2>
+              <div className="space-y-4 text-gray-400 text-sm leading-relaxed">
+                <p>I posted something honest on LinkedIn about what I was seeing from the recruiter side. What makes a CV get skipped. What makes someone invisible to European recruiters.</p>
+                <p>The response was not what I expected. Hundreds of messages from professionals who had been applying for months with no replies. People who were qualified, experienced, and completely stuck.</p>
+                <p>I started answering every one. And I realised this was exactly what I wanted to do. Not because it was a business opportunity. Because I genuinely knew how to help and it made a real difference.</p>
+                <p>That is still what drives me today.</p>
+              </div>
+              <div className="flex items-center gap-6 mt-8">
+                <div className="text-center">
+                  <p className="font-serif font-bold text-3xl text-gray-900">215+</p>
+                  <p className="text-xs text-gray-400 mt-1">Likes</p>
+                </div>
+                <div className="w-px h-10 bg-gray-200"/>
+                <div className="text-center">
+                  <p className="font-serif font-bold text-3xl text-gray-900">27</p>
+                  <p className="text-xs text-gray-400 mt-1">Comments</p>
+                </div>
+                <div className="w-px h-10 bg-gray-200"/>
+                <div className="text-center">
+                  <p className="font-serif font-bold text-3xl text-gray-900">3</p>
+                  <p className="text-xs text-gray-400 mt-1">Reposts</p>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="rounded-2xl overflow-hidden shadow-2xl shadow-black/10 ring-1 ring-gray-100">
+                <Image
+                  src="/firstpostviral.png"
+                  alt="The LinkedIn post that started Land in Europe Coaching"
+                  width={500}
+                  height={600}
+                  className="w-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Testimonial */}
         <section className="py-20 px-6 bg-gray-50 border-t border-gray-100">
           <div className="max-w-3xl mx-auto text-center">
