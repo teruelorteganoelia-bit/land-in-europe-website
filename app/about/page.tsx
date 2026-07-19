@@ -22,6 +22,7 @@ export const metadata: Metadata = {
 const CREDENTIALS = [
   "Independent International Recruiter specializing in multilingual talent",
   "HR and recruitment background since 2023",
+  "Degree in Economics, University of Valencia",
   "Master's in Human Resources, European University of Valencia",
   "Based in Stockholm, working across European markets",
   "Coached 50+ professionals from 15+ nationalities",
@@ -79,9 +80,10 @@ export default function AboutPage() {
               </h1>
               <div className="space-y-5 text-gray-400 leading-relaxed text-base">
                 <p>I am a career coach and international recruiter based in Stockholm, Sweden.</p>
-                <p>I started working in HR and recruitment in 2023. Since then I have worked inside hiring processes, screened candidates, and learned exactly how companies in Europe decide who gets called and who gets skipped.</p>
-                <p>The coaching came out of what I kept seeing. Qualified professionals, real experience, years of results — not getting replies. Not because they were not good enough. Because their CV was built for a different market, or their LinkedIn was invisible to European recruiters, or nobody had explained how the process here actually works.</p>
-                <p>I could see the problem clearly because I sit on the other side of it. So I started fixing it.</p>
+                <p>I have a degree in Economics from the University of Valencia and a Master's in Human Resources from the European University of Valencia. I started working in HR and recruitment in 2023 and since then I have worked inside hiring processes, screened candidates, and learned exactly how companies in Europe decide who gets called and who gets skipped.</p>
+                <p>The coaching started by accident. I posted something honest on LinkedIn about what I was seeing from the recruiter side. The messages came flooding in. Hundreds of professionals asking for help, people who had been applying for months with no replies, people who did not understand why they were being ignored.</p>
+                <p>I realised I could actually help. Not with generic advice but with real inside knowledge of how the process works. So I started answering. One by one. And I have not stopped since.</p>
+                <p>Helping people land in Europe is genuinely what makes me happy. That is not a marketing line. It is just true.</p>
               </div>
               <div className="flex items-center gap-4 mt-10 flex-wrap">
                 <Link
@@ -130,7 +132,7 @@ export default function AboutPage() {
                 Why I can help you.
               </h2>
               <div className="space-y-4 text-gray-400 text-sm leading-relaxed">
-                <p>I have a Master's in Human Resources from the European University of Valencia. My career started in administrative and recruitment roles in Valencia, where I learned how hiring actually works from the inside.</p>
+                <p>I have a degree in Economics from the University of Valencia and a Master's in Human Resources from the European University of Valencia. My career started in administrative and recruitment roles in Valencia, where I learned how hiring actually works from the inside.</p>
                 <p>I have worked as an international recruiter placing multilingual professionals in companies across Europe. I searched for candidates, reviewed profiles, and learned exactly what makes a hiring manager stop and pay attention.</p>
                 <p>That recruiter perspective is exactly what I bring to every coaching session. I am not teaching theory. I am telling you what I actually see.</p>
               </div>
