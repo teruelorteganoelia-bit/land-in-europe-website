@@ -330,7 +330,7 @@ function Hero() {
         {/* RIGHT: portrait desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
           <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/10 ring-1 ring-gray-100 relative aspect-[3/4]">
-            <Image src="/noeliareal.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
+            <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
             <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"/>
           </div>
           <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
@@ -350,7 +350,7 @@ function Hero() {
         {/* RIGHT: portrait mobile */}
         <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
           <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-100 relative">
-            <Image src="/noeliareal.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
+            <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
           </div>
           <div className="flex gap-2">
             {[IMG.barcelona, IMG.lisbon, IMG.athens].map((src, i) => (
@@ -581,7 +581,7 @@ function About() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
         <div ref={imgRef} className="reveal relative max-w-sm mx-auto lg:mx-0 w-full">
           <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-black/8 ring-1 ring-gray-100 relative">
-            <Image src="/noeliareal.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm, Sweden" fill className="object-cover object-top" sizes="(max-width:1024px) 100vw, 50vw"/>
+            <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm, Sweden" fill className="object-cover object-top" sizes="(max-width:1024px) 100vw, 50vw"/>
           </div>
           <div className="absolute -bottom-4 left-4 right-4 max-w-[calc(24rem-2rem)] bg-gray-900 text-white rounded-xl px-5 py-4 shadow-xl">
             <p className="text-[10px] text-white/30 uppercase tracking-widest mb-0.5">Based in</p>

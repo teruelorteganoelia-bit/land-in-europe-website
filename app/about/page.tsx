@@ -107,7 +107,7 @@ export default function AboutPage() {
             <div className="relative max-w-sm mx-auto lg:mx-0 w-full">
               <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-black/8 ring-1 ring-gray-100 relative">
                 <Image
-                  src="/noeliareal.png"
+                  src="/noelia-photo.png"
                   alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm, Sweden"
                   fill
                   className="object-cover object-top"
