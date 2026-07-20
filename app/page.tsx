@@ -44,7 +44,29 @@ const STATS = [
   { v: "15+", l: "Nationalities" },
 ];
 
-const LANGUAGES = ["German","Dutch","Danish","Spanish","Italian","Portuguese","French","Finnish","Norwegian"];
+const ACTIVE_ROLES = [
+  {
+    tag: "Priority search",
+    title: "Business Development Manager – Food & Beverage",
+    location: "Switzerland · Remote-friendly",
+    markets: "France · Netherlands · Belgium · UK",
+    details: ["Technical Sales or Key Account Management background", "F&B manufacturing or industrial water treatment", "French + English mandatory · German a plus"],
+  },
+  {
+    tag: "Open search",
+    title: "Technical Sales Manager – Utilities & Industrial Water",
+    location: "Switzerland · Remote-friendly",
+    markets: "DACH · North Africa · Western Europe",
+    details: ["7+ years in technical B2B sales", "Water treatment background required", "German + French + English all mandatory"],
+  },
+  {
+    tag: "Specialist search",
+    title: "Broker – Scandinavian Government Bonds",
+    location: "Stockholm · On-site",
+    markets: "Scandinavian rates · Interdealer",
+    details: ["Established client book in Scandinavian government bonds", "Brokerage or broker-dealer background", "English C2 mandatory"],
+  },
+];
 
 const SERVICE_COLORS = [
   { bg: "#F7F4EF", number: "#C9A84C" },
@@ -870,41 +892,45 @@ function ForCompanies() {
           <div className="h-px flex-1 bg-white/10"/>
         </div>
 
-        <div ref={ref} className="reveal grid lg:grid-cols-2 gap-14 lg:gap-16 items-start">
-          <div>
+        <div ref={ref} className="reveal">
+          <div className="mb-10">
             <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-5">For companies hiring</p>
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
-              I recruit multilingual talent <span className="text-[#C9A84C]">across Europe</span>
+              Active mandates <span className="text-[#C9A84C]">right now.</span>
             </h2>
-            <p className="text-white/50 leading-relaxed mb-5 text-sm">
-              I work independently with companies across Europe placing multilingual professionals in customer support and sales roles. I am based in Sweden and operate remotely across these markets.
+            <p className="text-white/50 leading-relaxed text-sm max-w-2xl">
+              I work independently as a recruiter placing specialist profiles for European companies. These are the roles I am actively filling. If you are a company with a similar need, or a candidate who matches one of these profiles, reach out.
             </p>
-            <p className="text-white/50 leading-relaxed mb-10 text-sm">
-              This is entirely separate from career coaching. Whether you are a company looking for multilingual talent or a candidate open to new roles, reach out and I will let you know how I can help.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-gray-100 transition-colors">
-                Get started as a company <Arrow />
-              </a>
-              <a href="#contact" className="inline-flex items-center justify-center gap-2 border border-white/20 text-white/70 text-sm font-semibold px-6 py-3.5 rounded-full hover:border-white/40 hover:text-white transition-colors">
-                Get started as a candidate
-              </a>
-            </div>
           </div>
 
-          <div>
-            <div className="rounded-2xl overflow-hidden border border-white/10 mb-6 h-48 relative">
-              <Image src={IMG.athens} alt="European cities where Noelia places multilingual professionals" fill className="object-cover opacity-60" sizes="(max-width:1024px) 100vw, 50vw"/>
-            </div>
-            <p className="text-xs font-semibold text-white/30 uppercase tracking-[0.2em] mb-4">Currently placing native and fluent speakers of</p>
-            <div className="grid grid-cols-3 gap-2.5">
-              {LANGUAGES.map(l => (
-                <div key={l} className="border border-white/10 rounded-xl px-4 py-3 flex items-center gap-2 hover:border-[#C9A84C]/50 hover:bg-[#C9A84C]/8 transition-colors">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] flex-shrink-0"/>
-                  <span className="text-sm font-medium text-white/60">{l}</span>
+          <div className="grid md:grid-cols-3 gap-4 mb-10">
+            {ACTIVE_ROLES.map((r, i) => (
+              <div key={i} className="border border-white/10 rounded-2xl p-6 hover:border-[#C9A84C]/40 transition-colors flex flex-col gap-4">
+                <div>
+                  <span className="inline-block text-[10px] font-semibold text-[#C9A84C] uppercase tracking-[0.2em] bg-[#C9A84C]/10 rounded-full px-3 py-1 mb-3">{r.tag}</span>
+                  <p className="text-white font-semibold text-sm leading-snug mb-2">{r.title}</p>
+                  <p className="text-white/40 text-xs">{r.location}</p>
+                  <p className="text-white/30 text-xs">{r.markets}</p>
                 </div>
-              ))}
-            </div>
+                <ul className="space-y-1.5 mt-auto">
+                  {r.details.map((d, j) => (
+                    <li key={j} className="flex items-start gap-2">
+                      <span className="w-1 h-1 rounded-full bg-[#C9A84C]/60 mt-1.5 flex-shrink-0"/>
+                      <span className="text-white/40 text-xs leading-relaxed">{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-gray-100 transition-colors">
+              I am hiring <Arrow />
+            </a>
+            <a href="#contact" className="inline-flex items-center justify-center gap-2 border border-white/20 text-white/70 text-sm font-semibold px-6 py-3.5 rounded-full hover:border-white/40 hover:text-white transition-colors">
+              I am a candidate
+            </a>
           </div>
         </div>
       </div>
