@@ -81,9 +81,9 @@ export default function AboutPage() {
               <div className="space-y-5 text-gray-400 leading-relaxed text-base">
                 <p>I am a career coach and international recruiter based in Stockholm, Sweden.</p>
                 <p>I have a degree in Economics from the University of Valencia and a Master's in Human Resources from the European University of Valencia. I started working in HR and recruitment in 2023 and since then I have worked inside hiring processes, screened candidates, and learned exactly how companies in Europe decide who gets called and who gets skipped.</p>
-                <p>The coaching started by accident. I posted something honest on LinkedIn about what I was seeing from the recruiter side. The messages came flooding in. Hundreds of professionals asking for help, people who had been applying for months with no replies, people who did not understand why they were being ignored.</p>
-                <p>I realised I could actually help. Not with generic advice but with real inside knowledge of how the process works. So I started answering. One by one. And I have not stopped since.</p>
-                <p>Helping people land in Europe is genuinely what makes me happy. That is not a marketing line. It is just true.</p>
+                <p>The coaching was not planned. I wrote something honest on LinkedIn about how hiring really works in Europe and the messages did not stop coming. People from everywhere, all stuck, all asking the same questions.</p>
+                <p>I started answering because I could help. Not with theory. With what I actually see every day working inside recruitment. One conversation at a time.</p>
+                <p>Helping people land in Europe is genuinely what makes me happy. That is not something I say because it sounds good. It is just true.</p>
               </div>
               <div className="flex items-center gap-4 mt-10 flex-wrap">
                 <Link
@@ -187,10 +187,10 @@ export default function AboutPage() {
                 One post changed everything.
               </h2>
               <div className="space-y-4 text-gray-400 text-sm leading-relaxed">
-                <p>I posted something honest on LinkedIn about what I was seeing from the recruiter side. What makes a CV get skipped. What makes someone invisible to European recruiters.</p>
-                <p>The response was not what I expected. Hundreds of messages from professionals who had been applying for months with no replies. People who were qualified, experienced, and completely stuck.</p>
-                <p>I started answering every one. And I realised this was exactly what I wanted to do. Not because it was a business opportunity. Because I genuinely knew how to help and it made a real difference.</p>
-                <p>That is still what drives me today.</p>
+                <p>I wrote a post on LinkedIn about what I was seeing from the recruiter side. No strategy behind it. I just wanted to be honest about what actually happens when a CV lands on a desk.</p>
+                <p>I did not expect what came next. Messages from people all over the world. Professionals with real experience, strong backgrounds, years of results. All saying the same thing. They had been applying for months and nobody was replying.</p>
+                <p>I started answering every single one. And somewhere in those conversations I realised this was what I wanted to do. Not because I saw a business opportunity. Because I could actually help. And that felt like something worth doing.</p>
+                <p>Every message I answer now, I think about that moment. It has not changed.</p>
               </div>
               <div className="flex items-center gap-6 mt-8">
                 <div className="text-center">
