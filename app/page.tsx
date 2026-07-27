@@ -46,25 +46,40 @@ const STATS = [
 
 const ACTIVE_ROLES = [
   {
-    tag: "Priority search",
-    title: "Business Development Manager – Food & Beverage",
+    tag: "Priority",
+    title: "BDM – Food & Beverage",
     location: "Switzerland · Remote-friendly",
-    markets: "France · Netherlands · Belgium · UK",
-    details: ["Technical Sales or Key Account Management background", "F&B manufacturing or industrial water treatment", "French + English mandatory · German a plus"],
+    detail: "French + English · 5+ yrs B2B sales",
   },
   {
-    tag: "Open search",
-    title: "Technical Sales Manager – Utilities & Industrial Water",
+    tag: "Open",
+    title: "Technical Sales Manager – Water",
     location: "Switzerland · Remote-friendly",
-    markets: "DACH · North Africa · Western Europe",
-    details: ["7+ years in technical B2B sales", "Water treatment background required", "German + French + English all mandatory"],
+    detail: "DE + FR + EN · Water treatment background",
   },
   {
-    tag: "Specialist search",
+    tag: "Open",
+    title: "Senior BDM – Electronic Modules",
+    location: "Neuchâtel, Switzerland · On-site",
+    detail: "English + German · Semiconductor / IoT",
+  },
+  {
+    tag: "Open",
+    title: "Sales & BDM – Semiconductor (RFID/BLE/NFC)",
+    location: "Marin-Epagnier, Switzerland · On-site",
+    detail: "German + English · 10+ yrs electronics sales",
+  },
+  {
+    tag: "Open",
+    title: "Technical Sales Support – Precision Metallurgy",
+    location: "Le Locle, Switzerland · On-site",
+    detail: "French + English · Engineering degree",
+  },
+  {
+    tag: "Specialist",
     title: "Broker – Scandinavian Government Bonds",
     location: "Stockholm · On-site",
-    markets: "Scandinavian rates · Interdealer",
-    details: ["Established client book in Scandinavian government bonds", "Brokerage or broker-dealer background", "English C2 mandatory"],
+    detail: "Existing client book required · English C2",
   },
 ];
 
@@ -903,26 +918,19 @@ function ForCompanies() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 mb-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
             {ACTIVE_ROLES.map((r, i) => (
-              <div key={i} className="border border-white/10 rounded-2xl p-6 hover:border-[#C9A84C]/40 transition-colors flex flex-col gap-4">
-                <div>
-                  <span className="inline-block text-[10px] font-semibold text-[#C9A84C] uppercase tracking-[0.2em] bg-[#C9A84C]/10 rounded-full px-3 py-1 mb-3">{r.tag}</span>
-                  <p className="text-white font-semibold text-sm leading-snug mb-2">{r.title}</p>
-                  <p className="text-white/40 text-xs">{r.location}</p>
-                  <p className="text-white/30 text-xs">{r.markets}</p>
-                </div>
-                <ul className="space-y-1.5 mt-auto">
-                  {r.details.map((d, j) => (
-                    <li key={j} className="flex items-start gap-2">
-                      <span className="w-1 h-1 rounded-full bg-[#C9A84C]/60 mt-1.5 flex-shrink-0"/>
-                      <span className="text-white/40 text-xs leading-relaxed">{d}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div key={i} className="border border-white/10 rounded-xl p-5 hover:border-[#C9A84C]/40 transition-colors">
+                <span className="inline-block text-[10px] font-semibold text-[#C9A84C] uppercase tracking-[0.15em] bg-[#C9A84C]/10 rounded-full px-2.5 py-0.5 mb-3">{r.tag}</span>
+                <p className="text-white font-semibold text-sm leading-snug mb-1.5">{r.title}</p>
+                <p className="text-white/40 text-xs mb-1">{r.location}</p>
+                <p className="text-white/30 text-xs">{r.detail}</p>
               </div>
             ))}
           </div>
+          <a href="/jobs" className="inline-flex items-center gap-2 text-[#C9A84C] text-sm font-semibold hover:text-[#e8c96d] transition-colors mb-10">
+            See full job descriptions <Arrow />
+          </a>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 text-sm font-semibold px-6 py-3.5 rounded-full hover:bg-gray-100 transition-colors">
