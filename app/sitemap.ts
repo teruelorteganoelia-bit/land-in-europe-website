@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/linkedin-optimization`, priority: 0.9, changeFrequency: "monthly" as const },
     { url: `${base}/career-coaching`, priority: 0.9, changeFrequency: "monthly" as const },
     { url: `${base}/blog`, priority: 0.8, changeFrequency: "weekly" as const },
+    { url: `${base}/jobs`, priority: 0.9, changeFrequency: "weekly" as const },
   ];
 
   const blogPages = POSTS.map((post) => ({
