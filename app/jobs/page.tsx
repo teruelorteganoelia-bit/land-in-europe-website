@@ -329,14 +329,16 @@ export default function JobsPage() {
                     <div className="bg-gray-50 rounded-xl border border-gray-100 p-5">
                       <p className="text-xs font-semibold text-gray-900 mb-1">How to apply</p>
                       <p className="text-gray-400 text-xs leading-relaxed mb-4">
-                        Send me the role title, a short note on your background, and your CV. I review every application personally and reply within 48 hours.
+                        Send your CV and a short note about your background to{" "}
+                        <span className="text-gray-700 font-medium">noelia@landineuropecoaching.com</span>{" "}
+                        with the role title in the subject line. I review every application personally and reply within 48 hours.
                       </p>
-                      <Link
-                        href="/#contact"
+                      <a
+                        href={`mailto:noelia@landineuropecoaching.com?subject=Application – ${role.title}`}
                         className="inline-flex items-center gap-2 bg-gray-900 text-white text-xs font-semibold px-5 py-3 rounded-full hover:bg-[#C9A84C] transition-colors"
                       >
-                        Apply for this role <Arrow />
-                      </Link>
+                        Send your CV <Arrow />
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -352,16 +354,19 @@ export default function JobsPage() {
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-gray-900 mb-6 leading-tight">
               Send me your profile anyway.
             </h2>
-            <p className="text-gray-400 text-sm leading-relaxed mb-10 max-w-xl mx-auto">
+            <p className="text-gray-400 text-sm leading-relaxed mb-3 max-w-xl mx-auto">
               I work with companies on new mandates regularly. If your background is strong and you are open to specialist roles in Europe, send me your CV and I will keep you in mind when the right opportunity comes in.
             </p>
+            <p className="text-gray-300 text-sm mb-8">
+              <span className="font-medium text-gray-500">noelia@landineuropecoaching.com</span>
+            </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href="/#contact"
+              <a
+                href="mailto:noelia@landineuropecoaching.com?subject=Spontaneous application – open to opportunities in Europe"
                 className="inline-flex items-center justify-center gap-2 bg-gray-900 text-white font-semibold text-sm px-8 py-4 rounded-full hover:bg-[#C9A84C] transition-colors"
               >
-                Send your profile <Arrow />
-              </Link>
+                Send your CV <Arrow />
+              </a>
               <Link
                 href="/career-coaching"
                 className="inline-flex items-center justify-center gap-2 border border-gray-200 text-gray-600 font-semibold text-sm px-8 py-4 rounded-full hover:border-gray-400 transition-colors"
