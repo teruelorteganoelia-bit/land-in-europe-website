@@ -194,7 +194,7 @@ function ScrollEffects() {
 }
 
 // ─── Animated stat counter ────────────────────────────────────────────────────
-function StatCounter({ value, label }: { value: string; label: string }) {
+function StatCounter({ value, label, dark = false }: { value: string; label: string; dark?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const [display, setDisplay] = useState("0");
 
@@ -225,8 +225,8 @@ function StatCounter({ value, label }: { value: string; label: string }) {
 
   return (
     <div ref={ref}>
-      <p className="font-serif text-3xl sm:text-4xl font-bold text-gray-900">{display}</p>
-      <p className="text-xs text-gray-400 mt-0.5 font-medium">{label}</p>
+      <p className={`font-serif text-3xl sm:text-4xl font-light ${dark ? "text-white" : "text-gray-900"}`}>{display}</p>
+      <p className={`text-xs mt-0.5 font-medium ${dark ? "text-white/35" : "text-gray-400"}`}>{label}</p>
     </div>
   );
 }
@@ -291,37 +291,39 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const [sc, setSc] = useState(false);
   useEffect(() => {
-    const fn = () => setSc(window.scrollY > 40);
+    const fn = () => setSc(window.scrollY > 60);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
   const links = [["Services","#services"],["Package","#full-package"],["CV Rewrite","/cv-rewrite"],["LinkedIn","/linkedin-optimization"],["Jobs","/jobs"],["About","/about"],["Blog","/blog"]] as const;
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${sc ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-100" : "bg-transparent"}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${sc ? "bg-white/97 backdrop-blur-xl shadow-sm border-b border-gray-100" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#" className="text-base font-bold text-gray-900 tracking-tight flex-shrink-0">Land in Europe</a>
+        <a href="#" className={`text-base font-bold tracking-tight flex-shrink-0 transition-colors duration-300 ${sc ? "text-gray-900" : "text-white"}`}>
+          Land in Europe
+        </a>
         <nav className="hidden md:flex items-center gap-7">
           {links.map(([l,h]) => (
-            <a key={h} href={h} className="text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors">{l}</a>
+            <a key={h} href={h} className={`text-sm font-medium transition-colors duration-300 ${sc ? "text-gray-400 hover:text-gray-900" : "text-white/60 hover:text-white"}`}>{l}</a>
           ))}
         </nav>
-        <a href="#contact" className="hidden md:inline-flex items-center gap-1.5 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-gray-800 transition-colors flex-shrink-0">
+        <a href="#contact" className={`hidden md:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 flex-shrink-0 ${sc ? "bg-gray-900 text-white hover:bg-gray-800" : "bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm"}`}>
           Get started <Arrow />
         </a>
         <button className="md:hidden p-1" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"}>
           <div className="w-5 flex flex-col gap-[5px]">
-            <span className={`h-0.5 bg-gray-900 transition-all ${open ? "rotate-45 translate-y-[7px]" : ""}`}/>
-            <span className={`h-0.5 bg-gray-900 transition-opacity ${open ? "opacity-0" : ""}`}/>
-            <span className={`h-0.5 bg-gray-900 transition-all ${open ? "-rotate-45 -translate-y-[7px]" : ""}`}/>
+            <span className={`h-0.5 transition-all ${sc ? "bg-gray-900" : "bg-white"} ${open ? "rotate-45 translate-y-[7px]" : ""}`}/>
+            <span className={`h-0.5 transition-opacity ${sc ? "bg-gray-900" : "bg-white"} ${open ? "opacity-0" : ""}`}/>
+            <span className={`h-0.5 transition-all ${sc ? "bg-gray-900" : "bg-white"} ${open ? "-rotate-45 -translate-y-[7px]" : ""}`}/>
           </div>
         </button>
       </div>
       {open && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-5 flex flex-col gap-5">
+        <div className="md:hidden bg-[#0A0B0D] border-t border-white/10 px-6 py-5 flex flex-col gap-5">
           {links.map(([l,h]) => (
-            <a key={h} href={h} className="text-sm font-medium text-gray-500" onClick={() => setOpen(false)}>{l}</a>
+            <a key={h} href={h} className="text-sm font-medium text-white/60" onClick={() => setOpen(false)}>{l}</a>
           ))}
-          <a href="#contact" className="bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-full text-center mt-1" onClick={() => setOpen(false)}>Get started</a>
+          <a href="#contact" className="bg-[#C9A84C] text-black text-sm font-bold px-5 py-3 rounded-full text-center mt-1" onClick={() => setOpen(false)}>Get started</a>
         </div>
       )}
     </header>
@@ -332,43 +334,49 @@ function Navbar() {
 function Hero() {
   const leftRef = useReveal();
   return (
-    <section className="bg-white min-h-screen flex flex-col justify-center overflow-hidden pt-16">
-      <div className="max-w-7xl mx-auto w-full px-6 grid lg:grid-cols-2 gap-0 lg:gap-16 items-center py-16 lg:py-24">
+    <section className="bg-[#0A0B0D] min-h-screen flex flex-col justify-center overflow-hidden pt-16 relative">
+      {/* Subtle radial glow behind photo */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-[#C9A84C]/4 to-transparent"/>
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"/>
+      </div>
+
+      <div className="max-w-7xl mx-auto w-full px-6 grid lg:grid-cols-2 gap-0 lg:gap-16 items-center py-16 lg:py-24 relative z-10">
 
         {/* LEFT */}
         <div ref={leftRef} className="reveal flex flex-col justify-center">
           <div className="flex items-center gap-3 mb-10">
             <span className="w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse" aria-hidden="true"/>
-            <span className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em]">Career Coach · International Recruiter</span>
+            <span className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.25em]">Career Coach · International Recruiter</span>
           </div>
-          <h1 className="font-serif text-[clamp(3rem,6vw,6.5rem)] font-bold text-gray-900 leading-[1.02] mb-8">
+          <h1 className="font-serif text-[clamp(3rem,6vw,6.5rem)] font-light text-white leading-[1.02] mb-8">
             You have the<br/>experience.<br/>
-            <span className="text-[#C9A84C]">Let Europe<br/>see it.</span>
+            <span className="italic text-[#C9A84C]">Let Europe<br/>see it.</span>
           </h1>
-          <p className="text-base sm:text-lg text-gray-400 leading-relaxed max-w-md mb-8">
+          <p className="text-base sm:text-lg text-white/45 leading-relaxed max-w-md mb-8">
             I help international professionals get hired in Europe. I work in recruitment. I know what happens when your application lands on a desk. And I know exactly why most of them get skipped.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-white font-bold px-7 py-4 rounded-full hover:bg-[#b8953f] transition-colors text-sm shadow-lg shadow-[#C9A84C]/30">
+            <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-black font-bold px-7 py-4 rounded-full hover:bg-[#e8c96d] transition-colors text-sm shadow-xl shadow-[#C9A84C]/20">
               Get your free diagnosis
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </a>
-            <a href="#services" className="inline-flex items-center justify-center gap-2 border border-gray-200 text-gray-600 font-semibold px-7 py-4 rounded-full hover:border-gray-300 hover:text-gray-900 transition-colors text-sm">
+            <a href="#services" className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/60 font-semibold px-7 py-4 rounded-full hover:border-white/30 hover:text-white transition-colors text-sm">
               See services
             </a>
           </div>
-          <div className="flex gap-8 sm:gap-10 items-center border-t border-gray-100 pt-8 mt-12">
+          <div className="flex gap-8 sm:gap-10 items-center border-t border-white/8 pt-8 mt-12">
             {STATS.map(({ v, l }) => (
-              <StatCounter key={l} value={v} label={l} />
+              <StatCounter key={l} value={v} label={l} dark />
             ))}
           </div>
         </div>
 
         {/* RIGHT: portrait desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
-          <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/10 ring-1 ring-gray-100 relative aspect-[3/4]">
+          <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8 relative aspect-[3/4]">
             <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"/>
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0B0D]/60 to-transparent"/>
           </div>
           <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
             {[
@@ -376,17 +384,17 @@ function Hero() {
               { src: IMG.lisbon,    alt: "France" },
               { src: IMG.athens,    alt: "Sweden" },
             ].map(({ src, alt }) => (
-              <div key={alt} className="flex-1 h-14 rounded-xl overflow-hidden relative">
+              <div key={alt} className="flex-1 h-14 rounded-xl overflow-hidden relative ring-1 ring-white/5">
                 <Image src={src} alt={alt} fill className="object-cover" sizes="120px"/>
               </div>
             ))}
           </div>
-          <p className="text-[10px] text-gray-300 font-medium text-right tracking-wide">Recruiting across Switzerland · France · Sweden · Luxembourg · UK</p>
+          <p className="text-[10px] text-white/20 font-medium text-right tracking-widest uppercase">Recruiting across Switzerland · France · Sweden · Luxembourg · UK</p>
         </div>
 
         {/* RIGHT: portrait mobile */}
         <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
-          <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-100 relative">
+          <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-white/8 relative">
             <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
           </div>
           <div className="flex gap-2">
