@@ -6,16 +6,21 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://landineuropecoaching.com"),
   title: "Land in Europe | Career Coaching & Executive Recruiting for Europe",
   description:
-    "Get hired in Europe faster. Career coaching and CV rewrites by a working European recruiter. LinkedIn optimization, job search strategy, and multilingual executive recruiting across Switzerland, France, Sweden, and the UK.",
+    "Jobbcoach och karriärcoach i Stockholm. Career coaching and CV rewrites by a working European recruiter. LinkedIn optimization, job search strategy, and multilingual executive recruiting across Switzerland, France, Sweden, and the UK.",
   keywords:
-    "career coach Europe, CV writing Europe, LinkedIn optimization, international recruiter Europe, job search Europe, expat career coach, executive recruiter Switzerland, recruiter France, recruiter Sweden, career coaching internationals, multilingual recruiter, career coach Stockholm",
+    "career coach Europe, jobbcoach Stockholm, karriärcoach Sverige, jobbcoach, karriärvägledning, CV writing Europe, LinkedIn optimization, international recruiter Europe, job search Europe, expat career coach, executive recruiter Switzerland, recruiter France, recruiter Sweden, career coaching internationals, multilingual recruiter, career coach Stockholm, jobbsökning Europa",
   alternates: {
     canonical: "https://landineuropecoaching.com",
+    languages: {
+      "en": "https://landineuropecoaching.com",
+      "sv": "https://landineuropecoaching.com",
+      "x-default": "https://landineuropecoaching.com",
+    },
   },
   openGraph: {
     title: "Land in Europe | Career Coaching & Executive Recruiting for Europe",
     description:
-      "Get hired in Europe faster. Career coaching and executive recruiting by a working European recruiter based in Stockholm.",
+      "Jobbcoach & karriärcoach i Stockholm. Career coaching and executive recruiting by a working European recruiter based in Stockholm, Sweden.",
     type: "website",
     url: "https://landineuropecoaching.com",
     siteName: "Land in Europe",
@@ -33,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Land in Europe | Career Coaching & Executive Recruiting",
     description:
-      "Get hired in Europe faster. Career coaching and executive recruiting by a working European recruiter based in Stockholm.",
+      "Jobbcoach i Stockholm. Career coaching and executive recruiting by a working European recruiter based in Stockholm.",
     images: ["/noelia-photo.png"],
   },
   icons: {
@@ -45,12 +50,29 @@ export const metadata: Metadata = {
 // #10 Schema.org structured data
 const schemaOrg = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
+  "@type": ["ProfessionalService", "LocalBusiness"],
   name: "Land in Europe",
+  alternateName: "Jobbcoach Stockholm | Land in Europe",
   description:
-    "Career coaching, CV rewriting, and executive recruiting for international professionals in Europe. Specialising in multilingual placements across Switzerland, France, Sweden, Luxembourg, and the UK.",
+    "Jobbcoach och karriärcoach i Stockholm. Career coaching, CV rewriting, and executive recruiting for international professionals in Europe. Specialising in multilingual placements across Switzerland, France, Sweden, Luxembourg, and the UK.",
   url: "https://landineuropecoaching.com",
   image: "https://landineuropecoaching.com/noelia-photo.png",
+  logo: "https://landineuropecoaching.com/logo.png",
+  telephone: "+46769763498",
+  email: "noelia@landineuropecoaching.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Stockholm",
+    addressRegion: "Stockholm",
+    addressCountry: "SE",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 59.3293,
+    longitude: 18.0686,
+  },
+  hasMap: "https://maps.google.com/?q=Stockholm,Sweden",
+  priceRange: "€€",
   founder: {
     "@type": "Person",
     name: "Noelia Teruel Ortega",
@@ -72,24 +94,30 @@ const schemaOrg = {
   ],
   serviceType: [
     "Career Coaching",
+    "Jobbcoach",
+    "Karriärcoach",
     "CV Writing",
     "LinkedIn Optimization",
     "Job Search Strategy",
     "Executive Recruiting",
     "Multilingual Talent Placement",
   ],
-  inLanguage: ["en", "es"],
+  inLanguage: ["en", "es", "sv"],
   contactPoint: {
     "@type": "ContactPoint",
+    telephone: "+46769763498",
     email: "noelia@landineuropecoaching.com",
     contactType: "customer service",
-    availableLanguage: ["English", "Spanish"],
+    availableLanguage: ["English", "Spanish", "Swedish"],
   },
+  sameAs: [
+    "https://www.linkedin.com/in/noelia-teruel-ortega/",
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en-SE" className="scroll-smooth">
       <head>
         <script
           type="application/ld+json"

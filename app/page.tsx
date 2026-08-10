@@ -151,6 +151,8 @@ const FAQS = [
     a:"Most clients start hearing back within two to four weeks of making the changes. Some faster. It depends on your sector and how active the market is for your profile." },
   { q:"Do you work in Spanish?",
     a:"Yes. English and Spanish, whichever feels more comfortable. Just message me in whatever language you prefer." },
+  { q:"Är du en jobbcoach i Stockholm?",
+    a:"Ja, jag är karriärcoach och jobbcoach baserad i Stockholm. Jag arbetar med internationella proffs som vill hitta jobb i Europa. Jag hjälper med CV, LinkedIn och jobbsökning på den europeiska marknaden. Kontakta mig gärna på svenska." },
 ];
 
 // ─── Scroll progress bar + floating CTA ──────────────────────────────────────
@@ -1107,8 +1109,8 @@ function Footer() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-white/8">
           <div>
             <p className="text-base font-bold text-white mb-1">Land in Europe</p>
-            <p className="text-xs text-white/30">Career Coaching for International Professionals</p>
-            <p className="text-xs text-white/20 mt-1">Based in Stockholm, Sweden · Recruiting for Spain, Portugal and Greece</p>
+            <p className="text-xs text-white/30">Career Coaching & Jobbcoach · Stockholm, Sweden</p>
+            <p className="text-xs text-white/20 mt-1">Karriärcoach Stockholm · International Recruiter · Executive Recruiting Europe</p>
           </div>
           <nav className="flex flex-wrap gap-6 md:gap-8">
             {[["Services","#services"],["About","#about"],["Testimonials","#testimonials"],["FAQ","#faq"],["Contact","#contact"]].map(([l,h]) => (
