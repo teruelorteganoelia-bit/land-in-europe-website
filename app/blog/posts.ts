@@ -443,5 +443,7 @@ export const POSTS: Post[] = [
     ],
   },
 ];
+
+export function getPost(slug: string): Post | undefined {
   return POSTS.find((p) => p.slug === slug);
 }
