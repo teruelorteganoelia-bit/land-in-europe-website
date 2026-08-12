@@ -155,68 +155,6 @@ const FAQS = [
     a:"Ja, jag är karriärcoach och jobbcoach baserad i Stockholm. Jag arbetar med internationella proffs som vill hitta jobb i Europa. Jag hjälper med CV, LinkedIn och jobbsökning på den europeiska marknaden. Kontakta mig gärna på svenska." },
 ];
 
-// ─── Custom cursor ────────────────────────────────────────────────────────────
-function CustomCursor() {
-  useEffect(() => {
-    const ring = document.getElementById("cursor-ring");
-    const dot  = document.getElementById("cursor-dot");
-    if (!ring || !dot) return;
-
-    let rx = 0, ry = 0, mx = 0, my = 0;
-    let raf: number;
-
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-    const tick = () => {
-      rx = lerp(rx, mx, 0.12);
-      ry = lerp(ry, my, 0.12);
-      ring.style.left = `${rx}px`;
-      ring.style.top  = `${ry}px`;
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = `${e.clientX}px`;
-      dot.style.top  = `${e.clientY}px`;
-      document.body.classList.remove("cursor-hidden");
-    };
-
-    const onOver = (e: MouseEvent) => {
-      const t = e.target as HTMLElement;
-      if (t.closest("a, button, [data-magnetic]")) {
-        document.body.classList.add("cursor-hover");
-      } else {
-        document.body.classList.remove("cursor-hover");
-      }
-    };
-
-    const onLeave = () => document.body.classList.add("cursor-hidden");
-    const onEnter = () => document.body.classList.remove("cursor-hidden");
-
-    document.addEventListener("mousemove", onMove, { passive: true });
-    document.addEventListener("mouseover", onOver, { passive: true });
-    document.addEventListener("mouseleave", onLeave);
-    document.addEventListener("mouseenter", onEnter);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseover", onOver);
-      document.removeEventListener("mouseleave", onLeave);
-      document.removeEventListener("mouseenter", onEnter);
-    };
-  }, []);
-
-  return (
-    <>
-      <div id="cursor-ring" aria-hidden="true"/>
-      <div id="cursor-dot"  aria-hidden="true"/>
-    </>
-  );
-}
-
 // ─── Magnetic button wrapper ──────────────────────────────────────────────────
 function Magnetic({ children, className = "", strength = 0.35 }: { children: React.ReactNode; className?: string; strength?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -1323,7 +1261,6 @@ function EmailCapture() {
 export default function Home() {
   return (
     <main>
-      <CustomCursor/>
       <ScrollEffects/>
       <Navbar/>
       <Hero/>
