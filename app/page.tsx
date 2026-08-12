@@ -155,6 +155,92 @@ const FAQS = [
     a:"Ja, jag är karriärcoach och jobbcoach baserad i Stockholm. Jag arbetar med internationella proffs som vill hitta jobb i Europa. Jag hjälper med CV, LinkedIn och jobbsökning på den europeiska marknaden. Kontakta mig gärna på svenska." },
 ];
 
+// ─── Custom cursor ────────────────────────────────────────────────────────────
+function CustomCursor() {
+  useEffect(() => {
+    const ring = document.getElementById("cursor-ring");
+    const dot  = document.getElementById("cursor-dot");
+    if (!ring || !dot) return;
+
+    let rx = 0, ry = 0, mx = 0, my = 0;
+    let raf: number;
+
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+    const tick = () => {
+      rx = lerp(rx, mx, 0.12);
+      ry = lerp(ry, my, 0.12);
+      ring.style.left = `${rx}px`;
+      ring.style.top  = `${ry}px`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    const onMove = (e: MouseEvent) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = `${e.clientX}px`;
+      dot.style.top  = `${e.clientY}px`;
+      document.body.classList.remove("cursor-hidden");
+    };
+
+    const onOver = (e: MouseEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.closest("a, button, [data-magnetic]")) {
+        document.body.classList.add("cursor-hover");
+      } else {
+        document.body.classList.remove("cursor-hover");
+      }
+    };
+
+    const onLeave = () => document.body.classList.add("cursor-hidden");
+    const onEnter = () => document.body.classList.remove("cursor-hidden");
+
+    document.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseover", onOver, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("mouseenter", onEnter);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("mouseenter", onEnter);
+    };
+  }, []);
+
+  return (
+    <>
+      <div id="cursor-ring" aria-hidden="true"/>
+      <div id="cursor-dot"  aria-hidden="true"/>
+    </>
+  );
+}
+
+// ─── Magnetic button wrapper ──────────────────────────────────────────────────
+function Magnetic({ children, className = "", strength = 0.35 }: { children: React.ReactNode; className?: string; strength?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const onMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width / 2);
+    const dy = e.clientY - (r.top  + r.height / 2);
+    el.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
+  };
+
+  const onLeave = () => {
+    if (ref.current) ref.current.style.transform = "translate(0,0)";
+  };
+
+  return (
+    <div ref={ref} className={`magnetic ${className}`} onMouseMove={onMove} onMouseLeave={onLeave}>
+      {children}
+    </div>
+  );
+}
+
 // ─── Scroll progress bar + floating CTA ──────────────────────────────────────
 function ScrollEffects() {
   useEffect(() => {
@@ -175,10 +261,12 @@ function ScrollEffects() {
     <>
       <div id="scroll-bar" aria-hidden="true"/>
       <div id="float-cta">
-        <a href="#contact" className="flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-full shadow-xl hover:bg-[#C9A84C] transition-colors duration-300">
-          Get started
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        </a>
+        <Magnetic>
+          <a href="#contact" className="flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-full shadow-xl hover:bg-[#C9A84C] transition-colors duration-300">
+            Get started
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6h9M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </a>
+        </Magnetic>
       </div>
       <a
         href="https://wa.me/46769763498"
@@ -334,40 +422,63 @@ function Navbar() {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function Hero() {
-  const leftRef = useReveal();
+  const photoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = photoRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const y = window.scrollY;
+      el.style.transform = `translateY(${y * 0.12}px)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <section className="bg-[#0A0B0D] min-h-screen flex flex-col justify-center overflow-hidden pt-16 relative">
-      {/* Subtle radial glow behind photo */}
+      {/* Gold ambient glow */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-[#C9A84C]/4 to-transparent"/>
+        <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-[#C9A84C]/5 to-transparent"/>
+        <div className="absolute right-1/4 top-1/3 w-72 h-72 rounded-full bg-[#C9A84C]/3 blur-[120px]"/>
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"/>
       </div>
 
       <div className="max-w-7xl mx-auto w-full px-6 grid lg:grid-cols-2 gap-0 lg:gap-16 items-center py-16 lg:py-24 relative z-10">
 
         {/* LEFT */}
-        <div ref={leftRef} className="reveal flex flex-col justify-center">
-          <div className="flex items-center gap-3 mb-10">
+        <div className="flex flex-col justify-center">
+          <div className="hero-fade hero-fade-1 flex items-center gap-3 mb-10">
             <span className="w-2 h-2 rounded-full bg-[#C9A84C] animate-pulse" aria-hidden="true"/>
             <span className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.25em]">Career Coach · International Recruiter</span>
           </div>
+
           <h1 className="font-serif text-[clamp(3rem,6vw,6.5rem)] font-light text-white leading-[1.02] mb-8">
-            You have the<br/>experience.<br/>
-            <span className="italic text-[#C9A84C]">Let Europe<br/>see it.</span>
+            <span className="hero-line"><span>You have the</span></span>
+            <span className="hero-line"><span>experience.</span></span>
+            <span className="hero-line italic text-[#C9A84C]"><span>Let Europe</span></span>
+            <span className="hero-line italic text-[#C9A84C]"><span>see it.</span></span>
           </h1>
-          <p className="text-base sm:text-lg text-white/45 leading-relaxed max-w-md mb-8">
+
+          <p className="hero-fade hero-fade-2 text-base sm:text-lg text-white/45 leading-relaxed max-w-md mb-8">
             I help international professionals get hired in Europe. I work in recruitment. I know what happens when your application lands on a desk. And I know exactly why most of them get skipped.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-black font-bold px-7 py-4 rounded-full hover:bg-[#e8c96d] transition-colors text-sm shadow-xl shadow-[#C9A84C]/20">
-              Get your free diagnosis
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </a>
-            <a href="#services" className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/60 font-semibold px-7 py-4 rounded-full hover:border-white/30 hover:text-white transition-colors text-sm">
-              See services
-            </a>
+
+          <div className="hero-fade hero-fade-3 flex flex-col sm:flex-row gap-3">
+            <Magnetic>
+              <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-black font-bold px-7 py-4 rounded-full hover:bg-[#e8c96d] transition-colors text-sm shadow-xl shadow-[#C9A84C]/25">
+                Get your free diagnosis
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href="#services" className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/60 font-semibold px-7 py-4 rounded-full hover:border-white/30 hover:text-white transition-colors text-sm">
+                See services
+              </a>
+            </Magnetic>
           </div>
-          <div className="flex gap-8 sm:gap-10 items-center border-t border-white/8 pt-8 mt-12">
+
+          <div className="hero-fade hero-fade-3 flex gap-8 sm:gap-10 items-center border-t border-white/8 pt-8 mt-12">
             {STATS.map(({ v, l }) => (
               <StatCounter key={l} value={v} label={l} dark />
             ))}
@@ -377,8 +488,10 @@ function Hero() {
         {/* RIGHT: portrait desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
           <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8 relative aspect-[3/4]">
-            <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top" priority sizes="(max-width:1280px) 40vw, 420px"/>
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0B0D]/60 to-transparent"/>
+            <div ref={photoRef} className="absolute inset-0 will-change-transform">
+              <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top scale-[1.08]" priority sizes="(max-width:1280px) 40vw, 420px"/>
+            </div>
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0B0D]/60 to-transparent pointer-events-none"/>
           </div>
           <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
             {[
@@ -855,9 +968,11 @@ function IrresistibleOffer() {
               <p className="text-white/25 text-xs mb-0.5">Total standalone value</p>
               <p className="text-white/35 text-2xl font-bold line-through">€1,017+</p>
             </div>
-            <a href="#contact" className="inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-8 py-4 rounded-full hover:bg-[#e8c96d] transition-colors shadow-lg shadow-[#C9A84C]/20">
-              Apply for a spot <Arrow/>
-            </a>
+            <Magnetic>
+              <a href="#contact" className="inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-8 py-4 rounded-full hover:bg-[#e8c96d] transition-colors shadow-lg shadow-[#C9A84C]/20">
+                Apply for a spot <Arrow/>
+              </a>
+            </Magnetic>
           </div>
         </div>
 
@@ -894,9 +1009,11 @@ function IrresistibleOffer() {
 
         {/* Final CTA */}
         <div className="mt-14 text-center">
-          <a href="#contact" className="inline-flex items-center gap-2.5 bg-[#C9A84C] text-black font-bold text-base px-10 py-5 rounded-full hover:bg-[#e8c96d] transition-colors shadow-xl shadow-[#C9A84C]/20">
-            Apply for a spot <Arrow/>
-          </a>
+          <Magnetic>
+            <a href="#contact" className="inline-flex items-center gap-2.5 bg-[#C9A84C] text-black font-bold text-base px-10 py-5 rounded-full hover:bg-[#e8c96d] transition-colors shadow-xl shadow-[#C9A84C]/20">
+              Apply for a spot <Arrow/>
+            </a>
+          </Magnetic>
           <p className="text-white/20 text-xs mt-4">Limited to 8 clients per month · 100% personalised</p>
         </div>
 
@@ -1206,6 +1323,7 @@ function EmailCapture() {
 export default function Home() {
   return (
     <main>
+      <CustomCursor/>
       <ScrollEffects/>
       <Navbar/>
       <Hero/>

@@ -28,6 +28,74 @@ body {
 .border-gold { border-color: #C9A84C; }
 .ring-gold { --tw-ring-color: #C9A84C; }
 
+/* ── Custom cursor ───────────────────────────────────────────────────────────── */
+@media (pointer: fine) {
+  * { cursor: none !important; }
+}
+#cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(201,168,76,0.55);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease, opacity 0.2s ease;
+  will-change: transform;
+  mix-blend-mode: normal;
+}
+#cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 5px; height: 5px;
+  background: #C9A84C;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  transition: opacity 0.2s ease, width 0.15s ease, height 0.15s ease;
+}
+body.cursor-hover #cursor-ring {
+  width: 56px; height: 56px;
+  border-color: rgba(201,168,76,0.85);
+  background: rgba(201,168,76,0.07);
+}
+body.cursor-hidden #cursor-ring,
+body.cursor-hidden #cursor-dot { opacity: 0; }
+
+/* ── Hero text reveal ────────────────────────────────────────────────────────── */
+@keyframes heroLineIn {
+  from { opacity: 0; transform: translateY(32px) skewY(1.5deg); clip-path: inset(100% 0 0 0); }
+  to   { opacity: 1; transform: translateY(0)   skewY(0deg);    clip-path: inset(0% 0 0 0); }
+}
+.hero-line {
+  display: block;
+  overflow: hidden;
+}
+.hero-line span {
+  display: block;
+  opacity: 0;
+  animation: heroLineIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.hero-line:nth-child(1) span { animation-delay: 0.1s; }
+.hero-line:nth-child(2) span { animation-delay: 0.22s; }
+.hero-line:nth-child(3) span { animation-delay: 0.34s; }
+.hero-line:nth-child(4) span { animation-delay: 0.46s; }
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-fade { opacity: 0; animation: heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
+.hero-fade-1 { animation-delay: 0.6s; }
+.hero-fade-2 { animation-delay: 0.75s; }
+.hero-fade-3 { animation-delay: 0.9s; }
+
+/* ── Magnetic button base ────────────────────────────────────────────────────── */
+.magnetic { display: inline-block; transition: transform 0.4s cubic-bezier(0.23,1,0.32,1); }
+
 /* ── Ticker ─────────────────────────────────────────────────────────────────── */
 @keyframes ticker {
   0%   { transform: translateX(0); }
