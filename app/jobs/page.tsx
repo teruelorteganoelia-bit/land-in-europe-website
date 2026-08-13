@@ -4,17 +4,19 @@ import PageNav from "../components/PageNav";
 import PageFooter from "../components/PageFooter";
 
 export const metadata: Metadata = {
-  title: "Open Roles in Europe | Land in Europe – Independent Recruiter",
+  metadataBase: new URL("https://landineuropecoaching.com"),
+  title: "Jobs in Europe 2026 | BDM Switzerland · Technical Sales · Broker Stockholm",
   description:
-    "Active job mandates placed by Noelia Teruel Ortega, independent European recruiter. Specialist roles in Switzerland, Sweden, and across Europe. Apply directly.",
+    "Active job mandates in Europe placed by an independent recruiter. BDM jobs in Switzerland, technical sales roles in semiconductors and water treatment, government bond broker in Stockholm. Apply directly — no agency.",
   keywords:
-    "jobs Europe recruiter, European jobs 2025, BDM Switzerland, technical sales Europe, broker Stockholm, semiconductor sales Switzerland, multilingual jobs Europe",
-  alternates: { canonical: "/jobs" },
+    "BDM jobs Switzerland, technical sales jobs Europe, semiconductor sales jobs, jobs in Switzerland for English speakers, business development manager Switzerland, water treatment sales jobs Europe, broker Stockholm, Scandinavian government bonds, RFID sales jobs, jobs Europe 2026, multilingual jobs Europe, independent recruiter Europe, jobs Neuchatel Switzerland",
+  alternates: { canonical: "https://landineuropecoaching.com/jobs" },
   openGraph: {
-    title: "Open Roles in Europe | Land in Europe",
+    title: "Jobs in Europe 2026 | BDM Switzerland · Technical Sales · Broker Stockholm",
     description:
-      "Active mandates placed by an independent European recruiter. Apply directly — no agency middleman.",
-    url: "/jobs",
+      "Active mandates placed by an independent European recruiter. BDM, technical sales, and specialist roles in Switzerland, Sweden and across Europe. Apply directly.",
+    url: "https://landineuropecoaching.com/jobs",
+    type: "website",
   },
 };
 
@@ -200,6 +202,41 @@ const ROLES = [
   },
 ];
 
+// Schema.org JobPosting for Google Jobs
+const jobPostingSchema = {
+  "@context": "https://schema.org",
+  "@graph": ROLES.map((role) => ({
+    "@type": "JobPosting",
+    title: role.title,
+    description: `${role.about} ${role.role} Requirements: ${role.requirements.join(". ")}`,
+    datePosted: "2026-07-27",
+    validThrough: "2026-12-31",
+    employmentType: "FULL_TIME",
+    hiringOrganization: {
+      "@type": "Organization",
+      name: "Land in Europe",
+      sameAs: "https://landineuropecoaching.com",
+      logo: "https://landineuropecoaching.com/logo.png",
+    },
+    jobLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: role.location.split(",")[0],
+        addressCountry: role.location.includes("Switzerland") ? "CH" : role.location.includes("Sweden") ? "SE" : "FR",
+      },
+    },
+    applicantLocationRequirements: { "@type": "Country", name: "Europe" },
+    jobLocationType: role.remote === "Remote-friendly" ? "TELECOMMUTE" : undefined,
+    directApply: true,
+    url: `https://landineuropecoaching.com/jobs#${role.id}`,
+    applicationContact: {
+      "@type": "ContactPoint",
+      email: "noelia@landineuropecoaching.com",
+    },
+  })),
+};
+
 function Arrow() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -228,6 +265,10 @@ function LocationIcon() {
 export default function JobsPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }}
+      />
       <PageNav />
       <main>
 
@@ -243,7 +284,7 @@ export default function JobsPage() {
               I am an independent recruiter based in Stockholm. These are the roles I am actively filling across Switzerland, Sweden and Europe. Apply directly through me — I handle the full process with the hiring company.
             </p>
             <p className="text-gray-300 text-sm">
-              {ROLES.length} open roles · Updated July 2025
+              {ROLES.length} open roles · Updated August 2026
             </p>
           </div>
         </section>
