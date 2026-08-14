@@ -359,7 +359,11 @@ function Navbar() {
 }
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
+// Replace YOUTUBE_VIDEO_ID with the actual ID from your YouTube URL
+const YOUTUBE_VIDEO_ID = "";
+
 function VideoSection() {
+  if (!YOUTUBE_VIDEO_ID) return null;
   return (
     <section className="py-16 sm:py-20 px-6 bg-[#F7F4EF]">
       <div className="max-w-3xl mx-auto text-center">
@@ -367,13 +371,13 @@ function VideoSection() {
         <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1F26] mb-8 leading-snug">
           What working with me actually looks like
         </h2>
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 bg-black">
-          <video
-            src="/video1.mp4"
-            controls
-            playsInline
-            preload="metadata"
-            className="w-full aspect-video"
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 bg-black aspect-video">
+          <iframe
+            src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`}
+            title="Meet Noelia"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
           />
         </div>
       </div>
