@@ -618,12 +618,12 @@ function Services() {
           >
             Get started <Arrow />
           </a>
-          <Link
+          <a
             href="/services"
             className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors"
           >
             See all services and pricing details <Arrow />
-          </Link>
+          </a>
         </div>
       </div>
     </section>
