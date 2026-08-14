@@ -596,66 +596,34 @@ function Services() {
           <p className="text-gray-400 leading-relaxed text-base">Pick where you need help most. Everything is built around your situation, not a standard package.</p>
         </div>
 
-        <div ref={gridRef} className="reveal-group grid md:grid-cols-2 gap-4">
-          {SERVICES.map((s, idx) => {
-            const isDark = s.featured;
-            return (
-              <div
-                key={s.n}
-                className={`rounded-2xl border flex flex-col lift p-8 sm:p-10 relative overflow-hidden ${
-                  isDark
-                    ? "bg-gray-900 border-gray-900 text-white"
-                    : "bg-white border-gray-200"
-                }`}
-              >
-                {/* Large watermark number purely decorative */}
-                <span
-                  className="absolute -right-4 -top-4 font-serif font-bold leading-none select-none pointer-events-none"
-                  style={{ fontSize: "clamp(7rem,14vw,11rem)", color: isDark ? "#C9A84C" : "#F0EBE0", opacity: isDark ? 0.12 : 1 }}
-                  aria-hidden="true"
-                >{s.n}</span>
+        <div ref={gridRef} className="reveal-group grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          {[
+            { title: "CV Rewrite", tag: "Most requested", body: "Your CV rebuilt from scratch for European recruiters. ATS-optimised, achievement-led, delivered as an editable Word file." },
+            { title: "LinkedIn Optimisation", tag: "High impact", body: "Headline, About, keywords, and open-to-work settings calibrated for how LinkedIn Recruiter searches work in 2026." },
+            { title: "1:1 Coaching Session", tag: "Good starting point", body: "One focused hour on what is blocking you. You leave with a written action plan, not just things to think about." },
+            { title: "Full Coaching Package", tag: "Best results", body: "Five sessions, CV rewrite, LinkedIn, company map, and WhatsApp access. With an offer guarantee.", featured: true },
+          ].map((s, i) => (
+            <div key={i} className={`rounded-2xl p-7 flex flex-col ${s.featured ? "bg-gray-900 text-white" : "bg-white border border-gray-200"}`}>
+              <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-widest mb-3">{s.tag}</p>
+              <h3 className={`font-serif text-xl font-bold mb-3 ${s.featured ? "text-white" : "text-gray-900"}`}>{s.title}</h3>
+              <p className={`text-sm leading-relaxed flex-1 ${s.featured ? "text-white/50" : "text-gray-500"}`}>{s.body}</p>
+            </div>
+          ))}
+        </div>
 
-                {s.featured && (
-                  <span className="absolute top-5 right-5 bg-[#C9A84C] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                    Most popular
-                  </span>
-                )}
-
-                <div className="relative z-10 flex flex-col flex-1">
-                  <p className={`text-xs font-semibold uppercase tracking-[0.2em] mb-3 ${isDark ? "text-[#C9A84C]" : "text-[#C9A84C]"}`}>{s.tag}</p>
-                  <h3 className={`font-serif text-2xl font-bold mb-4 ${isDark ? "text-white" : "text-gray-900"}`}>{s.title}</h3>
-                  <p className={`text-sm leading-relaxed mb-7 flex-1 ${isDark ? "text-white/50" : "text-gray-500"}`}>{s.body}</p>
-                  <ul className="space-y-2.5 mb-8">
-                    {s.items.map(item => (
-                      <li key={item} className="flex items-start gap-3 text-sm">
-                        <Check />
-                        <span className={isDark ? "text-white/60" : "text-gray-500"}>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {s.featured && <p className="text-[11px] text-white/30 mb-4">Limited to 8 clients per month.</p>}
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <a
-                      href="#contact"
-                      className={`inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-full transition-colors ${
-                        isDark ? "bg-[#C9A84C] text-white hover:bg-[#b8953f]" : "bg-gray-900 text-white hover:bg-gray-800"
-                      }`}
-                    >
-                      Get started <Arrow />
-                    </a>
-                    <a
-                      href={s.href}
-                      className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors ${
-                        isDark ? "text-white/40 hover:text-white" : "text-gray-400 hover:text-gray-900"
-                      }`}
-                    >
-                      Learn more <Arrow />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-7 py-4 rounded-full hover:bg-[#C9A84C] transition-colors"
+          >
+            Get started <Arrow />
+          </a>
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors"
+          >
+            See all services and pricing details <Arrow />
+          </Link>
         </div>
       </div>
     </section>

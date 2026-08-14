@@ -69,27 +69,30 @@ const CANDIDATE_SERVICES = [
 const TESTIMONIALS = [
   {
     id: 1,
-    quote: "I was honestly impressed. After working with Noelia I started getting way more replies on LinkedIn and actual interview invitations. Things that just were not happening before.",
-    name: "Joe L.",
-    role: "Full Coaching Package",
-    initials: "JL",
+    quote: "She completely transformed how my experience reads to European recruiters. The result is something I am genuinely proud to send out.",
+    name: "Anita Jozsef",
+    role: "Culinary Brand Strategist, Nordics",
+    result: "Full package · first interview within 3 weeks",
+    initials: "AJ",
     color: "bg-[#C9A84C]",
   },
   {
     id: 2,
-    quote: "My CV was not landing anywhere. Noelia rewrote it completely and within two weeks I had three calls booked. The difference was immediate.",
-    name: "Sara M.",
-    role: "CV Rewrite",
-    initials: "SM",
-    color: "bg-[#4C7AC9]",
+    quote: "Her understanding of the European market is clear and well-informed. She gave me perspective I simply did not have before.",
+    name: "Johnwalf Bringoli",
+    role: "Senior Post Producer, AKQA",
+    result: "Career strategy · target market identified, pipeline built",
+    initials: "JB",
+    color: "bg-[#1C1F26]",
   },
   {
     id: 3,
-    quote: "She knows exactly how recruiters think. After the LinkedIn session I went from invisible to getting inbound messages from companies I actually wanted to work for.",
-    name: "Daniel R.",
-    role: "LinkedIn Optimisation",
-    initials: "DR",
-    color: "bg-[#4CAF84]",
+    quote: "I really appreciated Noelia's guidance on how to position myself and my CV more effectively. The document she shared afterwards was incredibly helpful and I keep coming back to it.",
+    name: "Sara De Wever",
+    role: "CFA Level I Candidate · Fluent in 5 languages",
+    result: "CV positioning session · biggest takeaway on how to present her experience",
+    initials: "SW",
+    color: "bg-[#4C7AC9]",
   },
 ];
 
@@ -226,13 +229,14 @@ export default function ServicesPage() {
                 <p className="text-gray-300 text-base leading-relaxed italic flex-1 mb-8">
                   &ldquo;{t.quote}&rdquo;
                 </p>
+                <p className="text-[#C9A84C] text-xs italic mb-5">{t.result}</p>
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center flex-shrink-0`}>
                     <span className="text-white text-xs font-bold">{t.initials}</span>
                   </div>
                   <div>
                     <p className="text-white text-sm font-semibold">{t.name}</p>
-                    <p className="text-[#C9A84C] text-xs">{t.role}</p>
+                    <p className="text-gray-500 text-xs">{t.role}</p>
                   </div>
                 </div>
               </div>
