@@ -1257,6 +1257,55 @@ function EmailCapture() {
   );
 }
 
+// ─── Ebook Section ────────────────────────────────────────────────────────────
+function EbookSection() {
+  return (
+    <section className="py-20 sm:py-28 px-6 bg-[#1C1F26]">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+
+          {/* Book image */}
+          <div className="flex-shrink-0 w-52 sm:w-64 lg:w-72">
+            <img
+              src="/ThumbnailBook.jpeg"
+              alt="How to Get Hired in Europe in the Age of AI"
+              className="w-full rounded-lg shadow-2xl shadow-black/50"
+            />
+          </div>
+
+          {/* Text */}
+          <div className="text-center lg:text-left">
+            <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-4">New guide</p>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
+              How to Get Hired in Europe<br/>
+              <span className="text-[#C9A84C] italic font-serif font-normal">In the Age of AI</span>
+            </h2>
+            <p className="text-gray-400 text-base leading-relaxed mb-4 max-w-xl">
+              What a recruiter actually sees when your application lands, and what to do about it.
+            </p>
+            <p className="text-gray-400 text-base leading-relaxed mb-8 max-w-xl">
+              10 chapters. A 30-day job search plan. A CV audit checklist. Written from the recruiter's desk, not a career blog.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4">
+              <a
+                href="https://teruelnoelia.gumroad.com/l/hired-in-europe-ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#1C1F26] font-bold text-sm px-8 py-4 rounded-full hover:bg-[#b8953f] transition-colors shadow-lg shadow-[#C9A84C]/20"
+              >
+                Get the guide — €27
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </a>
+              <span className="text-gray-500 text-sm">Instant download · PDF</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   return (
@@ -1275,6 +1324,7 @@ export default function Home() {
       <ForCompanies/>
       <FAQ/>
       <Contact/>
+      <EbookSection/>
       <EmailCapture/>
       <Footer/>
     </main>
