@@ -164,16 +164,19 @@ function ExitIntentPopup() {
 
   useEffect(() => {
     if (dismissed) return;
-    // Desktop: exit intent
-    const onMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 10) setVisible(true);
-    };
-    document.addEventListener("mouseleave", onMouseLeave);
+    // Wait 8 seconds before enabling exit intent (avoids false trigger on page load)
+    const enableTimer = setTimeout(() => {
+      const onMouseLeave = (e: MouseEvent) => {
+        if (e.clientY <= 10) setVisible(true);
+      };
+      document.addEventListener("mouseleave", onMouseLeave);
+      return () => document.removeEventListener("mouseleave", onMouseLeave);
+    }, 8000);
     // Mobile / all devices: show after 45 seconds
-    const timer = setTimeout(() => setVisible(true), 45000);
+    const mobileTimer = setTimeout(() => setVisible(true), 45000);
     return () => {
-      document.removeEventListener("mouseleave", onMouseLeave);
-      clearTimeout(timer);
+      clearTimeout(enableTimer);
+      clearTimeout(mobileTimer);
     };
   }, [dismissed]);
 
