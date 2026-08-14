@@ -87,7 +87,8 @@ const COMPANY_SERVICES = [
 
 // ─── Components ────────────────────────────────────────────────────────────────
 
-function ServiceCard({ service, dark = false }: { service: typeof CANDIDATE_SERVICES[0] & { featured?: boolean }, dark?: boolean }) {
+type AnyService = { id: string; title: string; body: string; includes: string[]; cta: string; href: string; tag?: string; featured?: boolean };
+function ServiceCard({ service, dark = false }: { service: AnyService, dark?: boolean }) {
   const featured = service.featured;
   return (
     <div className={`relative rounded-2xl p-8 flex flex-col h-full transition-all
