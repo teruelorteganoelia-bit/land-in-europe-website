@@ -359,6 +359,28 @@ function Navbar() {
 }
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
+function VideoSection() {
+  return (
+    <section className="py-16 sm:py-20 px-6 bg-[#F7F4EF]">
+      <div className="max-w-3xl mx-auto text-center">
+        <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-3">Meet Noelia</p>
+        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1F26] mb-8 leading-snug">
+          What working with me actually looks like
+        </h2>
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 bg-black">
+          <video
+            src="/video1.mp4"
+            controls
+            playsInline
+            preload="metadata"
+            className="w-full aspect-video"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Hero() {
   const photoRef = useRef<HTMLDivElement>(null);
 
@@ -1313,6 +1335,7 @@ export default function Home() {
       <ScrollEffects/>
       <Navbar/>
       <Hero/>
+      <VideoSection/>
       <Ticker/>
       <CountryStrip/>
       <Approach/>
