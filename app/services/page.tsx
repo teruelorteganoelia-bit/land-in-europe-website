@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import PageNav from "@/components/PageNav";
+import PageNav from "../components/PageNav";
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
