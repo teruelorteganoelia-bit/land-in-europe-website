@@ -164,16 +164,22 @@ function ExitIntentPopup() {
 
   useEffect(() => {
     if (dismissed) return;
+    // Desktop: exit intent
     const onMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 10) setVisible(true);
     };
     document.addEventListener("mouseleave", onMouseLeave);
-    return () => document.removeEventListener("mouseleave", onMouseLeave);
+    // Mobile / all devices: show after 45 seconds
+    const timer = setTimeout(() => setVisible(true), 45000);
+    return () => {
+      document.removeEventListener("mouseleave", onMouseLeave);
+      clearTimeout(timer);
+    };
   }, [dismissed]);
 
   const dismiss = () => { setVisible(false); setDismissed(true); };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
     setDone(true);
     setTimeout(dismiss, 2500);
