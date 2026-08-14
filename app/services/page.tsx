@@ -180,6 +180,23 @@ export default function ServicesPage() {
               <ServiceCard key={s.id} service={s} dark />
             ))}
           </div>
+
+          {/* Testimonial under Full Coaching Package */}
+          <div className="mt-6 xl:ml-auto xl:w-1/4">
+            <div className="rounded-2xl bg-white/5 border border-white/10 p-6">
+              <div className="flex gap-1 mb-3">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} width="14" height="14" viewBox="0 0 14 14" fill="#C9A84C">
+                    <path d="M7 1l1.8 3.6L13 5.3l-3 2.9.7 4.1L7 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/>
+                  </svg>
+                ))}
+              </div>
+              <p className="text-gray-300 text-sm leading-relaxed italic mb-4">
+                "I was honestly impressed. After working with Noelia I started getting way more replies on LinkedIn and actual interview invitations. Things that just weren't happening before."
+              </p>
+              <p className="text-[#C9A84C] text-xs font-semibold uppercase tracking-widest">Joe L. — Full Coaching Package</p>
+            </div>
+          </div>
         </div>
       </section>
 
