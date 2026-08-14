@@ -8,9 +8,7 @@ export default function PageNav() {
           Land in Europe
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
-          <Link href="/cv-rewrite" className="hover:text-gray-900 transition-colors">CV Rewrite</Link>
-          <Link href="/linkedin-optimization" className="hover:text-gray-900 transition-colors">LinkedIn</Link>
-          <Link href="/career-coaching" className="hover:text-gray-900 transition-colors">Coaching</Link>
+          <Link href="/services" className="hover:text-gray-900 transition-colors">Services</Link>
           <Link href="/jobs" className="hover:text-gray-900 transition-colors">Jobs</Link>
           <Link href="/blog" className="hover:text-gray-900 transition-colors">Blog</Link>
         </nav>
