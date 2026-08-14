@@ -212,7 +212,7 @@ function ExitIntentPopup() {
               Is your CV ready for the European market?
             </h3>
             <p className="text-gray-500 text-sm leading-relaxed mb-6">
-              10 things European recruiters check in the first 6 seconds. Download the checklist before you go — it is free.
+              10 things European recruiters check in the first 6 seconds. Download the checklist before you go. It is free.
             </p>
             <form onSubmit={submit} className="flex flex-col gap-3">
               <input
@@ -718,12 +718,18 @@ function Services() {
             { title: "CV Rewrite", tag: "Most requested", body: "Your CV rebuilt from scratch for European recruiters. ATS-optimised, achievement-led, delivered as an editable Word file." },
             { title: "LinkedIn Optimisation", tag: "High impact", body: "Headline, About, keywords, and open-to-work settings calibrated for how LinkedIn Recruiter searches work in 2026." },
             { title: "1:1 Coaching Session", tag: "Good starting point", body: "One focused hour on what is blocking you. You leave with a written action plan, not just things to think about." },
-            { title: "Full Coaching Package", tag: "Best results", body: "Five sessions, CV rewrite, LinkedIn, company map, and WhatsApp access. With an offer guarantee.", featured: true },
+            { title: "Full Coaching Package", tag: "Best results", body: "Five sessions, CV rewrite, LinkedIn, company map, and WhatsApp access. With an offer guarantee.", price: "€499", featured: true },
           ].map((s, i) => (
-            <div key={i} className={`rounded-2xl p-7 flex flex-col ${s.featured ? "bg-gray-900 text-white" : "bg-white border border-gray-200"}`}>
+            <div key={i} className={`rounded-2xl p-5 sm:p-7 flex flex-col ${s.featured ? "bg-gray-900 text-white" : "bg-white border border-gray-200"}`}>
               <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-widest mb-3">{s.tag}</p>
-              <h3 className={`font-serif text-xl font-bold mb-3 ${s.featured ? "text-white" : "text-gray-900"}`}>{s.title}</h3>
+              <h3 className={`font-serif text-lg sm:text-xl font-bold mb-3 ${s.featured ? "text-white" : "text-gray-900"}`}>{s.title}</h3>
               <p className={`text-sm leading-relaxed flex-1 ${s.featured ? "text-white/50" : "text-gray-500"}`}>{s.body}</p>
+              {"price" in s && (
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <p className="text-[#C9A84C] font-bold text-lg">{s.price}</p>
+                  <p className="text-white/40 text-xs mt-0.5">1 spot available this month</p>
+                </div>
+              )}
             </div>
           ))}
         </div>

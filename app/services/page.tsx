@@ -52,7 +52,7 @@ const CANDIDATE_SERVICES = [
     tag: "Best results",
     title: "Full Coaching Package",
     featured: true,
-    body: "Everything. Five sessions, a full CV rewrite, LinkedIn optimisation, a personalised company map, and WhatsApp access throughout your search. And if you do not get an offer, I keep working with you until you do.",
+    body: "Everything. Five sessions, a full CV rewrite, LinkedIn optimisation, a personalised company map, and WhatsApp access throughout your search. And if you do not get an offer, I keep working with you until you do. From €499.",
     includes: [
       "5 themed coaching sessions",
       "Full CV rewrite",
