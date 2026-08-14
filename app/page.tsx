@@ -360,25 +360,32 @@ function Navbar() {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 // Replace YOUTUBE_VIDEO_ID with the actual ID from your YouTube URL
-const YOUTUBE_VIDEO_ID = "";
+const YOUTUBE_VIDEO_ID = "YDs7XZtlPgI";
 
 function VideoSection() {
   if (!YOUTUBE_VIDEO_ID) return null;
   return (
     <section className="py-16 sm:py-20 px-6 bg-[#F7F4EF]">
-      <div className="max-w-3xl mx-auto text-center">
-        <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-3">Meet Noelia</p>
-        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1F26] mb-8 leading-snug">
-          What working with me actually looks like
-        </h2>
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 bg-black aspect-video">
-          <iframe
-            src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`}
-            title="Meet Noelia"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full"
-          />
+      <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+        <div className="text-center lg:text-left lg:flex-1">
+          <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-3">Meet Noelia</p>
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1F26] mb-4 leading-snug">
+            Why most international professionals struggle to get hired in Europe
+          </h2>
+          <p className="text-gray-500 text-base leading-relaxed">
+            I see the same patterns every day. Here is what nobody tells you about how the European job market actually works.
+          </p>
+        </div>
+        <div className="w-full max-w-xs flex-shrink-0">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/20 bg-black" style={{aspectRatio:"9/16"}}>
+            <iframe
+              src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`}
+              title="Meet Noelia"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
         </div>
       </div>
     </section>
