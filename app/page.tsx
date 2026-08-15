@@ -394,7 +394,7 @@ const CITY_SLIDES = [
   {
     city: "Barcelona",
     country: "Spain",
-    url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80",
+    url: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
@@ -660,6 +660,83 @@ function Approach() {
 }
 
 // ─── Services ─────────────────────────────────────────────────────────────────
+function SeniorBlock() {
+  const ref = useReveal();
+  return (
+    <section className="py-24 sm:py-28 px-6 bg-[#1C1F26] overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <div ref={ref} className="reveal grid lg:grid-cols-2 gap-16 items-center">
+
+          {/* LEFT: text */}
+          <div>
+            <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-6">Senior professionals & career transitions</p>
+            <h2 className="font-serif text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
+              You built 20 years of experience.<br/>
+              <span className="text-[#C9A84C] italic">The market moved.<br/>Your profile did not.</span>
+            </h2>
+            <p className="text-white/55 text-base leading-relaxed mb-8 max-w-md">
+              If you have been in the same role or sector for years and the thought of job searching feels overwhelming, you are not behind. You just need someone who knows how European recruiters read a senior profile and what actually makes them call.
+            </p>
+            <ul className="space-y-4 mb-10">
+              {[
+                "Your CV is written like it is 2015 — the format, the language, the structure",
+                "Your LinkedIn is invisible to headhunters because the keywords are wrong",
+                "You do not know whether to apply up, sideways, or pivot — and to where",
+                "You feel overqualified for some roles and invisible to the ones you actually want",
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="mt-1 w-1.5 h-1.5 rounded-full bg-[#C9A84C] flex-shrink-0"/>
+                  <span className="text-white/60 text-sm leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold px-7 py-4 rounded-full hover:bg-[#e8c96d] transition-colors text-sm shadow-xl shadow-[#C9A84C]/20"
+            >
+              Let&apos;s talk about your situation
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </a>
+          </div>
+
+          {/* RIGHT: cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              {
+                num: "01",
+                title: "Your experience is the asset",
+                body: "Two decades of work is not a liability. The problem is how it is packaged. We translate your background into the language European recruiters understand.",
+              },
+              {
+                num: "02",
+                title: "Career change is possible at any level",
+                body: "Pivoting at senior level is harder — but not because of your age. It is because most people do not know how to position transferable skills. That is fixable.",
+              },
+              {
+                num: "03",
+                title: "You do not need to start over",
+                body: "You need a clear story about where you are going and why your past makes you the right person for it. One good sentence can change everything.",
+              },
+              {
+                num: "04",
+                title: "The European market rewards clarity",
+                body: "Recruiters here move fast. A sharp profile that says one thing clearly will always beat a broad one that says everything to everyone.",
+              },
+            ].map((c) => (
+              <div key={c.num} className="bg-white/5 border border-white/8 rounded-2xl p-6 hover:border-[#C9A84C]/30 transition-colors">
+                <p className="text-[#C9A84C]/50 text-xs font-mono mb-4">{c.num}</p>
+                <h3 className="text-white font-semibold text-sm mb-2 leading-snug">{c.title}</h3>
+                <p className="text-white/45 text-xs leading-relaxed">{c.body}</p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Services() {
   const headRef = useReveal();
   const gridRef = useReveal();
@@ -1395,6 +1472,7 @@ export default function Home() {
       <Ticker/>
       <CountryStrip/>
       <Approach/>
+      <SeniorBlock/>
       <Services/>
       <EbookSection/>
       <HowItWorks/>
