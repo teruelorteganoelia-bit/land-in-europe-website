@@ -155,107 +155,6 @@ const FAQS = [
     a:"Ja, jag är karriärcoach och jobbcoach baserad i Stockholm. Jag arbetar med internationella proffs som vill hitta jobb i Europa. Jag hjälper med CV, LinkedIn och jobbsökning på den europeiska marknaden. Kontakta mig gärna på svenska." },
 ];
 
-// ─── Exit-intent popup ───────────────────────────────────────────────────────
-function ExitIntentPopup() {
-  const [visible, setVisible] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
-  const [email, setEmail] = useState("");
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    if (dismissed) return;
-    // Wait 8 seconds before enabling exit intent (avoids false trigger on page load)
-    const enableTimer = setTimeout(() => {
-      const onMouseLeave = (e: MouseEvent) => {
-        if (e.clientY <= 10) setVisible(true);
-      };
-      document.addEventListener("mouseleave", onMouseLeave);
-      return () => document.removeEventListener("mouseleave", onMouseLeave);
-    }, 8000);
-    // Mobile / all devices: show after 45 seconds
-    const mobileTimer = setTimeout(() => setVisible(true), 45000);
-    return () => {
-      clearTimeout(enableTimer);
-      clearTimeout(mobileTimer);
-    };
-  }, [dismissed]);
-
-  const dismiss = () => { setVisible(false); setDismissed(true); };
-
-  const submit = (e: React.FormEvent | React.MouseEvent) => {
-    e.preventDefault();
-    setDone(true);
-    setTimeout(dismiss, 2500);
-  };
-
-  if (!visible) return null;
-
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4" onClick={dismiss}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"/>
-      <div
-        className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 sm:p-10"
-        onClick={e => e.stopPropagation()}
-      >
-        <button onClick={dismiss} className="absolute top-4 right-4 text-gray-300 hover:text-gray-600 transition-colors">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-        </button>
-
-        {!done ? (
-          <>
-            <div className="w-10 h-10 rounded-full bg-[#C9A84C]/15 flex items-center justify-center mb-5">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M3 10l5 5L17 5" stroke="#C9A84C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <p className="text-xs font-bold text-[#C9A84C] uppercase tracking-widest mb-2">Free checklist</p>
-            <h3 className="font-serif text-2xl font-bold text-[#1C1F26] mb-3 leading-snug">
-              Is your CV ready for the European market?
-            </h3>
-            <p className="text-gray-500 text-sm leading-relaxed mb-6">
-              10 things European recruiters check in the first 6 seconds. Download the checklist before you go. It is free.
-            </p>
-            <form onSubmit={submit} className="flex flex-col gap-3">
-              <input
-                type="email"
-                required
-                placeholder="Your email address"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full border border-gray-200 rounded-full px-5 py-3.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#C9A84C] transition-colors"
-              />
-              <a
-                href="/european-job-search-checklist.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={submit}
-                className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-[#1C1F26] font-bold text-sm px-6 py-3.5 rounded-full hover:bg-[#b8953f] transition-colors"
-              >
-                Send me the checklist
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </a>
-            </form>
-            <p className="text-gray-400 text-xs text-center mt-4">No spam. One email, one checklist.</p>
-          </>
-        ) : (
-          <div className="text-center py-6">
-            <div className="w-12 h-12 rounded-full bg-[#C9A84C]/15 flex items-center justify-center mx-auto mb-4">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M4 12l6 6L20 6" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <h3 className="font-serif text-xl font-bold text-[#1C1F26] mb-2">On its way.</h3>
-            <p className="text-gray-500 text-sm">Check your inbox — the checklist is opening now.</p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 // ─── Magnetic button wrapper ──────────────────────────────────────────────────
 function Magnetic({ children, className = "", strength = 0.35 }: { children: React.ReactNode; className?: string; strength?: number }) {
@@ -1543,7 +1442,6 @@ export default function Home() {
       <ScrollEffects/>
       <Navbar/>
       <Hero/>
-      <ExitIntentPopup/>
       <VideoSection/>
       <Ticker/>
       <CountryStrip/>
