@@ -681,7 +681,7 @@ function SeniorBlock() {
               {[
                 "Your CV is written like it is 2015 — the format, the language, the structure",
                 "Your LinkedIn is invisible to headhunters because the keywords are wrong",
-                "You do not know whether to apply up, sideways, or pivot — and to where",
+                "You do not know whether to apply up, sideways, or pivot, and to where",
                 "You feel overqualified for some roles and invisible to the ones you actually want",
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
