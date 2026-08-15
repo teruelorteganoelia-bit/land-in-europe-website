@@ -362,12 +362,12 @@ function Navbar() {
 // ─── Europe network visualization ────────────────────────────────────────────
 // Clean animated card — no image dependency, pure SVG on styled dark card
 const NET_CITIES: { name: string; x: number; y: number; anchor: "start" | "end"; hub?: boolean }[] = [
-  { name: "Stockholm",  x: 310, y:  80, anchor: "start", hub: true },
-  { name: "London",     x: 110, y: 190, anchor: "end"   },
-  { name: "Paris",      x: 145, y: 230, anchor: "end"   },
-  { name: "Luxembourg", x: 205, y: 220, anchor: "start" },
-  { name: "Zurich",     x: 225, y: 255, anchor: "start" },
-  { name: "Berlin",     x: 285, y: 170, anchor: "start" },
+  { name: "Stockholm",  x: 345, y:  58, anchor: "start", hub: true },
+  { name: "London",     x:  88, y: 168, anchor: "end"   },
+  { name: "Paris",      x: 108, y: 215, anchor: "end"   },
+  { name: "Luxembourg", x: 210, y: 192, anchor: "start" },
+  { name: "Zurich",     x: 228, y: 238, anchor: "start" },
+  { name: "Berlin",     x: 302, y: 145, anchor: "start" },
 ];
 
 const NET_CONNECTIONS = [
@@ -396,9 +396,9 @@ function EuropeMapReal({ mobile = false }: { mobile?: boolean }) {
     return () => clearInterval(id);
   }, []);
 
-  const W = mobile ? 340 : 460;
-  const H = mobile ? 240 : 320;
-  const vW = 460, vH = 320;
+  const W = mobile ? 340 : 480;
+  const H = mobile ? 240 : 340;
+  const vW = 480, vH = 340;
 
   const [a, b] = NET_CONNECTIONS[activeConn];
   const ca = NET_CITIES[a], cb = NET_CITIES[b];
