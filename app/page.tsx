@@ -386,6 +386,16 @@ const CITY_SLIDES = [
     country: "Switzerland",
     url: "https://images.unsplash.com/photo-1515488764276-beab7607c1e6?auto=format&fit=crop&w=900&q=80",
   },
+  {
+    city: "Berlin",
+    country: "Germany",
+    url: "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    city: "Barcelona",
+    country: "Spain",
+    url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=80",
+  },
 ];
 
 function EuropeMapReal({ mobile = false }: { mobile?: boolean }) {
