@@ -460,6 +460,130 @@ function Navbar() {
   );
 }
 
+// ─── Europe map ───────────────────────────────────────────────────────────────
+const CITIES = [
+  { name: "Stockholm",   cx: 52.5, cy: 18,   active: true  },
+  { name: "Zurich",      cx: 45,   cy: 52,   active: true  },
+  { name: "Paris",       cx: 38,   cy: 50,   active: true  },
+  { name: "Amsterdam",   cx: 40,   cy: 38,   active: false },
+  { name: "Berlin",      cx: 52,   cy: 38,   active: true  },
+  { name: "London",      cx: 32,   cy: 42,   active: false },
+  { name: "Madrid",      cx: 30,   cy: 68,   active: false },
+  { name: "Milan",       cx: 48,   cy: 57,   active: false },
+  { name: "Vienna",      cx: 55,   cy: 50,   active: false },
+  { name: "Luxembourg",  cx: 42,   cy: 46,   active: true  },
+];
+
+const CONNECTIONS = [
+  [0, 4], [0, 1], [0, 2], [1, 2], [2, 3], [3, 5], [1, 8], [4, 8], [2, 9],
+];
+
+function EuropeMap({ mobile = false }: { mobile?: boolean }) {
+  const [tick, setTick] = useState(0);
+  const [activeConn, setActiveConn] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTick(t => t + 1);
+      setActiveConn(c => (c + 1) % CONNECTIONS.length);
+    }, 1800);
+    return () => clearInterval(id);
+  }, []);
+
+  const size = mobile ? 280 : 420;
+
+  return (
+    <div style={{ width: size, height: size }} className="relative">
+      <svg
+        viewBox="0 0 100 100"
+        width={size}
+        height={size}
+        className="absolute inset-0"
+        aria-hidden="true"
+      >
+        {/* Ambient glow */}
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.08"/>
+            <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+          </radialGradient>
+          <filter id="blur">
+            <feGaussianBlur stdDeviation="0.4"/>
+          </filter>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="url(#glow)"/>
+
+        {/* Grid circles */}
+        {[20, 35, 50].map(r => (
+          <circle key={r} cx="50" cy="50" r={r} fill="none" stroke="#C9A84C" strokeWidth="0.15" strokeOpacity="0.12"/>
+        ))}
+
+        {/* Connection lines */}
+        {CONNECTIONS.map(([a, b], i) => {
+          const ca = CITIES[a], cb = CITIES[b];
+          const isActive = i === activeConn;
+          return (
+            <line
+              key={i}
+              x1={ca.cx} y1={ca.cy}
+              x2={cb.cx} y2={cb.cy}
+              stroke="#C9A84C"
+              strokeWidth={isActive ? 0.5 : 0.2}
+              strokeOpacity={isActive ? 0.7 : 0.2}
+              strokeDasharray={isActive ? "none" : "1 1"}
+              style={{ transition: "all 0.6s ease" }}
+            />
+          );
+        })}
+
+        {/* City dots */}
+        {CITIES.map((city, i) => (
+          <g key={city.name}>
+            {city.active && (
+              <circle
+                cx={city.cx} cy={city.cy} r={2.8}
+                fill="none" stroke="#C9A84C" strokeWidth="0.4" strokeOpacity="0.3"
+                style={{
+                  transform: `scale(${1 + (tick % 3 === i % 3 ? 0.3 : 0)})`,
+                  transformOrigin: `${city.cx}px ${city.cy}px`,
+                  transition: "transform 0.6s ease",
+                }}
+              />
+            )}
+            <circle
+              cx={city.cx} cy={city.cy}
+              r={city.active ? 1.2 : 0.7}
+              fill={city.active ? "#C9A84C" : "#ffffff"}
+              fillOpacity={city.active ? 1 : 0.3}
+            />
+            {city.active && (
+              <text
+                x={city.cx + 1.8} y={city.cy + 0.5}
+                fontSize="2.8"
+                fill="#C9A84C"
+                fillOpacity="0.6"
+                fontFamily="sans-serif"
+              >
+                {city.name}
+              </text>
+            )}
+          </g>
+        ))}
+
+        {/* Traveling dot on active connection */}
+        {(() => {
+          const [a, b] = CONNECTIONS[activeConn];
+          const ca = CITIES[a], cb = CITIES[b];
+          const progress = (tick % 10) / 10;
+          const x = ca.cx + (cb.cx - ca.cx) * progress;
+          const y = ca.cy + (cb.cy - ca.cy) * progress;
+          return <circle cx={x} cy={y} r="0.9" fill="#C9A84C" fillOpacity="0.9"/>;
+        })()}
+      </svg>
+    </div>
+  );
+}
+
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 // Replace YOUTUBE_VIDEO_ID with the actual ID from your YouTube URL
 const YOUTUBE_VIDEO_ID = "YDs7XZtlPgI";
@@ -495,18 +619,6 @@ function VideoSection() {
 }
 
 function Hero() {
-  const photoRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = photoRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const y = window.scrollY;
-      el.style.transform = `translateY(${y * 0.12}px)`;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
     <section className="bg-[#0A0B0D] min-h-screen flex flex-col justify-center overflow-hidden pt-16 relative">
@@ -569,40 +681,15 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: portrait desktop */}
+        {/* RIGHT: animated Europe map */}
         <div className="hidden lg:flex flex-col items-end gap-4">
-          <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8 relative aspect-[3/4]">
-            <div ref={photoRef} className="absolute inset-0 will-change-transform">
-              <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Sweden" fill className="object-cover object-top scale-[1.08]" priority sizes="(max-width:1280px) 40vw, 420px"/>
-            </div>
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0B0D]/60 to-transparent pointer-events-none"/>
-          </div>
-          <div className="flex gap-2.5 w-full max-w-sm xl:max-w-md">
-            {[
-              { src: IMG.barcelona, alt: "Switzerland" },
-              { src: IMG.lisbon,    alt: "France" },
-              { src: IMG.athens,    alt: "Sweden" },
-            ].map(({ src, alt }) => (
-              <div key={alt} className="flex-1 h-14 rounded-xl overflow-hidden relative ring-1 ring-white/5">
-                <Image src={src} alt={alt} fill className="object-cover" sizes="120px"/>
-              </div>
-            ))}
-          </div>
+          <EuropeMap />
           <p className="text-[10px] text-white/20 font-medium text-right tracking-widest uppercase">Recruiting across Switzerland · France · Sweden · Luxembourg · UK</p>
         </div>
 
-        {/* RIGHT: portrait mobile */}
-        <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
-          <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-white/8 relative">
-            <Image src="/noelia-photo.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
-          </div>
-          <div className="flex gap-2">
-            {[IMG.barcelona, IMG.lisbon, IMG.athens].map((src, i) => (
-              <div key={i} className="w-20 h-12 rounded-lg overflow-hidden relative">
-                <Image src={src} alt="" fill className="object-cover" sizes="80px"/>
-              </div>
-            ))}
-          </div>
+        {/* RIGHT: mobile map */}
+        <div className="lg:hidden mt-10 flex justify-center">
+          <EuropeMap mobile />
         </div>
       </div>
     </section>
