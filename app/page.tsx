@@ -508,51 +508,144 @@ function EuropeMap({ mobile = false }: { mobile?: boolean }) {
   );
 }
 
-// ─── Hero slideshow ───────────────────────────────────────────────────────────
-const HERO_IMAGES = ["/hero1.jpeg", "/hero2.jpeg", "/hero3.jpeg"];
+// ─── Europe map (real SVG) ────────────────────────────────────────────────────
+// City coords mapped to the 500×380 SVG viewport
+// lon→x = (lon+25)/95*500   lat→y = (72-lat)/38*380
+const REAL_CITIES = [
+  { name: "Stockholm",  x: 226, y: 130, active: true,  anchor: "start"  },
+  { name: "London",     x: 132, y: 205, active: true,  anchor: "end"    },
+  { name: "Paris",      x: 144, y: 231, active: true,  anchor: "end"    },
+  { name: "Luxembourg", x: 164, y: 224, active: true,  anchor: "start"  },
+  { name: "Zurich",     x: 177, y: 246, active: true,  anchor: "start"  },
+  { name: "Berlin",     x: 202, y: 195, active: true,  anchor: "start"  },
+  { name: "Amsterdam",  x: 152, y: 196, active: false, anchor: "start"  },
+  { name: "Vienna",     x: 213, y: 230, active: false, anchor: "start"  },
+  { name: "Madrid",     x: 112, y: 285, active: false, anchor: "end"    },
+  { name: "Rome",       x: 192, y: 272, active: false, anchor: "start"  },
+  { name: "Warsaw",     x: 234, y: 195, active: false, anchor: "start"  },
+];
 
-function HeroSlideshow({ mobile = false }: { mobile?: boolean }) {
-  const [current, setCurrent] = useState(0);
+const REAL_CONNECTIONS = [
+  [0, 5], [0, 1], [0, 3], [1, 2], [1, 3], [2, 3], [2, 4], [3, 4], [3, 5],
+];
+
+function EuropeMapReal({ mobile = false }: { mobile?: boolean }) {
+  const [activeConn, setActiveConn] = useState(0);
+  const [dotProgress, setDotProgress] = useState(0);
+  const [pulse, setPulse] = useState([0, 2]);
 
   useEffect(() => {
-    const id = setInterval(() => setCurrent(c => (c + 1) % HERO_IMAGES.length), 4000);
+    const id = setInterval(() => setActiveConn(c => (c + 1) % REAL_CONNECTIONS.length), 2200);
     return () => clearInterval(id);
   }, []);
 
-  const w = mobile ? "w-72" : "w-full max-w-sm xl:max-w-md";
-  const h = mobile ? "h-52" : "aspect-[4/5]";
+  useEffect(() => {
+    let f = 0;
+    const id = setInterval(() => { f = (f + 1) % 60; setDotProgress(f / 60); }, 30);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => setPulse([
+      Math.floor(Math.random() * 6),
+      Math.floor(Math.random() * 6),
+    ]), 2000);
+    return () => clearInterval(id);
+  }, []);
+
+  const scale = mobile ? 0.6 : 0.88;
+  const W = 500 * scale, H = 380 * scale;
+
+  const [a, b] = REAL_CONNECTIONS[activeConn];
+  const ca = REAL_CITIES[a], cb = REAL_CITIES[b];
+  const tx = ca.x + (cb.x - ca.x) * dotProgress;
+  const ty = ca.y + (cb.y - ca.y) * dotProgress;
 
   return (
-    <div className={`${w} ${h} relative rounded-3xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8`}>
-      {HERO_IMAGES.map((src, i) => (
-        <div
-          key={src}
-          className="absolute inset-0 transition-opacity duration-1000"
-          style={{ opacity: i === current ? 1 : 0 }}
-        >
-          <Image
-            src={src}
-            alt=""
-            fill
-            className="object-cover"
-            sizes="(max-width:1280px) 40vw, 420px"
-            priority={i === 0}
-          />
-        </div>
-      ))}
-      {/* Dark overlay for legibility */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0D]/50 via-transparent to-[#0A0B0D]/20 pointer-events-none"/>
-      {/* Dot indicators */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-        {HERO_IMAGES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className="w-1.5 h-1.5 rounded-full transition-all duration-300"
-            style={{ background: i === current ? "#C9A84C" : "rgba(255,255,255,0.3)", transform: i === current ? "scale(1.3)" : "scale(1)" }}
-          />
-        ))}
-      </div>
+    <div style={{ width: W, height: H }} className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8">
+      {/* Real Europe SVG as base, styled dark */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/europe.svg"
+        alt=""
+        style={{
+          width: W, height: H,
+          filter: "invert(1) brightness(0.18) sepia(0.4) saturate(0.6)",
+          position: "absolute", inset: 0,
+        }}
+      />
+
+      {/* Animated overlay */}
+      <svg
+        viewBox="0 0 500 380"
+        width={W} height={H}
+        className="absolute inset-0"
+        aria-hidden="true"
+      >
+        <defs>
+          <filter id="rglow">
+            <feGaussianBlur stdDeviation="3" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        {/* Connection lines */}
+        {REAL_CONNECTIONS.map(([ai, bi], i) => {
+          const cA = REAL_CITIES[ai], cB = REAL_CITIES[bi];
+          const isActive = i === activeConn;
+          return (
+            <line key={i}
+              x1={cA.x} y1={cA.y} x2={cB.x} y2={cB.y}
+              stroke="#C9A84C"
+              strokeWidth={isActive ? 1.2 : 0.5}
+              strokeOpacity={isActive ? 0.8 : 0.2}
+              strokeDasharray={isActive ? "none" : "3 4"}
+              style={{ transition: "all 0.5s ease" }}
+            />
+          );
+        })}
+
+        {/* Traveling dot */}
+        <circle cx={tx} cy={ty} r="4" fill="#C9A84C" opacity="0.95" filter="url(#rglow)"/>
+        <circle cx={tx} cy={ty} r="1.8" fill="white" opacity="0.9"/>
+
+        {/* City dots */}
+        {REAL_CITIES.map((city, i) => {
+          const isPulsing = pulse.includes(i) && city.active;
+          return (
+            <g key={city.name} filter={city.active ? "url(#rglow)" : undefined}>
+              {isPulsing && (
+                <circle cx={city.x} cy={city.y} r="12"
+                  fill="none" stroke="#C9A84C" strokeWidth="0.7" strokeOpacity="0.3"
+                />
+              )}
+              {city.active && (
+                <circle cx={city.x} cy={city.y} r="7"
+                  fill="none" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.15"
+                />
+              )}
+              <circle cx={city.x} cy={city.y}
+                r={city.active ? 4 : 2}
+                fill={city.active ? "#C9A84C" : "#ffffff"}
+                fillOpacity={city.active ? 1 : 0.2}
+              />
+              {city.active && <circle cx={city.x} cy={city.y} r="1.5" fill="white" fillOpacity="0.7"/>}
+              {city.active && (
+                <text
+                  x={city.anchor === "end" ? city.x - 8 : city.x + 8}
+                  y={city.y + 4}
+                  fontSize="10" fontWeight="500"
+                  fill="#C9A84C" fillOpacity="0.85"
+                  fontFamily="system-ui, sans-serif"
+                  textAnchor={city.anchor}
+                >
+                  {city.name}
+                </text>
+              )}
+            </g>
+          );
+        })}
+      </svg>
     </div>
   );
 }
@@ -654,20 +747,15 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: portrait desktop */}
+        {/* RIGHT: Europe map desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
-          <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8 relative aspect-[3/4]">
-            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm" fill className="object-cover object-top scale-[1.04]" priority sizes="(max-width:1280px) 40vw, 420px"/>
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0B0D]/60 to-transparent pointer-events-none"/>
-          </div>
+          <EuropeMapReal />
           <p className="text-[10px] text-white/20 font-medium text-right tracking-widest uppercase">Recruiting across Switzerland · France · Sweden · Luxembourg · UK</p>
         </div>
 
-        {/* RIGHT: portrait mobile */}
-        <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
-          <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-white/8 relative">
-            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
-          </div>
+        {/* RIGHT: Europe map mobile */}
+        <div className="lg:hidden mt-10 flex justify-center">
+          <EuropeMapReal mobile />
         </div>
       </div>
     </section>
