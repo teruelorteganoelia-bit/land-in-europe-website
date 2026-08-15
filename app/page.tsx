@@ -654,15 +654,20 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: hero slideshow */}
+        {/* RIGHT: portrait desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
-          <HeroSlideshow />
+          <div className="w-full max-w-sm xl:max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8 relative aspect-[3/4]">
+            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach and international recruiter based in Stockholm" fill className="object-cover object-top scale-[1.04]" priority sizes="(max-width:1280px) 40vw, 420px"/>
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0B0D]/60 to-transparent pointer-events-none"/>
+          </div>
           <p className="text-[10px] text-white/20 font-medium text-right tracking-widest uppercase">Recruiting across Switzerland · France · Sweden · Luxembourg · UK</p>
         </div>
 
-        {/* RIGHT: mobile slideshow */}
-        <div className="lg:hidden mt-10 flex justify-center">
-          <HeroSlideshow mobile />
+        {/* RIGHT: portrait mobile */}
+        <div className="lg:hidden mt-10 flex flex-col items-center gap-4">
+          <div className="w-48 h-60 rounded-2xl overflow-hidden shadow-xl ring-1 ring-white/8 relative">
+            <Image src="/noelianew.png" alt="Noelia Teruel Ortega, career coach" fill className="object-cover object-top" priority sizes="192px"/>
+          </div>
         </div>
       </div>
     </section>
