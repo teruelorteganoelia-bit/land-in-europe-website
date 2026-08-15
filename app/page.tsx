@@ -508,6 +508,55 @@ function EuropeMap({ mobile = false }: { mobile?: boolean }) {
   );
 }
 
+// ─── Hero slideshow ───────────────────────────────────────────────────────────
+const HERO_IMAGES = ["/hero1.jpeg", "/hero2.jpeg", "/hero3.jpeg"];
+
+function HeroSlideshow({ mobile = false }: { mobile?: boolean }) {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setCurrent(c => (c + 1) % HERO_IMAGES.length), 4000);
+    return () => clearInterval(id);
+  }, []);
+
+  const w = mobile ? "w-72" : "w-full max-w-sm xl:max-w-md";
+  const h = mobile ? "h-52" : "aspect-[4/5]";
+
+  return (
+    <div className={`${w} ${h} relative rounded-3xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8`}>
+      {HERO_IMAGES.map((src, i) => (
+        <div
+          key={src}
+          className="absolute inset-0 transition-opacity duration-1000"
+          style={{ opacity: i === current ? 1 : 0 }}
+        >
+          <Image
+            src={src}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="(max-width:1280px) 40vw, 420px"
+            priority={i === 0}
+          />
+        </div>
+      ))}
+      {/* Dark overlay for legibility */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0D]/50 via-transparent to-[#0A0B0D]/20 pointer-events-none"/>
+      {/* Dot indicators */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        {HERO_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+            style={{ background: i === current ? "#C9A84C" : "rgba(255,255,255,0.3)", transform: i === current ? "scale(1.3)" : "scale(1)" }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 // Replace YOUTUBE_VIDEO_ID with the actual ID from your YouTube URL
 const YOUTUBE_VIDEO_ID = "YDs7XZtlPgI";
@@ -605,15 +654,15 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: animated Europe map */}
+        {/* RIGHT: hero slideshow */}
         <div className="hidden lg:flex flex-col items-end gap-4">
-          <EuropeMap />
+          <HeroSlideshow />
           <p className="text-[10px] text-white/20 font-medium text-right tracking-widest uppercase">Recruiting across Switzerland · France · Sweden · Luxembourg · UK</p>
         </div>
 
-        {/* RIGHT: mobile map */}
+        {/* RIGHT: mobile slideshow */}
         <div className="lg:hidden mt-10 flex justify-center">
-          <EuropeMap mobile />
+          <HeroSlideshow mobile />
         </div>
       </div>
     </section>
