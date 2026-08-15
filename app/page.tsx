@@ -508,144 +508,162 @@ function EuropeMap({ mobile = false }: { mobile?: boolean }) {
   );
 }
 
-// ─── Europe map (real SVG) ────────────────────────────────────────────────────
-// City coords mapped to the 500×380 SVG viewport
-// lon→x = (lon+25)/95*500   lat→y = (72-lat)/38*380
-const REAL_CITIES: { name: string; x: number; y: number; active: boolean; anchor: "start" | "end" }[] = [
-  { name: "Stockholm",  x: 226, y: 130, active: true,  anchor: "start" },
-  { name: "London",     x: 132, y: 205, active: true,  anchor: "end"   },
-  { name: "Paris",      x: 144, y: 231, active: true,  anchor: "end"   },
-  { name: "Luxembourg", x: 164, y: 224, active: true,  anchor: "start" },
-  { name: "Zurich",     x: 177, y: 246, active: true,  anchor: "start" },
-  { name: "Berlin",     x: 202, y: 195, active: true,  anchor: "start" },
-  { name: "Amsterdam",  x: 152, y: 196, active: false, anchor: "start" },
-  { name: "Vienna",     x: 213, y: 230, active: false, anchor: "start" },
-  { name: "Madrid",     x: 112, y: 285, active: false, anchor: "end"   },
-  { name: "Rome",       x: 192, y: 272, active: false, anchor: "start" },
-  { name: "Warsaw",     x: 234, y: 195, active: false, anchor: "start" },
+// ─── Europe network visualization ────────────────────────────────────────────
+// Clean animated card — no image dependency, pure SVG on styled dark card
+const NET_CITIES: { name: string; x: number; y: number; anchor: "start" | "end"; hub?: boolean }[] = [
+  { name: "Stockholm",  x: 310, y:  80, anchor: "start", hub: true },
+  { name: "London",     x: 110, y: 190, anchor: "end"   },
+  { name: "Paris",      x: 145, y: 230, anchor: "end"   },
+  { name: "Luxembourg", x: 205, y: 220, anchor: "start" },
+  { name: "Zurich",     x: 225, y: 255, anchor: "start" },
+  { name: "Berlin",     x: 285, y: 170, anchor: "start" },
 ];
 
-const REAL_CONNECTIONS = [
-  [0, 5], [0, 1], [0, 3], [1, 2], [1, 3], [2, 3], [2, 4], [3, 4], [3, 5],
+const NET_CONNECTIONS = [
+  [0, 1], [0, 2], [0, 3], [0, 5],
+  [1, 2], [2, 3], [3, 4], [3, 5],
 ];
 
 function EuropeMapReal({ mobile = false }: { mobile?: boolean }) {
   const [activeConn, setActiveConn] = useState(0);
   const [dotProgress, setDotProgress] = useState(0);
-  const [pulse, setPulse] = useState([0, 2]);
+  const [pulseCity, setPulseCity] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => setActiveConn(c => (c + 1) % REAL_CONNECTIONS.length), 2200);
+    const id = setInterval(() => setActiveConn(c => (c + 1) % NET_CONNECTIONS.length), 2400);
     return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
     let f = 0;
-    const id = setInterval(() => { f = (f + 1) % 60; setDotProgress(f / 60); }, 30);
+    const id = setInterval(() => { f = (f + 1) % 80; setDotProgress(f / 80); }, 25);
     return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
-    const id = setInterval(() => setPulse([
-      Math.floor(Math.random() * 6),
-      Math.floor(Math.random() * 6),
-    ]), 2000);
+    const id = setInterval(() => setPulseCity(Math.floor(Math.random() * NET_CITIES.length)), 1800);
     return () => clearInterval(id);
   }, []);
 
-  const scale = mobile ? 0.6 : 0.88;
-  const W = 500 * scale, H = 380 * scale;
+  const W = mobile ? 340 : 460;
+  const H = mobile ? 240 : 320;
+  const vW = 460, vH = 320;
 
-  const [a, b] = REAL_CONNECTIONS[activeConn];
-  const ca = REAL_CITIES[a], cb = REAL_CITIES[b];
+  const [a, b] = NET_CONNECTIONS[activeConn];
+  const ca = NET_CITIES[a], cb = NET_CITIES[b];
   const tx = ca.x + (cb.x - ca.x) * dotProgress;
   const ty = ca.y + (cb.y - ca.y) * dotProgress;
 
   return (
-    <div style={{ width: W, height: H }} className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/8">
-      {/* Real Europe SVG as base, styled dark */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/europe.svg"
-        alt=""
+    <div
+      style={{ width: W, height: H }}
+      className="relative rounded-2xl overflow-hidden border border-[#C9A84C]/18 shadow-2xl shadow-black/50"
+    >
+      {/* Background */}
+      <div className="absolute inset-0 bg-[#0C0E13]" />
+
+      {/* Dot grid pattern */}
+      <svg className="absolute inset-0 opacity-[0.07]" width={W} height={H} aria-hidden="true">
+        <defs>
+          <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+            <circle cx="1.5" cy="1.5" r="1.2" fill="#C9A84C"/>
+          </pattern>
+        </defs>
+        <rect width={W} height={H} fill="url(#dots)"/>
+      </svg>
+
+      {/* Subtle gold radial glow top-right (Stockholm area) */}
+      <div
+        className="absolute rounded-full pointer-events-none"
         style={{
-          width: W, height: H,
-          filter: "invert(1) brightness(0.18) sepia(0.4) saturate(0.6)",
-          position: "absolute", inset: 0,
+          width: 260, height: 260,
+          top: -60, right: -40,
+          background: "radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%)",
         }}
       />
 
-      {/* Animated overlay */}
+      {/* Network SVG */}
       <svg
-        viewBox="0 0 500 380"
+        viewBox={`0 0 ${vW} ${vH}`}
         width={W} height={H}
         className="absolute inset-0"
         aria-hidden="true"
       >
         <defs>
-          <filter id="rglow">
-            <feGaussianBlur stdDeviation="3" result="b"/>
+          <filter id="nglow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="nglowSm" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="1.8" result="b"/>
             <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
 
         {/* Connection lines */}
-        {REAL_CONNECTIONS.map(([ai, bi], i) => {
-          const cA = REAL_CITIES[ai], cB = REAL_CITIES[bi];
+        {NET_CONNECTIONS.map(([ai, bi], i) => {
+          const cA = NET_CITIES[ai], cB = NET_CITIES[bi];
           const isActive = i === activeConn;
           return (
             <line key={i}
               x1={cA.x} y1={cA.y} x2={cB.x} y2={cB.y}
               stroke="#C9A84C"
-              strokeWidth={isActive ? 1.2 : 0.5}
-              strokeOpacity={isActive ? 0.8 : 0.2}
-              strokeDasharray={isActive ? "none" : "3 4"}
-              style={{ transition: "all 0.5s ease" }}
+              strokeWidth={isActive ? 1.4 : 0.6}
+              strokeOpacity={isActive ? 0.75 : 0.18}
+              strokeDasharray={isActive ? "none" : "4 5"}
+              style={{ transition: "all 0.6s ease" }}
             />
           );
         })}
 
         {/* Traveling dot */}
-        <circle cx={tx} cy={ty} r="4" fill="#C9A84C" opacity="0.95" filter="url(#rglow)"/>
-        <circle cx={tx} cy={ty} r="1.8" fill="white" opacity="0.9"/>
+        <circle cx={tx} cy={ty} r="5" fill="#C9A84C" opacity="0.9" filter="url(#nglow)"/>
+        <circle cx={tx} cy={ty} r="2.2" fill="white" opacity="0.95"/>
 
-        {/* City dots */}
-        {REAL_CITIES.map((city, i) => {
-          const isPulsing = pulse.includes(i) && city.active;
+        {/* City nodes */}
+        {NET_CITIES.map((city, i) => {
+          const isPulsing = i === pulseCity;
+          const isHub = city.hub;
+          const r = isHub ? 6 : 4.5;
           return (
-            <g key={city.name} filter={city.active ? "url(#rglow)" : undefined}>
+            <g key={city.name} filter="url(#nglowSm)">
               {isPulsing && (
-                <circle cx={city.x} cy={city.y} r="12"
-                  fill="none" stroke="#C9A84C" strokeWidth="0.7" strokeOpacity="0.3"
+                <circle cx={city.x} cy={city.y} r={r + 12}
+                  fill="none" stroke="#C9A84C" strokeWidth="0.8" strokeOpacity="0.25"
+                  style={{ animation: "none" }}
                 />
               )}
-              {city.active && (
-                <circle cx={city.x} cy={city.y} r="7"
-                  fill="none" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.15"
-                />
-              )}
-              <circle cx={city.x} cy={city.y}
-                r={city.active ? 4 : 2}
-                fill={city.active ? "#C9A84C" : "#ffffff"}
-                fillOpacity={city.active ? 1 : 0.2}
+              <circle cx={city.x} cy={city.y} r={r + 5}
+                fill="none" stroke="#C9A84C" strokeWidth="0.7" strokeOpacity="0.12"
               />
-              {city.active && <circle cx={city.x} cy={city.y} r="1.5" fill="white" fillOpacity="0.7"/>}
-              {city.active && (
-                <text
-                  x={city.anchor === "end" ? city.x - 8 : city.x + 8}
-                  y={city.y + 4}
-                  fontSize="10" fontWeight="500"
-                  fill="#C9A84C" fillOpacity="0.85"
-                  fontFamily="system-ui, sans-serif"
-                  textAnchor={city.anchor}
-                >
-                  {city.name}
-                </text>
-              )}
+              <circle cx={city.x} cy={city.y} r={r}
+                fill="#C9A84C" fillOpacity={isHub ? 1 : 0.9}
+              />
+              <circle cx={city.x} cy={city.y} r={isHub ? 2.8 : 2}
+                fill="white" fillOpacity={0.85}
+              />
+              <text
+                x={city.anchor === "end" ? city.x - r - 7 : city.x + r + 7}
+                y={city.y + 4}
+                fontSize={isHub ? 12 : 10.5}
+                fontWeight={isHub ? "700" : "500"}
+                fill="#C9A84C"
+                fillOpacity={isHub ? 1 : 0.82}
+                fontFamily="system-ui, -apple-system, sans-serif"
+                textAnchor={city.anchor}
+              >
+                {city.name}
+              </text>
             </g>
           );
         })}
       </svg>
+
+      {/* Bottom label bar */}
+      <div className="absolute bottom-0 inset-x-0 px-4 py-3 border-t border-[#C9A84C]/10 bg-[#0C0E13]/80 backdrop-blur-sm flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse flex-shrink-0"/>
+        <span className="text-[9px] font-semibold text-[#C9A84C]/60 tracking-[0.18em] uppercase">Recruiting network · Western Europe</span>
+      </div>
     </div>
   );
 }
@@ -747,13 +765,12 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: Europe map desktop */}
+        {/* RIGHT: Network map desktop */}
         <div className="hidden lg:flex flex-col items-end gap-4">
           <EuropeMapReal />
-          <p className="text-[10px] text-white/20 font-medium text-right tracking-widest uppercase">Recruiting across Switzerland · France · Sweden · Luxembourg · UK</p>
         </div>
 
-        {/* RIGHT: Europe map mobile */}
+        {/* RIGHT: Network map mobile */}
         <div className="lg:hidden mt-10 flex justify-center">
           <EuropeMapReal mobile />
         </div>
