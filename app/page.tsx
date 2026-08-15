@@ -460,186 +460,143 @@ function Navbar() {
   );
 }
 
-// ─── Europe map ───────────────────────────────────────────────────────────────
-// Cities: coordinates mapped to viewBox 0 0 600 520
-// lon → x = (lon + 12) / 54 * 600   lat → y = (72 - lat) / 38 * 520
-const MAP_CITIES = [
-  { name: "Stockholm",  x: 334, y: 167, active: true  },
-  { name: "Paris",      x: 159, y: 305, active: true  },
-  { name: "Zurich",     x: 228, y: 324, active: true  },
-  { name: "Berlin",     x: 282, y: 257, active: true  },
-  { name: "London",     x: 132, y: 270, active: true  },
-  { name: "Luxembourg", x: 201, y: 295, active: true  },
-  { name: "Amsterdam",  x: 188, y: 258, active: false },
-  { name: "Vienna",     x: 315, y: 313, active: false },
-  { name: "Madrid",     x: 92,  y: 415, active: false },
-  { name: "Milan",      x: 235, y: 349, active: false },
-  { name: "Warsaw",     x: 355, y: 247, active: false },
-  { name: "Lisbon",     x: 55,  y: 415, active: false },
+// ─── Europe network visualization ─────────────────────────────────────────────
+// City positions are geographically accurate relative to each other
+const NET_CITIES = [
+  { name: "Stockholm",  x: 340, y: 80,  active: true,  label: "right" },
+  { name: "London",     x: 130, y: 200, active: true,  label: "left"  },
+  { name: "Paris",      x: 175, y: 255, active: true,  label: "left"  },
+  { name: "Luxembourg", x: 220, y: 238, active: true,  label: "right" },
+  { name: "Zurich",     x: 238, y: 275, active: true,  label: "right" },
+  { name: "Berlin",     x: 298, y: 195, active: true,  label: "right" },
+  { name: "Amsterdam",  x: 200, y: 190, active: false, label: "right" },
+  { name: "Vienna",     x: 320, y: 268, active: false, label: "right" },
+  { name: "Warsaw",     x: 365, y: 190, active: false, label: "right" },
+  { name: "Madrid",     x: 120, y: 360, active: false, label: "left"  },
+  { name: "Rome",       x: 268, y: 355, active: false, label: "right" },
+  { name: "Lisbon",     x: 72,  y: 370, active: false, label: "left"  },
 ];
 
-const MAP_CONNECTIONS = [
-  [0, 3], [0, 1], [0, 4], [1, 2], [1, 5], [2, 5], [3, 6], [3, 7], [1, 4],
+const NET_CONNECTIONS = [
+  [0, 5], [0, 1], [0, 2], [1, 2], [1, 3], [2, 3], [2, 4], [3, 4], [3, 5], [4, 7], [5, 8],
 ];
 
 function EuropeMap({ mobile = false }: { mobile?: boolean }) {
-  const [pulse, setPulse] = useState<number[]>([]);
   const [activeConn, setActiveConn] = useState(0);
   const [dotProgress, setDotProgress] = useState(0);
+  const [pulseCities, setPulseCities] = useState([0, 2]);
 
   useEffect(() => {
-    const connId = setInterval(() => setActiveConn(c => (c + 1) % MAP_CONNECTIONS.length), 2200);
-    return () => clearInterval(connId);
+    const id = setInterval(() => setActiveConn(c => (c + 1) % NET_CONNECTIONS.length), 2000);
+    return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
-    let frame = 0;
-    const id = setInterval(() => {
-      frame = (frame + 1) % 60;
-      setDotProgress(frame / 60);
-    }, 33);
+    let f = 0;
+    const id = setInterval(() => { f = (f + 1) % 60; setDotProgress(f / 60); }, 30);
     return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
     const id = setInterval(() => {
-      const idx = Math.floor(Math.random() * MAP_CITIES.filter(c => c.active).length);
-      setPulse(p => [...p.slice(-2), idx]);
-    }, 1500);
+      setPulseCities([Math.floor(Math.random() * 6), Math.floor(Math.random() * 6)]);
+    }, 2500);
     return () => clearInterval(id);
   }, []);
 
-  const W = 600, H = 520;
-  const scale = mobile ? 0.55 : 0.82;
-  const w = W * scale, h = H * scale;
+  const VW = 500, VH = 460;
+  const scale = mobile ? 0.62 : 0.9;
+  const w = VW * scale, h = VH * scale;
 
-  const [a, b] = MAP_CONNECTIONS[activeConn];
-  const ca = MAP_CITIES[a], cb = MAP_CITIES[b];
+  const [a, b] = NET_CONNECTIONS[activeConn];
+  const ca = NET_CITIES[a], cb = NET_CITIES[b];
   const tx = ca.x + (cb.x - ca.x) * dotProgress;
   const ty = ca.y + (cb.y - ca.y) * dotProgress;
 
   return (
-    <div style={{ width: w, height: h }} className="relative">
-      <svg
-        viewBox={`0 0 ${W} ${H}`}
-        width={w}
-        height={h}
-        className="absolute inset-0"
-        aria-hidden="true"
-      >
+    <div style={{ width: w, height: h }} className="relative select-none">
+      <svg viewBox={`0 0 ${VW} ${VH}`} width={w} height={h} aria-hidden="true">
         <defs>
-          <radialGradient id="mapGlow" cx="45%" cy="50%" r="55%">
-            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.07"/>
+          <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+            <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.06"/>
             <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
           </radialGradient>
-          <filter id="cityGlow" x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="4" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          <filter id="glow1">
+            <feGaussianBlur stdDeviation="3" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
-          <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          <filter id="glow2">
+            <feGaussianBlur stdDeviation="6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
 
-        {/* Background glow */}
-        <ellipse cx="280" cy="300" rx="280" ry="220" fill="url(#mapGlow)"/>
+        {/* Ambient background */}
+        <ellipse cx="240" cy="240" rx="240" ry="200" fill="url(#bg)"/>
 
-        {/* Graticule lines (lat/lon grid) */}
-        {[100, 200, 300, 400].map(y => (
-          <line key={`h${y}`} x1="0" y1={y} x2={W} y2={y} stroke="#C9A84C" strokeWidth="0.4" strokeOpacity="0.06"/>
-        ))}
-        {[100, 200, 300, 400, 500].map(x => (
-          <line key={`v${x}`} x1={x} y1="0" x2={x} y2={H} stroke="#C9A84C" strokeWidth="0.4" strokeOpacity="0.06"/>
-        ))}
+        {/* Subtle dot grid */}
+        {Array.from({ length: 10 }, (_, row) =>
+          Array.from({ length: 11 }, (_, col) => (
+            <circle key={`${row}-${col}`}
+              cx={col * 50} cy={row * 50}
+              r="1" fill="#C9A84C" fillOpacity="0.07"
+            />
+          ))
+        )}
 
-        {/* ── Simplified country outlines ── */}
-        {/* Norway */}
-        <path d="M 190,185 C 185,155 178,110 183,65 C 188,35 205,15 222,8 L 400,8 C 385,45 368,85 362,118 C 350,148 322,162 295,172 C 272,180 248,184 225,185 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.25"/>
-        {/* Sweden */}
-        <path d="M 225,185 C 248,184 272,180 295,172 C 322,162 350,148 362,118 L 390,8 L 420,8 C 428,45 422,90 408,128 C 396,158 372,175 352,190 C 336,202 320,207 305,210 C 290,212 272,211 255,208 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.25"/>
-        {/* Finland */}
-        <path d="M 390,8 L 470,8 C 490,40 488,90 472,135 C 460,165 440,172 420,8 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.2"/>
-        {/* Denmark */}
-        <path d="M 210,208 L 225,205 L 232,215 L 228,228 L 215,230 L 205,222 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.25"/>
-        {/* UK */}
-        <path d="M 95,192 L 120,178 L 148,182 L 162,198 L 168,220 L 158,245 L 132,255 L 105,248 L 88,228 L 90,208 Z"
-          fill="#1e2433" stroke="#C9A84C" strokeWidth="0.8" strokeOpacity="0.5"/>
-        {/* Ireland */}
-        <path d="M 68,215 L 84,205 L 92,218 L 88,238 L 74,245 L 60,238 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.2"/>
-        {/* France */}
-        <path d="M 118,258 L 155,245 L 198,250 L 218,268 L 222,295 L 205,322 L 178,332 L 148,328 L 125,310 L 112,285 Z"
-          fill="#1e2433" stroke="#C9A84C" strokeWidth="0.8" strokeOpacity="0.5"/>
-        {/* Iberian Peninsula */}
-        <path d="M 60,328 L 118,320 L 148,328 L 178,332 L 188,355 L 175,390 L 148,410 L 115,418 L 82,408 L 58,385 L 50,358 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.25"/>
-        {/* Germany */}
-        <path d="M 210,228 L 258,222 L 305,230 L 318,252 L 308,275 L 280,285 L 252,282 L 222,270 L 208,250 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.25"/>
-        {/* BeNeLux + Switzerland */}
-        <path d="M 175,248 L 210,242 L 222,252 L 218,268 L 198,272 L 175,265 Z"
-          fill="#1e2433" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.3"/>
-        {/* Italy (boot) */}
-        <path d="M 218,295 L 252,285 L 268,305 L 272,340 L 265,375 L 255,408 L 242,435 L 255,452 L 248,462 L 235,455 L 225,432 L 218,400 L 220,360 L 215,325 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.2"/>
-        {/* Poland + Baltics */}
-        <path d="M 308,222 L 382,215 L 400,238 L 388,265 L 355,278 L 318,272 L 308,252 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.2"/>
-        {/* Austria + Czechia */}
-        <path d="M 252,282 L 308,275 L 322,295 L 315,318 L 285,325 L 255,315 L 242,300 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.2"/>
-        {/* Greece */}
-        <path d="M 318,378 L 348,370 L 362,390 L 352,412 L 332,418 L 315,405 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.2"/>
-        {/* Balkans rough */}
-        <path d="M 285,325 L 355,318 L 378,350 L 362,390 L 318,378 L 295,358 L 280,338 Z"
-          fill="#1a1e28" stroke="#C9A84C" strokeWidth="0.5" strokeOpacity="0.15"/>
-
-        {/* Connection lines */}
-        {MAP_CONNECTIONS.map(([ai, bi], i) => {
-          const cA = MAP_CITIES[ai], cB = MAP_CITIES[bi];
+        {/* All connection lines (dim) */}
+        {NET_CONNECTIONS.map(([ai, bi], i) => {
+          const cA = NET_CITIES[ai], cB = NET_CITIES[bi];
           const isActive = i === activeConn;
           return (
             <line key={i}
               x1={cA.x} y1={cA.y} x2={cB.x} y2={cB.y}
               stroke="#C9A84C"
-              strokeWidth={isActive ? 1.2 : 0.5}
-              strokeOpacity={isActive ? 0.7 : 0.18}
-              strokeDasharray={isActive ? "none" : "4 4"}
-              style={{ transition: "all 0.5s ease" }}
+              strokeWidth={isActive ? 1.5 : 0.6}
+              strokeOpacity={isActive ? 0.65 : 0.12}
+              strokeDasharray={isActive ? "none" : "3 5"}
+              style={{ transition: "stroke-width 0.4s, stroke-opacity 0.4s" }}
             />
           );
         })}
 
         {/* Traveling dot */}
-        <circle cx={tx} cy={ty} r="4" fill="#C9A84C" opacity="0.9" filter="url(#softGlow)"/>
+        <circle cx={tx} cy={ty} r="4.5" fill="#C9A84C" opacity="0.95" filter="url(#glow1)"/>
+        <circle cx={tx} cy={ty} r="2" fill="white" opacity="0.9"/>
 
-        {/* City dots */}
-        {MAP_CITIES.map((city, i) => {
-          const isPulsing = pulse.includes(i) && city.active;
+        {/* City nodes */}
+        {NET_CITIES.map((city, i) => {
+          const isPulsing = pulseCities.includes(i) && city.active;
+          const labelLeft = city.label === "left";
           return (
-            <g key={city.name} filter={city.active ? "url(#cityGlow)" : undefined}>
-              {city.active && (
-                <circle cx={city.x} cy={city.y} r={isPulsing ? 14 : 10}
-                  fill="none" stroke="#C9A84C"
-                  strokeWidth="0.8" strokeOpacity={isPulsing ? 0.4 : 0.15}
-                  style={{ transition: "all 0.6s ease" }}
+            <g key={city.name} filter={city.active ? "url(#glow1)" : undefined}>
+              {/* Pulse ring */}
+              {isPulsing && (
+                <circle cx={city.x} cy={city.y} r="18"
+                  fill="none" stroke="#C9A84C" strokeWidth="0.8" strokeOpacity="0.25"
                 />
               )}
-              <circle cx={city.x} cy={city.y}
-                r={city.active ? 5 : 3}
-                fill={city.active ? "#C9A84C" : "#ffffff"}
-                fillOpacity={city.active ? 1 : 0.25}
-              />
               {city.active && (
-                <text x={city.x + 8} y={city.y + 4}
-                  fontSize="12" fill="#C9A84C" fillOpacity="0.75"
-                  fontFamily="system-ui, sans-serif" fontWeight="500"
+                <circle cx={city.x} cy={city.y} r="11"
+                  fill="none" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.18"
+                />
+              )}
+              {/* Dot */}
+              <circle cx={city.x} cy={city.y}
+                r={city.active ? 5 : 2.5}
+                fill={city.active ? "#C9A84C" : "#ffffff"}
+                fillOpacity={city.active ? 1 : 0.2}
+              />
+              {city.active && <circle cx={city.x} cy={city.y} r="2" fill="white" fillOpacity="0.7"/>}
+              {/* Label */}
+              {city.active && (
+                <text
+                  x={labelLeft ? city.x - 10 : city.x + 10}
+                  y={city.y + 4}
+                  fontSize="11" fontWeight="500"
+                  fill="#C9A84C" fillOpacity="0.8"
+                  fontFamily="system-ui, sans-serif"
+                  textAnchor={labelLeft ? "end" : "start"}
                 >
                   {city.name}
                 </text>
