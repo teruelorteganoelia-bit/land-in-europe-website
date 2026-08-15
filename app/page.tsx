@@ -359,161 +359,90 @@ function Navbar() {
   );
 }
 
-// ─── Europe network visualization ────────────────────────────────────────────
-// Clean animated card — no image dependency, pure SVG on styled dark card
-const NET_CITIES: { name: string; x: number; y: number; anchor: "start" | "end"; hub?: boolean }[] = [
-  { name: "Stockholm",  x: 345, y:  58, anchor: "start", hub: true },
-  { name: "London",     x:  88, y: 168, anchor: "end"   },
-  { name: "Paris",      x: 108, y: 215, anchor: "end"   },
-  { name: "Luxembourg", x: 210, y: 192, anchor: "start" },
-  { name: "Zurich",     x: 228, y: 238, anchor: "start" },
-  { name: "Berlin",     x: 302, y: 145, anchor: "start" },
-];
-
-const NET_CONNECTIONS = [
-  [0, 1], [0, 2], [0, 3], [0, 5],
-  [1, 2], [2, 3], [3, 4], [3, 5],
+// ─── City photo slideshow ─────────────────────────────────────────────────────
+const CITY_SLIDES = [
+  {
+    city: "Stockholm",
+    country: "Sweden",
+    url: "https://images.unsplash.com/photo-1509356843151-3e7d96241e11?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    city: "Paris",
+    country: "France",
+    url: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    city: "London",
+    country: "United Kingdom",
+    url: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    city: "Luxembourg",
+    country: "Luxembourg",
+    url: "https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    city: "Zurich",
+    country: "Switzerland",
+    url: "https://images.unsplash.com/photo-1515488764276-beab7607c1e6?auto=format&fit=crop&w=900&q=80",
+  },
 ];
 
 function EuropeMapReal({ mobile = false }: { mobile?: boolean }) {
-  const [activeConn, setActiveConn] = useState(0);
-  const [dotProgress, setDotProgress] = useState(0);
-  const [pulseCity, setPulseCity] = useState(0);
+  const [idx, setIdx] = useState(0);
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    const id = setInterval(() => setActiveConn(c => (c + 1) % NET_CONNECTIONS.length), 2400);
+    const id = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setIdx(i => (i + 1) % CITY_SLIDES.length);
+        setFading(false);
+      }, 500);
+    }, 4000);
     return () => clearInterval(id);
   }, []);
 
-  useEffect(() => {
-    let f = 0;
-    const id = setInterval(() => { f = (f + 1) % 80; setDotProgress(f / 80); }, 25);
-    return () => clearInterval(id);
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => setPulseCity(Math.floor(Math.random() * NET_CITIES.length)), 1800);
-    return () => clearInterval(id);
-  }, []);
-
-  const W = mobile ? 340 : 480;
-  const H = mobile ? 240 : 340;
-  const vW = 480, vH = 340;
-
-  const [a, b] = NET_CONNECTIONS[activeConn];
-  const ca = NET_CITIES[a], cb = NET_CITIES[b];
-  const tx = ca.x + (cb.x - ca.x) * dotProgress;
-  const ty = ca.y + (cb.y - ca.y) * dotProgress;
+  const slide = CITY_SLIDES[idx];
+  const w = mobile ? "w-full max-w-sm" : "w-[460px]";
+  const h = mobile ? "h-56" : "h-[380px]";
 
   return (
-    <div
-      style={{ width: W, height: H }}
-      className="relative rounded-2xl overflow-hidden border border-[#C9A84C]/18 shadow-2xl shadow-black/50"
-    >
-      {/* Background */}
-      <div className="absolute inset-0 bg-[#0C0E13]" />
-
-      {/* Dot grid pattern */}
-      <svg className="absolute inset-0 opacity-[0.07]" width={W} height={H} aria-hidden="true">
-        <defs>
-          <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-            <circle cx="1.5" cy="1.5" r="1.2" fill="#C9A84C"/>
-          </pattern>
-        </defs>
-        <rect width={W} height={H} fill="url(#dots)"/>
-      </svg>
-
-      {/* Subtle gold radial glow top-right (Stockholm area) */}
-      <div
-        className="absolute rounded-full pointer-events-none"
-        style={{
-          width: 260, height: 260,
-          top: -60, right: -40,
-          background: "radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%)",
-        }}
+    <div className={`${w} ${h} relative rounded-2xl overflow-hidden shadow-2xl shadow-black/60 flex-shrink-0`}>
+      {/* Photo */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={slide.url}
+        alt={slide.city}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: fading ? 0 : 1, transition: "opacity 0.5s ease" }}
       />
 
-      {/* Network SVG */}
-      <svg
-        viewBox={`0 0 ${vW} ${vH}`}
-        width={W} height={H}
-        className="absolute inset-0"
-        aria-hidden="true"
-      >
-        <defs>
-          <filter id="nglow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3.5" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <filter id="nglowSm" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1.8" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-        {/* Connection lines */}
-        {NET_CONNECTIONS.map(([ai, bi], i) => {
-          const cA = NET_CITIES[ai], cB = NET_CITIES[bi];
-          const isActive = i === activeConn;
-          return (
-            <line key={i}
-              x1={cA.x} y1={cA.y} x2={cB.x} y2={cB.y}
-              stroke="#C9A84C"
-              strokeWidth={isActive ? 1.4 : 0.6}
-              strokeOpacity={isActive ? 0.75 : 0.18}
-              strokeDasharray={isActive ? "none" : "4 5"}
-              style={{ transition: "all 0.6s ease" }}
+      {/* City label bottom */}
+      <div className="absolute bottom-0 inset-x-0 p-5 flex items-end justify-between">
+        <div>
+          <p
+            className="text-white font-serif text-2xl font-bold leading-tight"
+            style={{ opacity: fading ? 0 : 1, transition: "opacity 0.5s ease" }}
+          >
+            {slide.city}
+          </p>
+          <p className="text-white/60 text-xs font-medium tracking-widest uppercase mt-0.5">{slide.country}</p>
+        </div>
+        {/* Dot indicators */}
+        <div className="flex gap-1.5 mb-1">
+          {CITY_SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setFading(true); setTimeout(() => { setIdx(i); setFading(false); }, 500); }}
+              className={`rounded-full transition-all duration-300 ${i === idx ? "bg-[#C9A84C] w-4 h-1.5" : "bg-white/30 w-1.5 h-1.5"}`}
+              aria-label={CITY_SLIDES[i].city}
             />
-          );
-        })}
-
-        {/* Traveling dot */}
-        <circle cx={tx} cy={ty} r="5" fill="#C9A84C" opacity="0.9" filter="url(#nglow)"/>
-        <circle cx={tx} cy={ty} r="2.2" fill="white" opacity="0.95"/>
-
-        {/* City nodes */}
-        {NET_CITIES.map((city, i) => {
-          const isPulsing = i === pulseCity;
-          const isHub = city.hub;
-          const r = isHub ? 6 : 4.5;
-          return (
-            <g key={city.name} filter="url(#nglowSm)">
-              {isPulsing && (
-                <circle cx={city.x} cy={city.y} r={r + 12}
-                  fill="none" stroke="#C9A84C" strokeWidth="0.8" strokeOpacity="0.25"
-                  style={{ animation: "none" }}
-                />
-              )}
-              <circle cx={city.x} cy={city.y} r={r + 5}
-                fill="none" stroke="#C9A84C" strokeWidth="0.7" strokeOpacity="0.12"
-              />
-              <circle cx={city.x} cy={city.y} r={r}
-                fill="#C9A84C" fillOpacity={isHub ? 1 : 0.9}
-              />
-              <circle cx={city.x} cy={city.y} r={isHub ? 2.8 : 2}
-                fill="white" fillOpacity={0.85}
-              />
-              <text
-                x={city.anchor === "end" ? city.x - r - 7 : city.x + r + 7}
-                y={city.y + 4}
-                fontSize={isHub ? 12 : 10.5}
-                fontWeight={isHub ? "700" : "500"}
-                fill="#C9A84C"
-                fillOpacity={isHub ? 1 : 0.82}
-                fontFamily="system-ui, -apple-system, sans-serif"
-                textAnchor={city.anchor}
-              >
-                {city.name}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-
-      {/* Bottom label bar */}
-      <div className="absolute bottom-0 inset-x-0 px-4 py-3 border-t border-[#C9A84C]/10 bg-[#0C0E13]/80 backdrop-blur-sm flex items-center gap-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse flex-shrink-0"/>
-        <span className="text-[9px] font-semibold text-[#C9A84C]/60 tracking-[0.18em] uppercase">Recruiting network · Western Europe</span>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -616,13 +545,13 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: Network map desktop */}
-        <div className="hidden lg:flex flex-col items-end gap-4">
+        {/* RIGHT: City slideshow desktop */}
+        <div className="hidden lg:flex justify-end">
           <EuropeMapReal />
         </div>
 
-        {/* RIGHT: Network map mobile */}
-        <div className="lg:hidden mt-10 flex justify-center">
+        {/* RIGHT: City slideshow mobile */}
+        <div className="lg:hidden mt-8 px-4">
           <EuropeMapReal mobile />
         </div>
       </div>
