@@ -679,9 +679,9 @@ function SeniorBlock() {
             </p>
             <ul className="space-y-4 mb-10">
               {[
-                "Your CV is written like it is 2015 — the format, the language, the structure",
+                "Your CV is written like it is 2015. The format, the language, the structure",
                 "Your LinkedIn is invisible to headhunters because the keywords are wrong",
-                "You do not know whether to apply up, sideways, or pivot, and to where",
+                "You do not know whether to apply up, sideways, or pivot",
                 "You feel overqualified for some roles and invisible to the ones you actually want",
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
@@ -710,7 +710,7 @@ function SeniorBlock() {
               {
                 num: "02",
                 title: "Career change is possible at any level",
-                body: "Pivoting at senior level is harder — but not because of your age. It is because most people do not know how to position transferable skills. That is fixable.",
+                body: "Pivoting at senior level is harder, but not because of your age. It is because most people do not know how to position transferable skills. That is fixable.",
               },
               {
                 num: "03",
