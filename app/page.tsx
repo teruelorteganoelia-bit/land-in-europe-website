@@ -511,18 +511,18 @@ function EuropeMap({ mobile = false }: { mobile?: boolean }) {
 // ─── Europe map (real SVG) ────────────────────────────────────────────────────
 // City coords mapped to the 500×380 SVG viewport
 // lon→x = (lon+25)/95*500   lat→y = (72-lat)/38*380
-const REAL_CITIES = [
-  { name: "Stockholm",  x: 226, y: 130, active: true,  anchor: "start"  },
-  { name: "London",     x: 132, y: 205, active: true,  anchor: "end"    },
-  { name: "Paris",      x: 144, y: 231, active: true,  anchor: "end"    },
-  { name: "Luxembourg", x: 164, y: 224, active: true,  anchor: "start"  },
-  { name: "Zurich",     x: 177, y: 246, active: true,  anchor: "start"  },
-  { name: "Berlin",     x: 202, y: 195, active: true,  anchor: "start"  },
-  { name: "Amsterdam",  x: 152, y: 196, active: false, anchor: "start"  },
-  { name: "Vienna",     x: 213, y: 230, active: false, anchor: "start"  },
-  { name: "Madrid",     x: 112, y: 285, active: false, anchor: "end"    },
-  { name: "Rome",       x: 192, y: 272, active: false, anchor: "start"  },
-  { name: "Warsaw",     x: 234, y: 195, active: false, anchor: "start"  },
+const REAL_CITIES: { name: string; x: number; y: number; active: boolean; anchor: "start" | "end" }[] = [
+  { name: "Stockholm",  x: 226, y: 130, active: true,  anchor: "start" },
+  { name: "London",     x: 132, y: 205, active: true,  anchor: "end"   },
+  { name: "Paris",      x: 144, y: 231, active: true,  anchor: "end"   },
+  { name: "Luxembourg", x: 164, y: 224, active: true,  anchor: "start" },
+  { name: "Zurich",     x: 177, y: 246, active: true,  anchor: "start" },
+  { name: "Berlin",     x: 202, y: 195, active: true,  anchor: "start" },
+  { name: "Amsterdam",  x: 152, y: 196, active: false, anchor: "start" },
+  { name: "Vienna",     x: 213, y: 230, active: false, anchor: "start" },
+  { name: "Madrid",     x: 112, y: 285, active: false, anchor: "end"   },
+  { name: "Rome",       x: 192, y: 272, active: false, anchor: "start" },
+  { name: "Warsaw",     x: 234, y: 195, active: false, anchor: "start" },
 ];
 
 const REAL_CONNECTIONS = [
