@@ -7,42 +7,44 @@ const CANDIDATE_SERVICES = [
     id: "cv-rewrite",
     tag: "Most requested",
     title: "CV Rewrite",
-    body: "Your CV rebuilt from scratch for the European market. Clean single-column format, achievement-led bullet points, professional summary written for your target role, and language levels that pass ATS filters. Delivered as a Word file you can edit.",
+    body: "You have the experience. Your CV is not showing it in a way European recruiters recognise. I rewrite it from scratch. Not a light edit. A full rebuild by someone who opens CVs for European companies every day and knows in the first ten seconds whether something will land.",
     includes: [
-      "Full CV rewrite in European format",
-      "Professional summary tailored to your target role",
-      "Achievement-led bullet points with results",
-      "Language and right-to-work section",
-      "ATS-optimised structure",
+      "Full rewrite in European format, not a template",
+      "Professional summary written for your target role",
+      "Experience rewritten as achievements with numbers",
+      "Language and right-to-work section included",
+      "ATS-optimised so it gets through the filters",
+      "Delivered as an editable Word file",
     ],
-    cta: "Get in touch",
+    cta: "Get your CV rewritten",
     href: "/#contact",
   },
   {
     id: "linkedin",
     tag: "High impact",
     title: "LinkedIn Optimisation",
-    body: "Your LinkedIn rebuilt so recruiters actually find you. Headline, About section, keywords, and open-to-work settings, all calibrated for how LinkedIn Recruiter searches work in 2026.",
+    body: "Most international professionals have a LinkedIn profile. Very few have one that actually shows up when a recruiter searches. If your headline says 'open to opportunities' or your location is wrong for your target market, you are invisible. I fix that.",
     includes: [
-      "Headline rewritten for recruiter search visibility",
-      "About section written in your voice",
-      "Keyword strategy for your target market",
-      "Open-to-work settings explained",
-      "Skills and endorsement audit",
+      "Headline rewritten with the keywords recruiters search",
+      "About section written in your voice, not corporate filler",
+      "Keyword strategy built for your target market and country",
+      "Location and open-to-work settings calibrated correctly",
+      "Skills section audited for search visibility",
     ],
-    cta: "Get in touch",
+    cta: "Get your LinkedIn sorted",
     href: "/#contact",
   },
   {
     id: "session",
     tag: "Good starting point",
     title: "1:1 Coaching Session",
-    body: "One focused hour. You bring your situation: where you are, what is not working, what you want. We leave with a clear next step. Good if you are close but stuck, or if you want an honest read on what is blocking you.",
+    body: "Something is not working but you are not sure what. In one focused hour I look at your full picture, ask the questions a recruiter would ask, and tell you exactly what is blocking you. You leave with a written action plan, not a list of things to think about.",
     includes: [
-      "CV or LinkedIn review",
-      "Identify exactly what is blocking you",
-      "One clear action plan",
-      "Written summary after the session",
+      "CV or LinkedIn review included",
+      "Honest read on what is actually blocking you",
+      "Clear action plan for the next 30 days",
+      "Written summary sent after the session",
+      "Available in English or Spanish",
     ],
     cta: "Book a session",
     href: "/#contact",
@@ -52,16 +54,16 @@ const CANDIDATE_SERVICES = [
     tag: "Best results",
     title: "Full Coaching Package",
     featured: true,
-    body: "Everything. Five sessions, a full CV rewrite, LinkedIn optimisation, a personalised company map, and WhatsApp access throughout your search. And if you do not get an offer, I keep working with you until you do. From €499.",
+    body: "Everything, start to offer. Five sessions, a full CV rewrite, LinkedIn optimisation, a personalised company map, and WhatsApp access throughout your search. And if you complete the programme and do not get an offer, I keep working with you at no extra cost until you do.",
     includes: [
       "5 themed coaching sessions",
-      "Full CV rewrite",
-      "LinkedIn optimisation",
+      "Full CV rewrite included",
+      "LinkedIn optimisation included",
       "Personalised target company map",
-      "WhatsApp support throughout your search",
-      "Offer guarantee: I keep working until you get one",
+      "WhatsApp access for your entire job search",
+      "Offer guarantee: I keep working until you land",
     ],
-    cta: "Apply for the package",
+    cta: "Apply for a spot",
     href: "/#contact",
   },
 ];
@@ -187,11 +189,11 @@ export default function ServicesPage() {
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-4">Services</p>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
-            Pick where you need<br/>
-            <span className="text-[#C9A84C] italic font-normal">help most</span>
+            You are qualified.<br/>
+            <span className="text-[#C9A84C] italic font-normal">The market just cannot see it yet.</span>
           </h1>
           <p className="text-gray-400 text-lg leading-relaxed max-w-xl mx-auto">
-            Everything is built around your specific situation. Not a standard programme. Not a template. Your market, your profile, your next move.
+            I recruit for European companies and coach candidates at the same time. I know which CVs get opened and which ones do not. Everything here is built to close that gap for you specifically.
           </p>
         </div>
       </section>
@@ -201,9 +203,10 @@ export default function ServicesPage() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
             <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-2">For candidates</p>
-            <h2 className="font-serif text-3xl font-bold text-white">
+            <h2 className="font-serif text-3xl font-bold text-white mb-3">
               Get hired in Europe
             </h2>
+            <p className="text-gray-400 text-base max-w-xl">Pick the service that fits where you are stuck. If you are not sure, start with a session and we figure it out together.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {CANDIDATE_SERVICES.map(s => (
@@ -387,16 +390,16 @@ export default function ServicesPage() {
       <section className="py-20 px-6 bg-[#0D0F12] border-t border-white/5">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
-            Not sure where to start?
+            Not sure which one is right for you?
           </h2>
           <p className="text-gray-400 text-base leading-relaxed mb-8">
-            Send me a message. Tell me where you are and what you are trying to do. I will tell you honestly what makes sense.
+            Send me a message with where you are and what has not been working. I will tell you honestly which service fits your situation and what I would do first. No sales pitch, just a straight answer.
           </p>
           <Link
             href="/#contact"
             className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#1C1F26] font-bold text-sm px-8 py-4 rounded-full hover:bg-[#b8953f] transition-colors"
           >
-            Get in touch
+            Send me a message
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
