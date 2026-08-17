@@ -13,10 +13,10 @@ export default function PageNav() {
           <Link href="/blog" className="hover:text-gray-900 transition-colors">Blog</Link>
         </nav>
         <Link
-          href="/#contact"
-          className="inline-flex items-center gap-1.5 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#C9A84C] transition-colors"
+          href="/cv-feedback"
+          className="inline-flex items-center gap-1.5 bg-[#C9A84C] text-black text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#b8953f] transition-colors"
         >
-          Get started
+          Free CV feedback
         </Link>
       </div>
     </header>
