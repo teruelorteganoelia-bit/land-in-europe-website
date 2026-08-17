@@ -336,8 +336,8 @@ function Navbar() {
             <a key={h} href={h} className={`text-sm font-medium transition-colors duration-300 ${sc ? "text-gray-400 hover:text-gray-900" : "text-white/60 hover:text-white"}`}>{l}</a>
           ))}
         </nav>
-        <a href="#contact" className={`hidden md:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 flex-shrink-0 ${sc ? "bg-gray-900 text-white hover:bg-gray-800" : "bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm"}`}>
-          Get started <Arrow />
+        <a href="/cv-feedback" className="hidden md:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 flex-shrink-0 bg-[#C9A84C] text-black hover:bg-[#b8953f]">
+          Free CV feedback
         </a>
         <button className="md:hidden p-1" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"}>
           <div className="w-5 flex flex-col gap-[5px]">
@@ -352,7 +352,7 @@ function Navbar() {
           {links.map(([l,h]) => (
             <a key={h} href={h} className="text-sm font-medium text-white/60" onClick={() => setOpen(false)}>{l}</a>
           ))}
-          <a href="#contact" className="bg-[#C9A84C] text-black text-sm font-bold px-5 py-3 rounded-full text-center mt-1" onClick={() => setOpen(false)}>Get started</a>
+          <a href="/cv-feedback" className="bg-[#C9A84C] text-black text-sm font-bold px-5 py-3 rounded-full text-center mt-1" onClick={() => setOpen(false)}>Free CV feedback</a>
         </div>
       )}
     </header>
@@ -536,8 +536,8 @@ function Hero() {
 
           <div className="hero-fade hero-fade-3 flex flex-col sm:flex-row gap-3">
             <Magnetic>
-              <a href="#contact" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-black font-bold px-7 py-4 rounded-full hover:bg-[#e8c96d] transition-colors text-sm shadow-xl shadow-[#C9A84C]/25">
-                Get your free diagnosis
+              <a href="/cv-feedback" className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-black font-bold px-7 py-4 rounded-full hover:bg-[#e8c96d] transition-colors text-sm shadow-xl shadow-[#C9A84C]/25">
+                Get free CV feedback
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
             </Magnetic>
