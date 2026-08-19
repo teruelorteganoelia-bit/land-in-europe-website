@@ -77,7 +77,7 @@ export default function AdminPage() {
 
   const addActionPoint = async (client: SafeClient, text: string) => {
     if (!text.trim()) return;
-    const point: ActionPoint = { id: crypto.randomUUID(), text: text.trim(), completed: false, createdAt: new Date().toISOString() };
+    const point: ActionPoint = { id: crypto.randomUUID(), text: text.trim(), completed: false };
     const updated = { ...client, actionPoints: [...client.actionPoints, point] };
     setClients(cs => cs.map(c => c.email === client.email ? updated : c));
     if (selected?.email === client.email) setSelected(updated);
