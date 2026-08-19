@@ -1,0 +1,25 @@
+import { NextRequest, NextResponse } from "next/server";
+import { signAdminToken } from "@/lib/auth";
+
+export const runtime = "nodejs";
+
+export async function POST(req: NextRequest) {
+  try {
+    const { password } = await req.json();
+    if (password !== process.env.ADMIN_PASSWORD) {
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    }
+    const token = await signAdminToken();
+    const res = NextResponse.json({ ok: true });
+    res.cookies.set("admin_session", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 12,
+      path: "/",
+    });
+    return res;
+  } catch {
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
