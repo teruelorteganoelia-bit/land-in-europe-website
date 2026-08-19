@@ -25,8 +25,14 @@ function daysSince(dateStr: string) {
   return Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-function linkedInSearch(company: string) {
+function googleSearch(company: string) {
   return `https://www.google.com/search?q=${encodeURIComponent(`site:linkedin.com/in "${company}" ("talent acquisition" OR "recruiter" OR "HR manager" OR "hiring manager")`)}`;
+}
+
+function daysLabel(days: number) {
+  if (days === 0) return "Today";
+  if (days === 1) return "Yesterday";
+  return `${days} days ago`;
 }
 
 export default function ClientDashboard() {
@@ -35,8 +41,7 @@ export default function ClientDashboard() {
   const [loading, setLoading] = useState(true);
   const [newApp, setNewApp] = useState({ company: "", role: "" });
   const [addingApp, setAddingApp] = useState(false);
-  const [editingContact, setEditingContact] = useState<string | null>(null);
-  const [contactDraft, setContactDraft] = useState("");
+  const [newContact, setNewContact] = useState<Record<string, string>>({});
   const [showDraft, setShowDraft] = useState<string | null>(null);
 
   useEffect(() => {
@@ -70,14 +75,30 @@ export default function ClientDashboard() {
     }
   };
 
-  const saveContactName = async (appId: string, contactName: string) => {
+  const addContact = async (appId: string, name: string) => {
+    if (!name.trim()) return;
+    const app = client?.applications.find(a => a.id === appId);
+    if (!app) return;
+    const contacts = [...(app.contacts || []), name.trim()];
     await fetch("/api/client/applications", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: appId, contactName }),
+      body: JSON.stringify({ id: appId, contacts }),
     });
-    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === appId ? { ...a, contactName } : a) } : c);
-    setEditingContact(null);
+    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === appId ? { ...a, contacts } : a) } : c);
+    setNewContact(nc => ({ ...nc, [appId]: "" }));
+  };
+
+  const removeContact = async (appId: string, index: number) => {
+    const app = client?.applications.find(a => a.id === appId);
+    if (!app) return;
+    const contacts = (app.contacts || []).filter((_, i) => i !== index);
+    await fetch("/api/client/applications", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: appId, contacts }),
+    });
+    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === appId ? { ...a, contacts } : a) } : c);
   };
 
   const markFollowUpSent = async (appId: string) => {
@@ -113,13 +134,13 @@ export default function ClientDashboard() {
 
       <div className="max-w-4xl mx-auto px-6 py-12">
 
-        {/* Follow-up alert banner */}
+        {/* Follow-up alert */}
         {followUpDue.length > 0 && (
           <div className="mb-8 bg-[#C9A84C]/10 border border-[#C9A84C]/30 rounded-2xl px-6 py-4">
             <p className="text-[#C9A84C] text-sm font-semibold mb-1">
               {followUpDue.length === 1 ? "1 application needs a follow-up" : `${followUpDue.length} applications need a follow-up`}
             </p>
-            <p className="text-white/40 text-xs">It has been 2 weeks or more with no reply from: {followUpDue.map(a => a.company).join(", ")}. Scroll down to send a follow-up message.</p>
+            <p className="text-white/40 text-xs">No reply after 2 weeks from: {followUpDue.map(a => a.company).join(", ")}. Scroll down to send a follow-up message.</p>
           </div>
         )}
 
@@ -205,22 +226,18 @@ export default function ClientDashboard() {
           {addingApp && (
             <form onSubmit={addApplication} className="bg-white/5 border border-[#C9A84C]/20 rounded-xl px-5 py-4 mb-4 flex flex-col sm:flex-row gap-3">
               <input
-                value={newApp.company}
-                onChange={e => setNewApp(a => ({ ...a, company: e.target.value }))}
-                placeholder="Company name"
-                required
+                value={newApp.company} onChange={e => setNewApp(a => ({ ...a, company: e.target.value }))}
+                placeholder="Company name" required autoFocus
                 className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/50"
               />
               <input
-                value={newApp.role}
-                onChange={e => setNewApp(a => ({ ...a, role: e.target.value }))}
-                placeholder="Role applied for"
-                required
+                value={newApp.role} onChange={e => setNewApp(a => ({ ...a, role: e.target.value }))}
+                placeholder="Role applied for" required
                 className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/50"
               />
               <div className="flex gap-2">
                 <button type="submit" className="bg-[#C9A84C] text-black text-xs font-bold px-4 py-2 rounded-lg hover:bg-[#b8953f] transition-colors">Add</button>
-                <button type="button" onClick={() => setAddingApp(false)} className="text-white/30 text-xs px-3 py-2 hover:text-white transition-colors">Cancel</button>
+                <button type="button" onClick={() => setAddingApp(false)} className="text-white/30 text-xs px-3 py-2 hover:text-white">Cancel</button>
               </div>
             </form>
           )}
@@ -231,86 +248,94 @@ export default function ClientDashboard() {
               <button onClick={() => setAddingApp(true)} className="text-[#C9A84C] text-xs font-semibold mt-2 hover:underline">Add your first application</button>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {client.applications.map((app) => {
                 const days = daysSince(app.appliedDate);
                 const needsFollowUp = app.status === "waiting" && !app.followUpSent && days >= 14;
                 return (
-                  <div key={app.id} className={`bg-white/[0.03] border rounded-2xl px-5 py-4 ${needsFollowUp ? "border-[#C9A84C]/30" : "border-white/8"}`}>
-                    <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                  <div key={app.id} className={`bg-white/[0.03] border rounded-2xl overflow-hidden ${needsFollowUp ? "border-[#C9A84C]/30" : "border-white/8"}`}>
+
+                    {/* Main info */}
+                    <div className="px-5 pt-4 pb-3 flex flex-wrap items-start justify-between gap-3">
                       <div>
-                        <p className="text-white font-semibold text-sm">{app.company}</p>
-                        <p className="text-white/40 text-xs">{app.role} · Applied {app.appliedDate}</p>
+                        <p className="text-white font-bold text-base">{app.company}</p>
+                        <p className="text-white/50 text-sm mt-0.5">{app.role}</p>
+                        <p className="text-white/25 text-xs mt-1">Applied {app.appliedDate} · {daysLabel(days)}</p>
                       </div>
-                      <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full border ${STATUS_COLORS[app.status]}`}>
+                      <span className={`inline-block text-xs font-semibold px-3 py-1.5 rounded-full border ${STATUS_COLORS[app.status]}`}>
                         {STATUS_LABELS[app.status]}
                       </span>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3">
-                      {/* Find contact */}
-                      <a href={linkedInSearch(app.company)} target="_blank" rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-[#0A66C2] text-xs font-semibold hover:underline">
+                    {/* Divider */}
+                    <div className="border-t border-white/5 mx-5" />
+
+                    {/* Actions row */}
+                    <div className="px-5 py-3 flex flex-wrap items-center gap-4">
+
+                      {/* Find recruiter */}
+                      <a href={googleSearch(app.company)} target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-white/50 text-xs font-semibold hover:text-white transition-colors">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
                         </svg>
-                        Find recruiter on Google
+                        Find recruiter
                       </a>
 
-                      {/* Contact name */}
-                      {editingContact === app.id ? (
-                        <div className="flex items-center gap-2">
-                          <input
-                            autoFocus
-                            value={contactDraft}
-                            onChange={e => setContactDraft(e.target.value)}
-                            placeholder="Contact name"
-                            className="bg-white/5 border border-white/20 rounded-lg px-2.5 py-1 text-xs text-white placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/50 w-36"
-                          />
-                          <button onClick={() => saveContactName(app.id, contactDraft)}
-                            className="text-[#C9A84C] text-xs font-semibold hover:underline">Save</button>
-                          <button onClick={() => setEditingContact(null)}
-                            className="text-white/30 text-xs hover:text-white">Cancel</button>
-                        </div>
-                      ) : app.contactName ? (
-                        <button onClick={() => { setEditingContact(app.id); setContactDraft(app.contactName || ""); }}
-                          className="text-white/50 text-xs hover:text-white transition-colors">
-                          Contact: <span className="text-white font-semibold">{app.contactName}</span>
-                        </button>
-                      ) : (
-                        <button onClick={() => { setEditingContact(app.id); setContactDraft(""); }}
-                          className="text-white/25 text-xs hover:text-white/60 transition-colors">
-                          + Save contact name
-                        </button>
-                      )}
-
-                      {/* Follow-up */}
+                      {/* Follow-up button */}
                       {needsFollowUp && (
                         <button onClick={() => setShowDraft(showDraft === app.id ? null : app.id)}
-                          className="inline-flex items-center gap-1 bg-[#C9A84C]/15 text-[#C9A84C] text-xs font-semibold px-3 py-1 rounded-full border border-[#C9A84C]/30 hover:bg-[#C9A84C]/25 transition-colors">
+                          className="inline-flex items-center gap-1 bg-[#C9A84C]/15 text-[#C9A84C] text-xs font-semibold px-3 py-1.5 rounded-full border border-[#C9A84C]/30 hover:bg-[#C9A84C]/25 transition-colors">
                           Follow up now
                         </button>
                       )}
                       {app.followUpSent && (
-                        <span className="text-white/25 text-xs">Follow-up sent</span>
+                        <span className="text-white/20 text-xs">Follow-up sent</span>
                       )}
+                    </div>
+
+                    {/* Contacts */}
+                    <div className="px-5 pb-4">
+                      <p className="text-white/25 text-[10px] font-semibold uppercase tracking-widest mb-2">Recruiters found</p>
+
+                      {(app.contacts || []).length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-2">
+                          {(app.contacts || []).map((name, i) => (
+                            <div key={i} className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1">
+                              <span className="text-white text-xs font-semibold">{name}</span>
+                              <button onClick={() => removeContact(app.id, i)} className="text-white/25 hover:text-white/60 transition-colors text-xs leading-none">×</button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="flex items-center gap-2">
+                        <input
+                          value={newContact[app.id] || ""}
+                          onChange={e => setNewContact(nc => ({ ...nc, [app.id]: e.target.value }))}
+                          onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); addContact(app.id, newContact[app.id] || ""); } }}
+                          placeholder="Add recruiter name"
+                          className="bg-white/5 border border-white/8 rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 focus:outline-none focus:border-[#C9A84C]/40 w-44"
+                        />
+                        <button onClick={() => addContact(app.id, newContact[app.id] || "")}
+                          className="text-[#C9A84C] text-xs font-semibold hover:underline">
+                          Save
+                        </button>
+                      </div>
                     </div>
 
                     {/* Draft message */}
                     {showDraft === app.id && (
-                      <div className="mt-4 bg-white/5 border border-white/10 rounded-xl p-4">
-                        <p className="text-white/40 text-[10px] font-semibold uppercase tracking-widest mb-3">Draft LinkedIn message</p>
+                      <div className="border-t border-white/5 bg-white/[0.02] px-5 py-4">
+                        <p className="text-white/40 text-[10px] font-semibold uppercase tracking-widest mb-3">Draft follow-up message</p>
                         <p className="text-white/70 text-sm leading-relaxed whitespace-pre-line">{generateDraft(client.name, app)}</p>
                         <div className="flex gap-3 mt-4">
-                          <button
-                            onClick={() => {
-                              navigator.clipboard.writeText(generateDraft(client.name, app));
-                            }}
+                          <button onClick={() => navigator.clipboard.writeText(generateDraft(client.name, app))}
                             className="bg-white/10 text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-white/15 transition-colors">
                             Copy message
                           </button>
                           <button onClick={() => markFollowUpSent(app.id)}
-                            className="text-white/30 text-xs hover:text-white transition-colors">
+                            className="text-white/30 text-xs hover:text-white transition-colors py-2">
                             Mark as sent
                           </button>
                         </div>
@@ -323,7 +348,7 @@ export default function ClientDashboard() {
           )}
         </section>
 
-        {/* Contact */}
+        {/* Contact Noelia */}
         <div className="bg-white/[0.03] border border-white/8 rounded-2xl px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1">
             <p className="text-white text-sm font-semibold mb-0.5">Need to reach Noelia?</p>
@@ -348,14 +373,16 @@ export default function ClientDashboard() {
 
 function generateDraft(clientName: string, app: Application): string {
   const firstName = clientName.split(" ")[0];
-  const contact = app.contactName ? `Hi ${app.contactName.split(" ")[0]},` : "Hi,";
+  const contact = app.contacts && app.contacts.length > 0
+    ? `Hi ${app.contacts[0].split(" ")[0]},`
+    : "Hi,";
   return `${contact}
 
 My name is ${firstName} and I recently applied for the ${app.role} position at ${app.company}.
 
-I wanted to follow up because I am genuinely interested in this role and the work your team is doing. I have a strong background in this area and believe I could bring real value to your team.
+I wanted to follow up because I am genuinely interested in this role and the work your team is doing.
 
-Would you be open to a short call to discuss whether this could be a good fit?
+Would you be open to a short conversation to discuss whether this could be a good fit?
 
 Thank you for your time.
 
