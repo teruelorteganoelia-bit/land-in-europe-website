@@ -26,7 +26,7 @@ function daysSince(dateStr: string) {
 }
 
 function linkedInSearch(company: string) {
-  return `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(company + " recruiter OR HR OR talent OR hiring manager")}&origin=GLOBAL_SEARCH_HEADER`;
+  return `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(`"${company}" (recruiter OR "talent acquisition" OR "HR manager" OR "hiring manager")`)}&origin=GLOBAL_SEARCH_HEADER`;
 }
 
 export default function ClientDashboard() {

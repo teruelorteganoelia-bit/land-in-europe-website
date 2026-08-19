@@ -357,7 +357,7 @@ function ClientDetail({
                 <div className="flex items-center gap-3">
                 <p className="text-white text-xs font-semibold">{app.company} <span className="font-normal text-white/40">· {app.role}</span></p>
                 <a
-                  href={`https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(app.company + " recruiter OR HR OR talent OR hiring manager")}&origin=GLOBAL_SEARCH_HEADER`}
+                  href={`https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(`"${app.company}" (recruiter OR "talent acquisition" OR "HR manager" OR "hiring manager")`)}&origin=GLOBAL_SEARCH_HEADER`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-[#0A66C2] text-[10px] font-semibold hover:underline flex-shrink-0"
