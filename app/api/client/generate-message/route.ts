@@ -53,7 +53,9 @@ Write a short, human, professional LinkedIn message. Rules:
   );
 
   if (!response.ok) {
-    return NextResponse.json({ error: "Failed to generate message" }, { status: 500 });
+    const errorText = await response.text();
+    console.error("Gemini error:", response.status, errorText);
+    return NextResponse.json({ error: `Gemini error ${response.status}: ${errorText}` }, { status: 500 });
   }
 
   const data = await response.json();

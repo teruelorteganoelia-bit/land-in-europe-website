@@ -172,7 +172,7 @@ export default function ClientDashboard() {
         }),
       });
       const data = await r.json();
-      setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: data.message || "Could not generate message, please try again." } }));
+      setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: data.message || data.error || "Could not generate message, please try again." } }));
     } catch {
       setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: "Something went wrong. Please try again." } }));
     }
