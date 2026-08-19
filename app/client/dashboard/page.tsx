@@ -153,10 +153,29 @@ export default function ClientDashboard() {
     }));
   };
 
-  const generateMsg = (clientName: string, app: Application, appId: string, isFollowUp: boolean) => {
+  const generateMsg = async (clientName: string, app: Application, appId: string, isFollowUp: boolean) => {
     const state = messageState[appId] || { achievement: "", whyCompany: "" };
-    const msg = generateMessage(clientName, app, state.achievement, state.whyCompany, isFollowUp);
-    setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: msg } }));
+    setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: "Writing your message..." } }));
+    try {
+      const r = await fetch("/api/client/generate-message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientName,
+          company: app.company,
+          role: app.role,
+          appliedDate: app.appliedDate,
+          contacts: app.contacts,
+          achievement: state.achievement,
+          whyCompany: state.whyCompany,
+          isFollowUp,
+        }),
+      });
+      const data = await r.json();
+      setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: data.message || "Could not generate message, please try again." } }));
+    } catch {
+      setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: "Something went wrong. Please try again." } }));
+    }
   };
 
   if (loading) return (
