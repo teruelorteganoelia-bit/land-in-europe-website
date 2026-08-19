@@ -139,15 +139,16 @@ export default function ClientDashboard() {
           <section className="mb-10">
             <h2 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">Applications Tracker</h2>
             <div className="bg-white/5 border border-white/8 rounded-2xl overflow-hidden">
-              <div className="hidden sm:grid grid-cols-4 px-5 py-3 border-b border-white/8 text-[10px] font-semibold text-white/25 uppercase tracking-widest">
+              <div className="hidden sm:grid grid-cols-5 px-5 py-3 border-b border-white/8 text-[10px] font-semibold text-white/25 uppercase tracking-widest">
                 <span>Company</span>
                 <span>Role</span>
                 <span>Date Applied</span>
                 <span>Status</span>
+                <span>Follow up</span>
               </div>
               <div className="divide-y divide-white/5">
                 {client.applications.map((app) => (
-                  <div key={app.id} className="grid sm:grid-cols-4 gap-2 sm:gap-0 px-5 py-4">
+                  <div key={app.id} className="grid sm:grid-cols-5 gap-2 sm:gap-0 px-5 py-4 items-center">
                     <p className="text-white text-sm font-semibold">{app.company}</p>
                     <p className="text-white/50 text-sm">{app.role}</p>
                     <p className="text-white/30 text-xs sm:text-sm">{app.appliedDate}</p>
@@ -155,6 +156,19 @@ export default function ClientDashboard() {
                       <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full border ${STATUS_COLORS[app.status]}`}>
                         {STATUS_LABELS[app.status]}
                       </span>
+                    </div>
+                    <div>
+                      <a
+                        href={`https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(app.company + " recruiter OR HR OR talent OR hiring manager")}&origin=GLOBAL_SEARCH_HEADER`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[#0A66C2] text-xs font-semibold hover:underline"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                        Find contact
+                      </a>
                     </div>
                   </div>
                 ))}
