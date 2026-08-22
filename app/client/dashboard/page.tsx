@@ -153,29 +153,31 @@ export default function ClientDashboard() {
     }));
   };
 
-  const generateMsg = async (clientName: string, app: Application, appId: string, isFollowUp: boolean) => {
-    const state = messageState[appId] || { achievement: "", whyCompany: "" };
-    setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: "Writing your message..." } }));
-    try {
-      const r = await fetch("/api/client/generate-message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          clientName,
-          company: app.company,
-          role: app.role,
-          appliedDate: app.appliedDate,
-          contacts: app.contacts,
-          achievement: state.achievement,
-          whyCompany: state.whyCompany,
-          isFollowUp,
-        }),
-      });
-      const data = await r.json();
-      setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: data.message || data.error || "Could not generate message, please try again." } }));
-    } catch {
-      setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: "Something went wrong. Please try again." } }));
-    }
+  const generateMsg = (clientName: string, app: Application, appId: string, isFollowUp: boolean) => {
+    const first = clientName.split(" ")[0];
+    const recruiter = app.contacts && app.contacts.length > 0 ? `Hi ${app.contacts[0].split(" ")[0]},` : "Hi,";
+
+    const msg = isFollowUp
+      ? `${recruiter}
+
+I applied for the ${app.role} position at ${app.company} a couple of weeks ago and wanted to follow up directly.
+
+I know you receive a lot of applications. I am not going to repeat my CV here. I will just say that I am genuinely interested in this role, I have done this kind of work before, and I would not be reaching out if I did not think I could contribute something real.
+
+Would you be able to let me know if my application is still under consideration?
+
+${first}`
+      : `${recruiter}
+
+I applied for the ${app.role} position at ${app.company} and wanted to reach out directly rather than just wait.
+
+I will not list everything here. What I can say is that I have done this work before, I know what good looks like in this role, and I am genuinely interested in ${app.company} specifically.
+
+Would you be open to a 10-minute call? I think it would be worth your time.
+
+${first}`;
+
+    setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: msg } }));
   };
 
   if (loading) return (
@@ -378,66 +380,35 @@ export default function ClientDashboard() {
                       </div>
                     </div>
 
-                    {/* Message builder */}
+                    {/* Message */}
                     {ms.open && (
-                      <div className="border-t border-white/8 bg-[#0A0B0D]">
-                        <div className="px-5 py-4">
-                          <p className="text-white/40 text-[10px] font-semibold uppercase tracking-widest mb-4">
-                            {isFollowUp ? "Follow-up message builder" : "Outreach message builder"}
-                          </p>
-
-                          <div className="space-y-3 mb-4">
-                            <div>
-                              <label className="block text-white/40 text-[10px] font-semibold uppercase tracking-widest mb-1.5">
-                                Your biggest achievement relevant to this role
-                              </label>
-                              <input
-                                value={ms.achievement}
-                                onChange={e => setMessageState(prev => ({ ...prev, [app.id]: { ...prev[app.id], achievement: e.target.value } }))}
-                                placeholder={`e.g. "I managed a team of 8 and reduced delivery time by 30%"`}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#C9A84C]/50"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-white/40 text-[10px] font-semibold uppercase tracking-widest mb-1.5">
-                                Why {app.company} specifically
-                              </label>
-                              <input
-                                value={ms.whyCompany}
-                                onChange={e => setMessageState(prev => ({ ...prev, [app.id]: { ...prev[app.id], whyCompany: e.target.value } }))}
-                                placeholder={`e.g. "I have followed your expansion into Southern Europe and I want to be part of it"`}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#C9A84C]/50"
-                              />
-                            </div>
-                          </div>
-
+                      <div className="border-t border-white/8 bg-[#0A0B0D] px-5 py-4">
+                        {!ms.generated ? (
                           <button
                             onClick={() => generateMsg(client.name, app, app.id, isFollowUp)}
                             className="bg-[#C9A84C] text-black text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-[#b8953f] transition-colors">
-                            Generate message
+                            Get message
                           </button>
-
-                          {ms.generated && (
-                            <div className="mt-5">
-                              <div className="bg-white/5 border border-white/10 rounded-xl px-5 py-4">
-                                <p className="text-white/70 text-sm leading-relaxed whitespace-pre-line">{ms.generated}</p>
-                              </div>
-                              <div className="flex items-center gap-4 mt-3">
-                                <button
-                                  onClick={() => { navigator.clipboard.writeText(ms.generated); }}
-                                  className="bg-white/10 text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-white/15 transition-colors">
-                                  Copy message
-                                </button>
-                                {isFollowUp && (
-                                  <button onClick={() => markFollowUpSent(app.id)}
-                                    className="text-white/30 text-xs hover:text-white transition-colors">
-                                    Mark as sent
-                                  </button>
-                                )}
-                              </div>
+                        ) : (
+                          <>
+                            <div className="bg-white/5 border border-white/10 rounded-xl px-5 py-4">
+                              <p className="text-white/80 text-sm leading-relaxed whitespace-pre-line">{ms.generated}</p>
                             </div>
-                          )}
-                        </div>
+                            <div className="flex items-center gap-4 mt-3">
+                              <button
+                                onClick={() => navigator.clipboard.writeText(ms.generated)}
+                                className="bg-white/10 text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-white/15 transition-colors">
+                                Copy message
+                              </button>
+                              {isFollowUp && (
+                                <button onClick={() => markFollowUpSent(app.id)}
+                                  className="text-white/30 text-xs hover:text-white transition-colors">
+                                  Mark as sent
+                                </button>
+                              )}
+                            </div>
+                          </>
+                        )}
                       </div>
                     )}
 
