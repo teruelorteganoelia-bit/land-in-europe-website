@@ -72,7 +72,7 @@ export default function ClientDashboard() {
   const router = useRouter();
   const [client, setClient] = useState<SafeClient | null>(null);
   const [loading, setLoading] = useState(true);
-  const [newApp, setNewApp] = useState({ company: "", role: "" });
+  const [newApp, setNewApp] = useState({ company: "", role: "", offerUrl: "" });
   const [addingApp, setAddingApp] = useState(false);
   const [newContact, setNewContact] = useState<Record<string, string>>({});
   const [messageState, setMessageState] = useState<Record<string, { open: boolean; achievement: string; whyCompany: string; generated: string }>>({});
@@ -103,7 +103,7 @@ export default function ClientDashboard() {
     if (r.ok) {
       const app = await r.json();
       setClient(c => c ? { ...c, applications: [...c.applications, app] } : c);
-      setNewApp({ company: "", role: "" });
+      setNewApp({ company: "", role: "", offerUrl: "" });
       setAddingApp(false);
     }
   };
@@ -156,28 +156,38 @@ export default function ClientDashboard() {
   const generateMsg = (clientName: string, app: Application, appId: string, isFollowUp: boolean) => {
     const first = clientName.split(" ")[0];
     const recruiter = app.contacts && app.contacts.length > 0 ? `Hi ${app.contacts[0].split(" ")[0]},` : "Hi,";
+    const experience = app.experience?.trim();
 
     const msg = isFollowUp
       ? `${recruiter}
 
 I applied for the ${app.role} position at ${app.company} a couple of weeks ago and wanted to follow up directly.
 
-I know you receive a lot of applications. I am not going to repeat my CV here. I will just say that I am genuinely interested in this role, I have done this kind of work before, and I would not be reaching out if I did not think I could contribute something real.
+${experience ? experience + "." : "I have done this kind of work before and I know I can contribute from day one."} I am genuinely interested in ${app.company} specifically and I would not be following up if I did not think this was a real fit.
 
 Would you be able to let me know if my application is still under consideration?
 
 ${first}`
       : `${recruiter}
 
-I applied for the ${app.role} position at ${app.company} and wanted to reach out directly rather than just wait.
+I applied for the ${app.role} position at ${app.company} and wanted to reach out directly.
 
-I will not list everything here. What I can say is that I have done this work before, I know what good looks like in this role, and I am genuinely interested in ${app.company} specifically.
+${experience ? experience + "." : "I have solid experience in this area and I know what good looks like in this role."} I am genuinely interested in ${app.company} specifically, not just the role.
 
-Would you be open to a 10-minute call? I think it would be worth your time.
+Would you be open to a quick 10-minute call?
 
 ${first}`;
 
     setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: msg } }));
+  };
+
+  const saveExperience = async (appId: string, experience: string) => {
+    await fetch("/api/client/applications", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: appId, experience }),
+    });
+    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === appId ? { ...a, experience } : a) } : c);
   };
 
   if (loading) return (
@@ -289,13 +299,18 @@ ${first}`;
           </div>
 
           {addingApp && (
-            <form onSubmit={addApplication} className="bg-white/5 border border-[#C9A84C]/20 rounded-xl px-5 py-4 mb-4 flex flex-col sm:flex-row gap-3">
-              <input value={newApp.company} onChange={e => setNewApp(a => ({ ...a, company: e.target.value }))}
-                placeholder="Company name" required autoFocus
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/50" />
-              <input value={newApp.role} onChange={e => setNewApp(a => ({ ...a, role: e.target.value }))}
-                placeholder="Role applied for" required
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/50" />
+            <form onSubmit={addApplication} className="bg-white/5 border border-[#C9A84C]/20 rounded-xl px-5 py-4 mb-4 space-y-3">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input value={newApp.company} onChange={e => setNewApp(a => ({ ...a, company: e.target.value }))}
+                  placeholder="Company name" required autoFocus
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/50" />
+                <input value={newApp.role} onChange={e => setNewApp(a => ({ ...a, role: e.target.value }))}
+                  placeholder="Role applied for" required
+                  className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/50" />
+              </div>
+              <input value={newApp.offerUrl} onChange={e => setNewApp(a => ({ ...a, offerUrl: e.target.value }))}
+                placeholder="Job offer link (optional)"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/50" />
               <div className="flex gap-2">
                 <button type="submit" className="bg-[#C9A84C] text-black text-xs font-bold px-4 py-2 rounded-lg">Add</button>
                 <button type="button" onClick={() => setAddingApp(false)} className="text-white/30 text-xs px-3 py-2">Cancel</button>
@@ -324,6 +339,15 @@ ${first}`;
                         <p className="text-white font-bold text-base">{app.company}</p>
                         <p className="text-white/50 text-sm mt-0.5">{app.role}</p>
                         <p className="text-white/25 text-xs mt-1">{daysLabel(days)} · {app.appliedDate}</p>
+                        {app.offerUrl && (
+                          <a href={app.offerUrl} target="_blank" rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-[#C9A84C]/70 text-xs hover:text-[#C9A84C] transition-colors mt-1">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                            View job posting
+                          </a>
+                        )}
                       </div>
                       <span className={`inline-block text-xs font-semibold px-3 py-1.5 rounded-full border ${STATUS_COLORS[app.status]}`}>
                         {STATUS_LABELS[app.status]}
@@ -379,6 +403,22 @@ ${first}`;
                           className="text-[#C9A84C] text-xs font-semibold hover:underline">Save</button>
                       </div>
                     </div>
+
+                    {/* Experience sentence */}
+                    {ms.open && !ms.generated && (
+                      <div className="px-5 pb-4 border-t border-white/5 pt-4">
+                        <label className="block text-white/40 text-[10px] font-semibold uppercase tracking-widest mb-2">
+                          Your experience in one sentence
+                        </label>
+                        <input
+                          defaultValue={app.experience || ""}
+                          onBlur={e => saveExperience(app.id, e.target.value)}
+                          placeholder={`e.g. "I spent 3 years managing finance teams across 4 countries"`}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#C9A84C]/50"
+                        />
+                        <p className="text-white/20 text-[10px] mt-1.5">This is the line that makes recruiters stop scrolling. Be specific.</p>
+                      </div>
+                    )}
 
                     {/* Message */}
                     {ms.open && (

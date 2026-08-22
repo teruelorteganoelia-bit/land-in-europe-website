@@ -21,7 +21,9 @@ export type Application = {
   role: string;
   appliedDate: string;
   status: "waiting" | "interview" | "offer" | "rejected";
+  offerUrl?: string;
   contacts?: string[];
+  experience?: string;
   followUpSent?: boolean;
 };
 
