@@ -158,7 +158,15 @@ export default function ClientDashboard() {
             </div>
             <span className="text-white/60 text-[11px] font-bold tracking-[0.2em] uppercase group-hover:text-white/90 transition-colors">Land in Europe</span>
           </a>
-          <button onClick={logout} className="text-white/20 hover:text-white/50 text-[11px] tracking-wide transition-colors">Sign out</button>
+          <div className="flex items-center gap-5">
+            <a href="/client/resources" className="inline-flex items-center gap-1.5 text-white/30 hover:text-[#C9A84C] text-[11px] font-semibold tracking-wide transition-colors">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+              </svg>
+              Resources
+            </a>
+            <button onClick={logout} className="text-white/20 hover:text-white/50 text-[11px] tracking-wide transition-colors">Sign out</button>
+          </div>
         </div>
       </header>
 
