@@ -22,7 +22,8 @@ export type Application = {
   appliedDate: string;
   status: "waiting" | "interview" | "offer" | "rejected";
   offerUrl?: string;
-  contacts?: string[];
+  cvLink?: string;
+  contacts?: { name: string; linkedinUrl?: string }[];
   experience?: string;
   followUpSent?: boolean;
 };

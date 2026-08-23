@@ -4,27 +4,20 @@ import { useRouter } from "next/navigation";
 import type { Client, Application } from "@/lib/db";
 
 type SafeClient = Omit<Client, "passwordHash">;
+type Contact = { name: string; linkedinUrl?: string };
 
-const STATUS_LABELS: Record<Application["status"], string> = {
-  waiting: "Applied",
-  interview: "Interview",
-  offer: "Offer",
-  rejected: "No reply",
-};
+// Normalise old string[] contacts to Contact[]
+function normaliseContacts(raw: unknown): Contact[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.map(c => typeof c === "string" ? { name: c } : c as Contact);
+}
 
-const STATUS_DOT: Record<Application["status"], string> = {
-  waiting: "bg-yellow-400",
-  interview: "bg-blue-400",
-  offer: "bg-emerald-400",
-  rejected: "bg-white/15",
-};
-
-const STATUS_TEXT: Record<Application["status"], string> = {
-  waiting: "text-yellow-400",
-  interview: "text-blue-300",
-  offer: "text-emerald-400",
-  rejected: "text-white/25",
-};
+const STATUSES: { key: Application["status"]; label: string; dot: string; text: string }[] = [
+  { key: "waiting",   label: "Applied",   dot: "bg-yellow-400",  text: "text-yellow-400" },
+  { key: "interview", label: "Interview", dot: "bg-blue-400",    text: "text-blue-300" },
+  { key: "offer",     label: "Offer",     dot: "bg-emerald-400", text: "text-emerald-400" },
+  { key: "rejected",  label: "No reply",  dot: "bg-white/15",    text: "text-white/25" },
+];
 
 function daysSince(dateStr: string) {
   return Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
@@ -38,7 +31,11 @@ function daysLabel(days: number) {
   return `${Math.floor(days / 7)} weeks ago`;
 }
 
-function googleSearch(company: string) {
+function linkedinSearch(name: string, company: string) {
+  return `https://www.google.com/search?q=${encodeURIComponent(`site:linkedin.com/in "${name}" "${company}"`)}`;
+}
+
+function recruiterSearch(company: string) {
   return `https://www.google.com/search?q=${encodeURIComponent(`site:linkedin.com/in "${company}" ("talent acquisition" OR "recruiter" OR "HR manager" OR "hiring manager")`)}`;
 }
 
@@ -51,20 +48,35 @@ export default function ClientDashboard() {
   const [newContact, setNewContact] = useState<Record<string, string>>({});
   const [messageState, setMessageState] = useState<Record<string, { open: boolean; generated: string }>>({});
   const [copied, setCopied] = useState<Record<string, boolean>>({});
+  const [statusPicker, setStatusPicker] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/client/me")
-      .then(r => {
-        if (r.status === 401) { router.push("/client/login"); return null; }
-        return r.json();
-      })
+      .then(r => { if (r.status === 401) { router.push("/client/login"); return null; } return r.json(); })
       .then(data => { if (data) setClient(data); })
       .finally(() => setLoading(false));
   }, [router]);
 
+  // Close status picker on outside click
+  useEffect(() => {
+    if (!statusPicker) return;
+    const handler = () => setStatusPicker(null);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [statusPicker]);
+
   const logout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/client/login");
+  };
+
+  const updateApp = async (id: string, updates: Partial<Application>) => {
+    await fetch("/api/client/applications", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, ...updates }),
+    });
+    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === id ? { ...a, ...updates } : a) } : c);
   };
 
   const addApplication = async (e: React.FormEvent) => {
@@ -87,39 +99,27 @@ export default function ClientDashboard() {
     if (!name.trim()) return;
     const app = client?.applications.find(a => a.id === appId);
     if (!app) return;
-    const contacts = [...(app.contacts || []), name.trim()];
-    await fetch("/api/client/applications", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: appId, contacts }) });
-    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === appId ? { ...a, contacts } : a) } : c);
+    const contacts = [...normaliseContacts(app.contacts), { name: name.trim() }];
+    await updateApp(appId, { contacts } as Partial<Application>);
     setNewContact(nc => ({ ...nc, [appId]: "" }));
   };
 
   const removeContact = async (appId: string, index: number) => {
     const app = client?.applications.find(a => a.id === appId);
     if (!app) return;
-    const contacts = (app.contacts || []).filter((_, i) => i !== index);
-    await fetch("/api/client/applications", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: appId, contacts }) });
-    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === appId ? { ...a, contacts } : a) } : c);
-  };
-
-  const markFollowUpSent = async (appId: string) => {
-    await fetch("/api/client/applications", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: appId, followUpSent: true }) });
-    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === appId ? { ...a, followUpSent: true } : a) } : c);
-    setMessageState(ms => ({ ...ms, [appId]: { open: false, generated: "" } }));
+    const contacts = normaliseContacts(app.contacts).filter((_, i) => i !== index);
+    await updateApp(appId, { contacts } as Partial<Application>);
   };
 
   const generateMsg = (clientName: string, app: Application, appId: string, isFollowUp: boolean) => {
     const first = clientName.split(" ")[0];
-    const recruiter = app.contacts?.length ? `Hi ${app.contacts[0].split(" ")[0]},` : "Hi,";
+    const contacts = normaliseContacts(app.contacts);
+    const recruiter = contacts.length ? `Hi ${contacts[0].name.split(" ")[0]},` : "Hi,";
     const experience = app.experience?.trim();
     const msg = isFollowUp
       ? `${recruiter}\n\nI applied for the ${app.role} position at ${app.company} a couple of weeks ago and wanted to follow up directly.\n\n${experience ? experience + "." : "I have done this kind of work before and I know I can contribute from day one."} I am genuinely interested in ${app.company} specifically and I would not be following up if I did not think this was a real fit.\n\nWould you be able to let me know if my application is still under consideration?\n\n${first}`
       : `${recruiter}\n\nI applied for the ${app.role} position at ${app.company} and wanted to reach out directly.\n\n${experience ? experience + "." : "I have solid experience in this area and I know what good looks like in this role."} I am genuinely interested in ${app.company} specifically, not just the role.\n\nWould you be open to a quick 10-minute call?\n\n${first}`;
     setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: msg } }));
-  };
-
-  const saveExperience = async (appId: string, experience: string) => {
-    await fetch("/api/client/applications", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: appId, experience }) });
-    setClient(c => c ? { ...c, applications: c.applications.map(a => a.id === appId ? { ...a, experience } : a) } : c);
   };
 
   const copyMessage = async (appId: string, msg: string) => {
@@ -146,10 +146,8 @@ export default function ClientDashboard() {
 
   return (
     <main className="min-h-screen bg-[#0A0B0D]">
-      {/* Ambient glow */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[350px] bg-[#C9A84C]/3 rounded-full blur-[120px] pointer-events-none z-0" />
 
-      {/* Header */}
       <header className="sticky top-0 z-20 border-b border-white/[0.05] bg-[#0A0B0D]/90 backdrop-blur-2xl">
         <div className="max-w-2xl mx-auto px-6 h-14 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2.5 group">
@@ -182,7 +180,7 @@ export default function ClientDashboard() {
               <p className="text-[#C9A84C] text-sm font-bold mb-0.5">
                 {followUpDue.length === 1 ? "1 application needs a follow-up" : `${followUpDue.length} applications need follow-ups`}
               </p>
-              <p className="text-white/30 text-xs leading-relaxed">No reply after 2 weeks from {followUpDue.map(a => a.company).join(", ")}. Scroll to the tracker to send a message.</p>
+              <p className="text-white/30 text-xs leading-relaxed">No reply after 2 weeks from {followUpDue.map(a => a.company).join(", ")}. Use the message builder on each card below.</p>
             </div>
           </div>
         )}
@@ -196,7 +194,7 @@ export default function ClientDashboard() {
           <p className="text-white/20 text-sm">{client.package} · Started {client.startDate}</p>
         </div>
 
-        {/* Progress bar + stats */}
+        {/* Progress + stats */}
         <div className="mb-14">
           <div className="flex items-center justify-between mb-3">
             <p className="text-white/25 text-xs">Program progress</p>
@@ -213,8 +211,7 @@ export default function ClientDashboard() {
             ].map(s => (
               <div key={s.label} className="rounded-2xl border border-white/6 bg-white/[0.025] px-4 py-4 hover:border-white/10 transition-colors">
                 <p className="font-serif text-3xl font-light text-white mb-1">
-                  {s.n}
-                  {s.of !== null && <span className="text-white/15 text-xl">/{s.of}</span>}
+                  {s.n}{s.of !== null && <span className="text-white/15 text-xl">/{s.of}</span>}
                 </p>
                 <p className="text-white/25 text-[10px] tracking-wide uppercase font-medium">{s.label}</p>
               </div>
@@ -227,14 +224,10 @@ export default function ClientDashboard() {
           <SectionHeader>Coaching sessions</SectionHeader>
           <div className="space-y-2">
             {client.sessions.map((s, i) => (
-              <div key={s.id} className={`relative flex gap-4 rounded-2xl border px-5 py-4 transition-all ${s.completed ? "border-[#C9A84C]/15 bg-[#C9A84C]/4" : "border-white/5 bg-transparent"}`}>
+              <div key={s.id} className={`relative flex gap-4 rounded-2xl border px-5 py-4 transition-all ${s.completed ? "border-[#C9A84C]/15 bg-[#C9A84C]/4" : "border-white/5"}`}>
                 {s.completed && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-8 bg-[#C9A84C] rounded-r-full" />}
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold ${s.completed ? "bg-[#C9A84C] text-black" : "border border-white/10 text-white/20"}`}>
-                  {s.completed ? (
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6l3 3 5-6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  ) : i + 1}
+                  {s.completed ? <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> : i + 1}
                 </div>
                 <div className="flex-1 min-w-0 py-0.5">
                   <p className={`text-sm font-semibold leading-snug ${s.completed ? "text-white" : "text-white/30"}`}>{s.title}</p>
@@ -253,13 +246,9 @@ export default function ClientDashboard() {
             <SectionHeader>Action points</SectionHeader>
             <div className="rounded-2xl border border-white/6 overflow-hidden divide-y divide-white/[0.04]">
               {client.actionPoints.map(a => (
-                <div key={a.id} className={`flex items-start gap-4 px-5 py-4 transition-colors ${a.completed ? "bg-white/[0.02]" : "hover:bg-white/[0.015]"}`}>
+                <div key={a.id} className={`flex items-start gap-4 px-5 py-4 ${a.completed ? "bg-white/[0.02]" : "hover:bg-white/[0.015]"} transition-colors`}>
                   <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 mt-0.5 ${a.completed ? "bg-[#C9A84C]" : "border border-white/12"}`}>
-                    {a.completed && (
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                        <path d="M1.5 5l2.5 2.5 4.5-5" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    )}
+                    {a.completed && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                   </div>
                   <p className={`text-sm leading-relaxed pt-0.5 ${a.completed ? "text-white/20 line-through decoration-white/15" : "text-white/65"}`}>{a.text}</p>
                 </div>
@@ -272,8 +261,7 @@ export default function ClientDashboard() {
         <section className="mb-14">
           <div className="flex items-center justify-between mb-5">
             <SectionHeader>Applications</SectionHeader>
-            <button onClick={() => setAddingApp(v => !v)}
-              className="inline-flex items-center gap-1.5 text-[#C9A84C] text-xs font-bold hover:text-[#e8c96d] transition-colors -mt-4">
+            <button onClick={() => setAddingApp(v => !v)} className="inline-flex items-center gap-1.5 text-[#C9A84C] text-xs font-bold hover:text-[#e8c96d] transition-colors -mt-4">
               <span className="text-sm">+</span> Add
             </button>
           </div>
@@ -311,32 +299,59 @@ export default function ClientDashboard() {
                 const days = daysSince(app.appliedDate);
                 const isFollowUp = app.status === "waiting" && !app.followUpSent && days >= 14;
                 const ms = messageState[app.id] || { open: false, generated: "" };
+                const contacts = normaliseContacts(app.contacts);
+                const statusInfo = STATUSES.find(s => s.key === app.status) || STATUSES[0];
 
                 return (
                   <div key={app.id} className={`rounded-2xl border overflow-hidden transition-all ${isFollowUp ? "border-[#C9A84C]/25 bg-gradient-to-br from-[#C9A84C]/6 to-transparent" : "border-white/6 bg-white/[0.018]"}`}>
 
-                    {/* Header */}
-                    <div className="px-5 pt-5 pb-3">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="text-white font-bold text-base leading-tight">{app.company}</p>
-                          <p className="text-white/40 text-sm mt-0.5">{app.role}</p>
-                        </div>
-                        <div className="flex items-center gap-1.5 flex-shrink-0 pt-0.5">
-                          <div className={`w-1.5 h-1.5 rounded-full ${STATUS_DOT[app.status]}`} />
-                          <span className={`text-xs font-semibold ${STATUS_TEXT[app.status]}`}>{STATUS_LABELS[app.status]}</span>
+                    {/* Header row */}
+                    <div className="px-5 pt-5 pb-3 flex items-start justify-between gap-4">
+                      <div className="min-w-0">
+                        <p className="text-white font-bold text-base leading-tight">{app.company}</p>
+                        <p className="text-white/40 text-sm mt-0.5">{app.role}</p>
+                        <div className="flex items-center gap-3 mt-2 flex-wrap">
+                          <span className="text-white/18 text-xs">{daysLabel(days)}</span>
+                          {app.offerUrl && (
+                            <a href={app.offerUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/25 text-xs hover:text-[#C9A84C]/70 transition-colors">
+                              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                              Offer
+                            </a>
+                          )}
+                          {app.cvLink && (
+                            <a href={app.cvLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/25 text-xs hover:text-[#C9A84C]/70 transition-colors">
+                              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                              CV used
+                            </a>
+                          )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 mt-3 flex-wrap">
-                        <span className="text-white/18 text-xs">{daysLabel(days)}</span>
-                        {app.offerUrl && (
-                          <a href={app.offerUrl} target="_blank" rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-white/25 text-xs hover:text-[#C9A84C]/70 transition-colors">
-                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-                            </svg>
-                            View offer
-                          </a>
+
+                      {/* Status picker */}
+                      <div className="relative flex-shrink-0" onClick={e => e.stopPropagation()}>
+                        <button
+                          onClick={() => setStatusPicker(statusPicker === app.id ? null : app.id)}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all hover:opacity-80 ${
+                            app.status === "waiting"   ? "border-yellow-500/20 bg-yellow-500/8 text-yellow-400" :
+                            app.status === "interview" ? "border-blue-500/20 bg-blue-500/8 text-blue-300" :
+                            app.status === "offer"     ? "border-emerald-500/20 bg-emerald-500/8 text-emerald-400" :
+                            "border-white/8 bg-white/4 text-white/25"
+                          }`}>
+                          <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
+                          {statusInfo.label}
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><path d="M6 9l6 6 6-6"/></svg>
+                        </button>
+                        {statusPicker === app.id && (
+                          <div className="absolute right-0 top-full mt-1.5 z-30 bg-[#1a1d24] border border-white/12 rounded-2xl shadow-2xl shadow-black/60 p-1.5 min-w-[140px]">
+                            {STATUSES.map(s => (
+                              <button key={s.key} onClick={() => { updateApp(app.id, { status: s.key }); setStatusPicker(null); }}
+                                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors text-left ${app.status === s.key ? "bg-white/8" : "hover:bg-white/5"}`}>
+                                <div className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
+                                <span className={s.text}>{s.label}</span>
+                                {app.status === s.key && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="ml-auto text-white/30"><path d="M20 6L9 17l-5-5"/></svg>}
+                              </button>
+                            ))}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -344,19 +359,24 @@ export default function ClientDashboard() {
                     {/* Contacts */}
                     <div className="px-5 pb-3">
                       <div className="flex flex-wrap items-center gap-2">
-                        {(app.contacts || []).map((name, i) => (
-                          <span key={i} className="inline-flex items-center gap-1.5 bg-white/5 border border-white/8 rounded-full px-3 py-1 text-xs text-white/55 font-medium">
-                            {name}
-                            <button onClick={() => removeContact(app.id, i)} className="text-white/20 hover:text-white/50 ml-0.5 transition-colors leading-none">×</button>
-                          </span>
+                        {contacts.map((c, i) => (
+                          <div key={i} className="inline-flex items-center gap-1.5 bg-white/5 border border-white/8 rounded-full pl-3 pr-2 py-1">
+                            <span className="text-white/55 text-xs font-medium">{c.name}</span>
+                            <a href={linkedinSearch(c.name, app.company)} target="_blank" rel="noopener noreferrer"
+                              title="Search on LinkedIn"
+                              className="text-[#0077B5]/50 hover:text-[#0077B5] transition-colors ml-0.5">
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </a>
+                            <button onClick={() => removeContact(app.id, i)} className="text-white/20 hover:text-white/50 transition-colors leading-none text-sm">×</button>
+                          </div>
                         ))}
                         <div className="flex items-center gap-2">
                           <input
                             value={newContact[app.id] || ""}
                             onChange={e => setNewContact(nc => ({ ...nc, [app.id]: e.target.value }))}
                             onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); addContact(app.id, newContact[app.id] || ""); }}}
-                            placeholder="+ Add recruiter"
-                            className="bg-transparent text-xs text-white/35 placeholder:text-white/18 focus:outline-none focus:text-white/60 w-28 transition-colors"
+                            placeholder="+ Add recruiter name"
+                            className="bg-transparent text-xs text-white/35 placeholder:text-white/18 focus:outline-none focus:text-white/60 w-36 transition-colors"
                           />
                           {newContact[app.id] && (
                             <button onClick={() => addContact(app.id, newContact[app.id] || "")} className="text-[#C9A84C] text-xs font-bold">Save</button>
@@ -365,13 +385,29 @@ export default function ClientDashboard() {
                       </div>
                     </div>
 
-                    {/* Actions */}
+                    {/* CV link row */}
+                    <div className="px-5 pb-3">
+                      <input
+                        defaultValue={app.cvLink || ""}
+                        onBlur={e => { if (e.target.value !== (app.cvLink || "")) updateApp(app.id, { cvLink: e.target.value }); }}
+                        placeholder="Paste CV link used for this application (Drive, Dropbox…)"
+                        className="w-full bg-transparent text-[11px] text-white/25 placeholder:text-white/12 focus:outline-none focus:text-white/55 transition-colors"
+                      />
+                    </div>
+
+                    {/* Follow-up notice */}
+                    {isFollowUp && (
+                      <div className="mx-5 mb-3 flex items-center gap-2 rounded-xl bg-[#C9A84C]/10 border border-[#C9A84C]/20 px-3 py-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse flex-shrink-0" />
+                        <p className="text-[#C9A84C]/80 text-xs font-medium">No reply in {days} days. Time to follow up.</p>
+                      </div>
+                    )}
+
+                    {/* Action bar */}
                     <div className="border-t border-white/[0.04] px-5 py-3 flex items-center gap-5 flex-wrap">
-                      <a href={googleSearch(app.company)} target="_blank" rel="noopener noreferrer"
+                      <a href={recruiterSearch(app.company)} target="_blank" rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-white/25 text-xs hover:text-white/55 transition-colors">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                        </svg>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                         Find recruiter
                       </a>
                       <button
@@ -391,14 +427,13 @@ export default function ClientDashboard() {
                               <label className="block text-[9px] font-bold text-white/20 uppercase tracking-[0.3em] mb-2">Your experience in one sentence</label>
                               <input
                                 defaultValue={app.experience || ""}
-                                onBlur={e => saveExperience(app.id, e.target.value)}
+                                onBlur={e => updateApp(app.id, { experience: e.target.value })}
                                 placeholder={`e.g. "I managed sourcing across 12 roles simultaneously in fintech"`}
                                 className="w-full bg-white/4 border border-white/8 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/12 focus:outline-none focus:border-[#C9A84C]/40 transition-all"
                               />
-                              <p className="text-white/15 text-[10px] mt-1.5 leading-relaxed">One specific line with a number or result makes recruiters stop. It saves here for next time.</p>
+                              <p className="text-white/15 text-[10px] mt-1.5 leading-relaxed">One specific line with a number makes recruiters stop. Saves here for next time.</p>
                             </div>
-                            <button
-                              onClick={() => generateMsg(client.name, app, app.id, isFollowUp)}
+                            <button onClick={() => generateMsg(client.name, app, app.id, isFollowUp)}
                               className="inline-flex items-center gap-2 bg-[#C9A84C] text-black text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-[#d4b05a] active:scale-[0.98] transition-all">
                               Generate message
                             </button>
@@ -409,28 +444,17 @@ export default function ClientDashboard() {
                               <p className="text-white/65 text-sm leading-[1.85] whitespace-pre-line font-light">{ms.generated}</p>
                             </div>
                             <div className="flex items-center gap-4 flex-wrap">
-                              <button
-                                onClick={() => copyMessage(app.id, ms.generated)}
+                              <button onClick={() => copyMessage(app.id, ms.generated)}
                                 className={`inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl border transition-all ${copied[app.id] ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-400" : "bg-white/6 border-white/10 text-white hover:bg-white/10"}`}>
-                                {copied[app.id] ? (
-                                  <>
-                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                                    Copied
-                                  </>
-                                ) : (
-                                  <>
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                      <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-                                    </svg>
-                                    Copy message
-                                  </>
-                                )}
+                                {copied[app.id] ? <>
+                                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>Copied
+                                </> : <>
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Copy message
+                                </>}
                               </button>
-                              <button onClick={() => setMessageState(ms => ({ ...ms, [app.id]: { ...ms[app.id], generated: "" } }))}
-                                className="text-white/20 text-xs hover:text-white/50 transition-colors">Edit</button>
+                              <button onClick={() => setMessageState(ms => ({ ...ms, [app.id]: { ...ms[app.id], generated: "" } }))} className="text-white/20 text-xs hover:text-white/50 transition-colors">Edit</button>
                               {isFollowUp && (
-                                <button onClick={() => markFollowUpSent(app.id)}
-                                  className="text-white/20 text-xs hover:text-white/50 transition-colors">Mark as sent</button>
+                                <button onClick={() => { updateApp(app.id, { followUpSent: true }); setMessageState(ms => ({ ...ms, [app.id]: { open: false, generated: "" } })); }} className="text-white/20 text-xs hover:text-white/50 transition-colors">Mark as sent</button>
                               )}
                             </div>
                           </div>
@@ -447,23 +471,15 @@ export default function ClientDashboard() {
         {/* Contact */}
         <div className="rounded-2xl border border-white/6 bg-white/[0.02] px-6 py-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
           <div className="w-10 h-10 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 flex items-center justify-center flex-shrink-0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-white text-sm font-bold mb-0.5">Need to reach Noelia?</p>
             <p className="text-white/25 text-xs leading-relaxed">Questions, feedback, or anything in between. WhatsApp is fastest.</p>
           </div>
           <div className="flex gap-2.5 flex-shrink-0">
-            <a href="https://wa.me/46769763498" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white text-xs font-bold px-4 py-2.5 rounded-full hover:bg-[#1fbe5a] transition-colors">
-              WhatsApp
-            </a>
-            <a href="mailto:noelia@landineuropecoaching.com"
-              className="inline-flex items-center border border-white/10 text-white/35 text-xs font-semibold px-4 py-2.5 rounded-full hover:border-white/25 hover:text-white/65 transition-all">
-              Email
-            </a>
+            <a href="https://wa.me/46769763498" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366] text-white text-xs font-bold px-4 py-2.5 rounded-full hover:bg-[#1fbe5a] transition-colors">WhatsApp</a>
+            <a href="mailto:noelia@landineuropecoaching.com" className="inline-flex items-center border border-white/10 text-white/35 text-xs font-semibold px-4 py-2.5 rounded-full hover:border-white/25 hover:text-white/65 transition-all">Email</a>
           </div>
         </div>
 
@@ -485,9 +501,6 @@ function SectionHeader({ children }: { children: React.ReactNode }) {
 
 function FieldInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <input
-      {...props}
-      className="w-full bg-black/20 border border-white/8 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/18 focus:outline-none focus:border-[#C9A84C]/40 transition-all"
-    />
+    <input {...props} className="w-full bg-black/20 border border-white/8 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/18 focus:outline-none focus:border-[#C9A84C]/40 transition-all" />
   );
 }
