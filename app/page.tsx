@@ -336,9 +336,15 @@ function Navbar() {
             <a key={h} href={h} className={`text-sm font-medium transition-colors duration-300 ${sc ? "text-gray-400 hover:text-gray-900" : "text-white/60 hover:text-white"}`}>{l}</a>
           ))}
         </nav>
-        <a href="/cv-feedback" className="hidden md:inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 flex-shrink-0 bg-[#C9A84C] text-black hover:bg-[#b8953f]">
-          Free CV feedback
-        </a>
+        <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+          <a href="/client/login" className={`inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full border transition-all duration-300 ${sc ? "border-gray-200 text-gray-500 hover:border-[#C9A84C] hover:text-[#C9A84C]" : "border-white/15 text-white/40 hover:border-[#C9A84C]/60 hover:text-[#C9A84C]"}`}>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]" />
+            Client portal
+          </a>
+          <a href="/cv-feedback" className="inline-flex items-center gap-1.5 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 bg-[#C9A84C] text-black hover:bg-[#b8953f]">
+            Free CV feedback
+          </a>
+        </div>
         <button className="md:hidden p-1" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"}>
           <div className="w-5 flex flex-col gap-[5px]">
             <span className={`h-0.5 transition-all ${sc ? "bg-gray-900" : "bg-white"} ${open ? "rotate-45 translate-y-[7px]" : ""}`}/>
@@ -352,6 +358,10 @@ function Navbar() {
           {links.map(([l,h]) => (
             <a key={h} href={h} className="text-sm font-medium text-white/60" onClick={() => setOpen(false)}>{l}</a>
           ))}
+          <a href="/client/login" className="inline-flex items-center gap-2 border border-white/15 text-white/50 text-sm font-medium px-5 py-3 rounded-full text-center" onClick={() => setOpen(false)}>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]" />
+            Client portal
+          </a>
           <a href="/cv-feedback" className="bg-[#C9A84C] text-black text-sm font-bold px-5 py-3 rounded-full text-center mt-1" onClick={() => setOpen(false)}>Free CV feedback</a>
         </div>
       )}
