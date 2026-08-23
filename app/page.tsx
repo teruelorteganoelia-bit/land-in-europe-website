@@ -1326,6 +1326,10 @@ function Footer() {
             {[["Services","#services"],["About","#about"],["Testimonials","#testimonials"],["FAQ","#faq"],["Contact","#contact"]].map(([l,h]) => (
               <a key={h} href={h} className="text-sm text-white/30 hover:text-white transition-colors">{l}</a>
             ))}
+            <a href="/client/login" className="inline-flex items-center gap-1.5 text-sm text-[#C9A84C]/60 hover:text-[#C9A84C] transition-colors font-medium">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]/60" />
+              Client portal
+            </a>
           </nav>
         </div>
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-white/15">
