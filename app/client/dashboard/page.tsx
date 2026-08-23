@@ -31,10 +31,6 @@ function daysLabel(days: number) {
   return `${Math.floor(days / 7)} weeks ago`;
 }
 
-function linkedinSearch(name: string, company: string) {
-  return `https://www.google.com/search?q=${encodeURIComponent(`site:linkedin.com/in "${name}" "${company}"`)}`;
-}
-
 function recruiterSearch(company: string) {
   return `https://www.google.com/search?q=${encodeURIComponent(`site:linkedin.com/in "${company}" ("talent acquisition" OR "recruiter" OR "HR manager" OR "hiring manager")`)}`;
 }
@@ -45,7 +41,7 @@ export default function ClientDashboard() {
   const [loading, setLoading] = useState(true);
   const [newApp, setNewApp] = useState({ company: "", role: "", offerUrl: "" });
   const [addingApp, setAddingApp] = useState(false);
-  const [newContact, setNewContact] = useState<Record<string, string>>({});
+  const [newContact, setNewContact] = useState<Record<string, { name: string; url: string }>>({});
   const [messageState, setMessageState] = useState<Record<string, { open: boolean; generated: string }>>({});
   const [copied, setCopied] = useState<Record<string, boolean>>({});
   const [statusPicker, setStatusPicker] = useState<string | null>(null);
@@ -95,13 +91,22 @@ export default function ClientDashboard() {
     }
   };
 
-  const addContact = async (appId: string, name: string) => {
+  const addContact = async (appId: string, name: string, linkedinUrl?: string) => {
     if (!name.trim()) return;
     const app = client?.applications.find(a => a.id === appId);
     if (!app) return;
-    const contacts = [...normaliseContacts(app.contacts), { name: name.trim() }];
+    const entry: Contact = { name: name.trim() };
+    if (linkedinUrl?.trim()) entry.linkedinUrl = linkedinUrl.trim();
+    const contacts = [...normaliseContacts(app.contacts), entry];
     await updateApp(appId, { contacts } as Partial<Application>);
-    setNewContact(nc => ({ ...nc, [appId]: "" }));
+    setNewContact(nc => ({ ...nc, [appId]: { name: "", url: "" } }));
+  };
+
+  const updateContactUrl = async (appId: string, index: number, linkedinUrl: string) => {
+    const app = client?.applications.find(a => a.id === appId);
+    if (!app) return;
+    const contacts = normaliseContacts(app.contacts).map((c, i) => i === index ? { ...c, linkedinUrl } : c);
+    await updateApp(appId, { contacts } as Partial<Application>);
   };
 
   const removeContact = async (appId: string, index: number) => {
@@ -357,31 +362,46 @@ export default function ClientDashboard() {
                     </div>
 
                     {/* Contacts */}
-                    <div className="px-5 pb-3">
-                      <div className="flex flex-wrap items-center gap-2">
-                        {contacts.map((c, i) => (
-                          <div key={i} className="inline-flex items-center gap-1.5 bg-white/5 border border-white/8 rounded-full pl-3 pr-2 py-1">
-                            <span className="text-white/55 text-xs font-medium">{c.name}</span>
-                            <a href={linkedinSearch(c.name, app.company)} target="_blank" rel="noopener noreferrer"
-                              title="Search on LinkedIn"
-                              className="text-[#0077B5]/50 hover:text-[#0077B5] transition-colors ml-0.5">
-                              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    <div className="px-5 pb-3 space-y-2">
+                      {contacts.map((c, i) => (
+                        <div key={i} className="flex items-center gap-2 bg-white/5 border border-white/8 rounded-xl px-3 py-2">
+                          {c.linkedinUrl ? (
+                            <a href={c.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-[#0077B5]/70 hover:text-[#0077B5] transition-colors flex-shrink-0">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                             </a>
-                            <button onClick={() => removeContact(app.id, i)} className="text-white/20 hover:text-white/50 transition-colors leading-none text-sm">×</button>
-                          </div>
-                        ))}
-                        <div className="flex items-center gap-2">
-                          <input
-                            value={newContact[app.id] || ""}
-                            onChange={e => setNewContact(nc => ({ ...nc, [app.id]: e.target.value }))}
-                            onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); addContact(app.id, newContact[app.id] || ""); }}}
-                            placeholder="+ Add recruiter name"
-                            className="bg-transparent text-xs text-white/35 placeholder:text-white/18 focus:outline-none focus:text-white/60 w-36 transition-colors"
-                          />
-                          {newContact[app.id] && (
-                            <button onClick={() => addContact(app.id, newContact[app.id] || "")} className="text-[#C9A84C] text-xs font-bold">Save</button>
+                          ) : (
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white/10 flex-shrink-0"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                           )}
+                          <span className="text-white/60 text-xs font-medium flex-shrink-0">{c.name}</span>
+                          <input
+                            defaultValue={c.linkedinUrl || ""}
+                            onBlur={e => { if (e.target.value !== (c.linkedinUrl || "")) updateContactUrl(app.id, i, e.target.value); }}
+                            placeholder="Paste LinkedIn profile link"
+                            className="flex-1 bg-transparent text-[11px] text-white/25 placeholder:text-white/12 focus:outline-none focus:text-white/55 transition-colors min-w-0"
+                          />
+                          <button onClick={() => removeContact(app.id, i)} className="text-white/15 hover:text-white/45 transition-colors leading-none text-sm flex-shrink-0">×</button>
                         </div>
+                      ))}
+                      {/* Add new contact */}
+                      <div className="flex items-center gap-2">
+                        <input
+                          value={newContact[app.id]?.name || ""}
+                          onChange={e => setNewContact(nc => ({ ...nc, [app.id]: { ...nc[app.id], name: e.target.value, url: nc[app.id]?.url || "" } }))}
+                          onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); addContact(app.id, newContact[app.id]?.name || "", newContact[app.id]?.url); }}}
+                          placeholder="+ Recruiter name"
+                          className="bg-transparent text-xs text-white/35 placeholder:text-white/18 focus:outline-none focus:text-white/60 w-32 transition-colors"
+                        />
+                        {newContact[app.id]?.name && (
+                          <>
+                            <input
+                              value={newContact[app.id]?.url || ""}
+                              onChange={e => setNewContact(nc => ({ ...nc, [app.id]: { ...nc[app.id], url: e.target.value } }))}
+                              placeholder="LinkedIn link (optional)"
+                              className="bg-transparent text-xs text-white/25 placeholder:text-white/12 focus:outline-none focus:text-white/50 flex-1 transition-colors"
+                            />
+                            <button onClick={() => addContact(app.id, newContact[app.id]?.name || "", newContact[app.id]?.url)} className="text-[#C9A84C] text-xs font-bold flex-shrink-0">Save</button>
+                          </>
+                        )}
                       </div>
                     </div>
 
