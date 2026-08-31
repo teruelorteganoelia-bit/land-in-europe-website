@@ -64,6 +64,17 @@ export default function AdminPage() {
     });
   };
 
+  const updateSessionDate = async (client: SafeClient, sessionId: string, date: string) => {
+    const updated = { ...client, sessions: client.sessions.map(s => s.id === sessionId ? { ...s, date } : s) };
+    setClients(cs => cs.map(c => c.email === client.email ? updated : c));
+    if (selected?.email === client.email) setSelected(updated);
+    await fetch("/api/admin/clients", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated),
+    });
+  };
+
   const updateStartDate = async (client: SafeClient, startDate: string) => {
     const updated = { ...client, startDate };
     setClients(cs => cs.map(c => c.email === client.email ? updated : c));
@@ -200,6 +211,7 @@ export default function AdminPage() {
               onUpdateAppStatus={updateAppStatus}
               onDelete={deleteClient}
               onUpdateStartDate={updateStartDate}
+              onUpdateSessionDate={updateSessionDate}
             />
           )}
         </div>
@@ -248,13 +260,14 @@ export default function AdminPage() {
 
 function ClientDetail({
   client, onToggleSession, onUpdateNotes, onAddActionPoint, onToggleAction,
-  onAddApplication, onUpdateAppStatus, onDelete, onUpdateStartDate
+  onAddApplication, onUpdateAppStatus, onDelete, onUpdateStartDate, onUpdateSessionDate
 }: {
   client: SafeClient;
   onToggleSession: (c: SafeClient, id: string) => void;
   onUpdateNotes: (c: SafeClient, id: string, notes: string) => void;
   onAddActionPoint: (c: SafeClient, text: string) => void;
   onUpdateStartDate: (c: SafeClient, date: string) => void;
+  onUpdateSessionDate: (c: SafeClient, sessionId: string, date: string) => void;
   onToggleAction: (c: SafeClient, id: string) => void;
   onAddApplication: (c: SafeClient, company: string, role: string) => void;
   onUpdateAppStatus: (c: SafeClient, id: string, status: Application["status"]) => void;
@@ -307,7 +320,12 @@ function ClientDetail({
                   <p className={`text-sm font-semibold ${s.completed ? "text-white" : "text-white/40"}`}>
                     Session {s.number}
                   </p>
-                  {s.date && <p className="text-white/25 text-xs">{s.date}</p>}
+                  <input
+                    type="date"
+                    defaultValue={s.date}
+                    onBlur={e => { if (e.target.value !== s.date) onUpdateSessionDate(client, s.id, e.target.value); }}
+                    className="text-white/30 text-xs bg-transparent border-b border-transparent hover:border-white/20 focus:border-[#C9A84C]/50 focus:outline-none transition-colors px-0 mt-0.5 cursor-pointer"
+                  />
                 </div>
                 <button onClick={() => setExpandedSession(expandedSession === s.id ? null : s.id)}
                   className="text-white/25 hover:text-white/60 text-xs transition-colors">
