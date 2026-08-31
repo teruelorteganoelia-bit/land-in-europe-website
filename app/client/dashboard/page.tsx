@@ -235,7 +235,7 @@ export default function ClientDashboard() {
                   {s.completed ? <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> : i + 1}
                 </div>
                 <div className="flex-1 min-w-0 py-0.5">
-                  <p className={`text-sm font-semibold leading-snug ${s.completed ? "text-white" : "text-white/30"}`}>{s.title}</p>
+                  <p className={`text-sm font-semibold leading-snug ${s.completed ? "text-white" : "text-white/30"}`}>Session {s.number || i + 1}</p>
                   {s.date && <p className="text-white/18 text-xs mt-0.5">{s.date}</p>}
                   {s.notes && <p className="text-white/35 text-xs mt-2 leading-relaxed border-l border-white/8 pl-3">{s.notes}</p>}
                 </div>
