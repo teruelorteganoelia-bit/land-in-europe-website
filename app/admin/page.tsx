@@ -64,6 +64,17 @@ export default function AdminPage() {
     });
   };
 
+  const updateStartDate = async (client: SafeClient, startDate: string) => {
+    const updated = { ...client, startDate };
+    setClients(cs => cs.map(c => c.email === client.email ? updated : c));
+    if (selected?.email === client.email) setSelected(updated);
+    await fetch("/api/admin/clients", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated),
+    });
+  };
+
   const updateSessionNotes = async (client: SafeClient, sessionId: string, notes: string) => {
     const updated = { ...client, sessions: client.sessions.map(s => s.id === sessionId ? { ...s, notes } : s) };
     setClients(cs => cs.map(c => c.email === client.email ? updated : c));
@@ -188,6 +199,7 @@ export default function AdminPage() {
               onAddApplication={addApplication}
               onUpdateAppStatus={updateAppStatus}
               onDelete={deleteClient}
+              onUpdateStartDate={updateStartDate}
             />
           )}
         </div>
@@ -236,12 +248,13 @@ export default function AdminPage() {
 
 function ClientDetail({
   client, onToggleSession, onUpdateNotes, onAddActionPoint, onToggleAction,
-  onAddApplication, onUpdateAppStatus, onDelete
+  onAddApplication, onUpdateAppStatus, onDelete, onUpdateStartDate
 }: {
   client: SafeClient;
   onToggleSession: (c: SafeClient, id: string) => void;
   onUpdateNotes: (c: SafeClient, id: string, notes: string) => void;
   onAddActionPoint: (c: SafeClient, text: string) => void;
+  onUpdateStartDate: (c: SafeClient, date: string) => void;
   onToggleAction: (c: SafeClient, id: string) => void;
   onAddApplication: (c: SafeClient, company: string, role: string) => void;
   onUpdateAppStatus: (c: SafeClient, id: string, status: Application["status"]) => void;
@@ -259,7 +272,15 @@ function ClientDetail({
         <div>
           <h2 className="font-serif text-2xl font-bold text-white">{client.name}</h2>
           <p className="text-white/40 text-sm">{client.email} · {client.package}</p>
-          <p className="text-white/25 text-xs mt-0.5">Started {client.startDate}</p>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <span className="text-white/25 text-xs">Started</span>
+            <input
+              type="date"
+              defaultValue={client.startDate}
+              onBlur={e => { if (e.target.value && e.target.value !== client.startDate) onUpdateStartDate(client, e.target.value); }}
+              className="text-white/50 text-xs bg-transparent border-b border-white/10 hover:border-white/30 focus:border-[#C9A84C]/60 focus:outline-none transition-colors px-0.5 cursor-pointer"
+            />
+          </div>
         </div>
         <button onClick={() => onDelete(client.email)}
           className="text-red-400/50 hover:text-red-400 text-xs transition-colors">
