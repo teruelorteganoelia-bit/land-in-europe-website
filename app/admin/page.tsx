@@ -284,7 +284,7 @@ function ClientDetail({
                 </button>
                 <div className="flex-1">
                   <p className={`text-sm font-semibold ${s.completed ? "text-white" : "text-white/40"}`}>
-                    {s.number}. {s.title}
+                    Session {s.number}
                   </p>
                   {s.date && <p className="text-white/25 text-xs">{s.date}</p>}
                 </div>
