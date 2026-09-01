@@ -271,8 +271,8 @@ export default function ServicesPage() {
               />
             </div>
             <div className="text-center lg:text-left">
-              <span className="inline-block text-xs font-bold uppercase tracking-widest mb-4 px-3 py-1 rounded-full bg-white/10 text-[#C9A84C]">
-                New guide at €27
+              <span className="inline-block text-xs font-bold uppercase tracking-widest mb-4 px-3 py-1 rounded-full bg-[#C9A84C]/15 text-[#C9A84C]">
+                Limited offer · This week only
               </span>
               <h2 className="font-serif text-3xl font-bold text-white mb-3">
                 How to Get Hired in Europe<br/>
@@ -288,12 +288,15 @@ export default function ServicesPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#1C1F26] font-bold text-sm px-8 py-4 rounded-full hover:bg-[#b8953f] transition-colors"
                 >
-                  Get the guide for €27
+                  Get the guide for €10
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
-                <span className="text-gray-500 text-sm">Instant download · PDF · 27 pages</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500 text-sm line-through">€27</span>
+                  <span className="text-gray-500 text-sm">· Instant download · PDF · 27 pages</span>
+                </div>
               </div>
             </div>
           </div>
