@@ -1444,7 +1444,7 @@ function EbookSection() {
 
           {/* Text */}
           <div className="text-center lg:text-left">
-            <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-4">New guide</p>
+            <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-4">Limited offer · This week only</p>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
               How to Get Hired in Europe<br/>
               <span className="text-[#C9A84C] italic font-serif font-normal">In the Age of AI</span>
@@ -1462,10 +1462,13 @@ function EbookSection() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#1C1F26] font-bold text-sm px-8 py-4 rounded-full hover:bg-[#b8953f] transition-colors shadow-lg shadow-[#C9A84C]/20"
               >
-                Get the guide — €27
+                Get the guide — €10
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
-              <span className="text-gray-500 text-sm">Instant download · PDF</span>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-500 text-sm line-through">€27</span>
+                <span className="text-gray-500 text-sm">· Instant download · PDF</span>
+              </div>
             </div>
           </div>
 
