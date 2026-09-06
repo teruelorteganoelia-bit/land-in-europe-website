@@ -9,7 +9,7 @@ export default function CVFeedbackPage() {
   const ch = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const SHEET_URL = "https://script.google.com/macros/s/AKfycbz3Sagu3lMAxF4MXHJMzn-KaJCC2bIbyatQ8NDbW5tktd4-4Hkk78auvv6hOymgL4o/exec";
+  const SHEET_URL = "/api/sheet";
 
   const sub = async (e: React.FormEvent) => {
     e.preventDefault();
