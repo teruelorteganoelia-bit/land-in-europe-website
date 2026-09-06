@@ -95,7 +95,7 @@ export default function CVFeedbackPage() {
               Send me your CV
             </h2>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Paste the link to your CV or describe your situation below. I reply within 24 hours with honest, specific feedback.
+              Paste the link to your CV or describe your situation below. I will get back to you with honest, specific feedback as soon as I can.
             </p>
           </div>
 
@@ -108,7 +108,7 @@ export default function CVFeedbackPage() {
                   </svg>
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">Got it.</h3>
-                <p className="text-gray-400 text-sm">I will come back to you within 24 hours with honest feedback on your CV.</p>
+                <p className="text-gray-400 text-sm">I will get back to you with honest feedback on your CV as soon as I can.</p>
               </div>
             ) : (
               <form onSubmit={sub} className="space-y-4">
@@ -152,7 +152,7 @@ export default function CVFeedbackPage() {
           <p className="text-center text-xs font-semibold text-gray-300 uppercase tracking-[0.2em] mb-10">What happens after the feedback</p>
           <div className="grid sm:grid-cols-3 gap-6 text-center">
             {[
-              { stat: "24h", label: "I reply within 24 hours" },
+              { stat: "✓", label: "I reply within a few days" },
               { stat: "15+", label: "Nationalities coached" },
               { stat: "100%", label: "Honest, no generic advice" },
             ].map((s) => (

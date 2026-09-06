@@ -1269,7 +1269,7 @@ function Contact() {
             Tell me your <span className="text-[#C9A84C]">situation</span>
           </h2>
           <p className="text-gray-400 text-sm leading-relaxed mb-10 max-w-md">Most people spend months applying and wondering what is wrong. One conversation is usually enough to figure it out. Tell me where you are and what has not been working.</p>
-          {["I reply within 24 hours","Sessions on Google Meet","English or Spanish, your call"].map(item => (
+          {["I reply within a few days","Sessions on Google Meet","English or Spanish, your call"].map(item => (
             <div key={item} className="flex items-center gap-3 mb-4">
               <div className="w-5 h-5 rounded-full bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0"><Check /></div>
               <span className="text-sm text-gray-500">{item}</span>
@@ -1282,7 +1282,7 @@ function Contact() {
             <div className="text-center py-12">
               <div className="w-14 h-14 rounded-full bg-gray-900 flex items-center justify-center mx-auto mb-5"><Check /></div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">Message received</h3>
-              <p className="text-gray-400 text-sm">I will be back to you within 24 hours.</p>
+              <p className="text-gray-400 text-sm">I will get back to you as soon as I can.</p>
             </div>
           ) : (
             <form onSubmit={sub} className="space-y-4" noValidate>
