@@ -1238,13 +1238,21 @@ function Contact() {
   const ch = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbz3Sagu3lMAxF4MXHJMzn-KaJCC2bIbyatQ8NDbW5tktd4-4Hkk78auvv6hOymgL4o/exec";
+
   const sub = async (e: React.FormEvent) => {
     e.preventDefault(); setStatus("sending");
     try {
-      const r = await fetch("https://formspree.io/f/maqgdozn", {
-        method:"POST", headers:{"Content-Type":"application/json",Accept:"application/json"},
-        body: JSON.stringify({ ...form, _replyto: form.email }),
-      });
+      const [r] = await Promise.all([
+        fetch("https://formspree.io/f/maqgdozn", {
+          method:"POST", headers:{"Content-Type":"application/json",Accept:"application/json"},
+          body: JSON.stringify({ ...form, _replyto: form.email }),
+        }),
+        fetch(SHEET_URL, {
+          method:"POST", headers:{"Content-Type":"application/json"},
+          body: JSON.stringify(form),
+        }).catch(() => {}),
+      ]);
       if (r.ok) { setStatus("sent"); setForm({ name:"", email:"", service:"", message:"" }); }
       else setStatus("error");
     } catch { setStatus("error"); }
