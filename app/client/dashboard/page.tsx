@@ -43,6 +43,7 @@ export default function ClientDashboard() {
   const [addingApp, setAddingApp] = useState(false);
   const [newContact, setNewContact] = useState<Record<string, { name: string; url: string }>>({});
   const [messageState, setMessageState] = useState<Record<string, { open: boolean; generated: string }>>({});
+  const [experienceDraft, setExperienceDraft] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState<Record<string, boolean>>({});
   const [statusPicker, setStatusPicker] = useState<string | null>(null);
 
@@ -116,14 +117,14 @@ export default function ClientDashboard() {
     await updateApp(appId, { contacts } as Partial<Application>);
   };
 
-  const generateMsg = (clientName: string, app: Application, appId: string, isFollowUp: boolean) => {
+  const generateMsg = (clientName: string, app: Application, appId: string, isFollowUp: boolean, draftExp?: string) => {
     const first = clientName.split(" ")[0];
     const contacts = normaliseContacts(app.contacts);
     const recruiter = contacts.length ? `Hi ${contacts[0].name.split(" ")[0]},` : "Hi,";
-    const experience = app.experience?.trim();
+    const experience = (draftExp ?? app.experience)?.trim();
     const msg = isFollowUp
       ? `${recruiter}\n\nI applied for the ${app.role} position at ${app.company} a couple of weeks ago and wanted to follow up directly.\n\n${experience ? experience + "." : "I have done this kind of work before and I know I can contribute from day one."} I am genuinely interested in ${app.company} specifically and I would not be following up if I did not think this was a real fit.\n\nWould you be able to let me know if my application is still under consideration?\n\n${first}`
-      : `${recruiter}\n\nI applied for the ${app.role} position at ${app.company} and wanted to reach out directly.\n\n${experience ? experience + "." : "I have solid experience in this area and I know what good looks like in this role."} I am genuinely interested in ${app.company} specifically, not just the role.\n\nWould you be open to a quick 10-minute call?\n\n${first}`;
+      : `${recruiter}\n\nI applied for the ${app.role} position at ${app.company} and wanted to reach out directly.\n\n${experience ? experience + "." : "I have solid experience in this area and I know what good looks like in this role."} I am genuinely interested in ${app.company} specifically, not just the role.\n\nI would love to know if my application is being considered and whether there is a next step I should be aware of.\n\n${first}`;
     setMessageState(ms => ({ ...ms, [appId]: { ...ms[appId], generated: msg } }));
   };
 
@@ -446,14 +447,15 @@ export default function ClientDashboard() {
                             <div>
                               <label className="block text-[9px] font-bold text-white/20 uppercase tracking-[0.3em] mb-2">Your experience in one sentence</label>
                               <input
-                                defaultValue={app.experience || ""}
+                                value={experienceDraft[app.id] ?? app.experience ?? ""}
+                                onChange={e => setExperienceDraft(d => ({ ...d, [app.id]: e.target.value }))}
                                 onBlur={e => updateApp(app.id, { experience: e.target.value })}
                                 placeholder={`e.g. "I managed sourcing across 12 roles simultaneously in fintech"`}
-                                className="w-full bg-white/4 border border-white/8 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/12 focus:outline-none focus:border-[#C9A84C]/40 transition-all"
+                                className="w-full bg-white/4 border border-white/8 rounded-xl px-4 py-3 text-sm text-white/80 placeholder:text-white/25 focus:outline-none focus:border-[#C9A84C]/40 transition-all"
                               />
                               <p className="text-white/15 text-[10px] mt-1.5 leading-relaxed">One specific line with a number makes recruiters stop. Saves here for next time.</p>
                             </div>
-                            <button onClick={() => generateMsg(client.name, app, app.id, isFollowUp)}
+                            <button onClick={() => generateMsg(client.name, app, app.id, isFollowUp, experienceDraft[app.id])}
                               className="inline-flex items-center gap-2 bg-[#C9A84C] text-black text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-[#d4b05a] active:scale-[0.98] transition-all">
                               Generate message
                             </button>
