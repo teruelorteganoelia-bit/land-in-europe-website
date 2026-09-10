@@ -288,14 +288,14 @@ export default function ServicesPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#1C1F26] font-bold text-sm px-8 py-4 rounded-full hover:bg-[#b8953f] transition-colors"
                 >
-                  Get the guide for €10
+                  Get the guide for €9
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
                 <div className="flex items-center gap-2">
                   <span className="text-gray-500 text-sm line-through">€27</span>
-                  <span className="text-gray-500 text-sm">· Instant download · PDF · 27 pages</span>
+                  <span className="text-gray-500 text-sm">· Instant download · PDF</span>
                 </div>
               </div>
             </div>

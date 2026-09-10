@@ -1000,7 +1000,7 @@ const OFFER_STACK = [
   { label:"5 Themed Coaching Sessions (€99 each)",    value:"€495" },
   { label:"Full CV Rewrite",               value:"€179" },
   { label:"LinkedIn Profile Optimization", value:"€149" },
-  { label:"European Job Market Guide (ebook)", value:"€97" },
+  { label:"European Job Market Guide (ebook)", value:"€9" },
   { label:"Your Personal Target Company Map",  value:"€97" },
   { label:"WhatsApp access throughout your entire job search", value:"Priceless" },
   { label:'"Work With You Until You Win" Guarantee', value:"Priceless" },
@@ -1470,7 +1470,7 @@ function EbookSection() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#1C1F26] font-bold text-sm px-8 py-4 rounded-full hover:bg-[#b8953f] transition-colors shadow-lg shadow-[#C9A84C]/20"
               >
-                Get the guide — €10
+                Get the guide — €9
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
               <div className="flex items-center gap-2">
