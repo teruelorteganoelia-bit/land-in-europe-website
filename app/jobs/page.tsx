@@ -5,9 +5,9 @@ import PageFooter from "../components/PageFooter";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://landineuropecoaching.com"),
-  title: "Jobs in Europe | Recruiting in Switzerland, France & Luxembourg",
+  title: "Jobs in Europe | Recruiting across Europe · Switzerland, France, Spain & more",
   description:
-    "I recruit for companies across Switzerland, France and Luxembourg. If you want to know whether your profile fits something I am currently working on, reach out and I will take a look.",
+    "I recruit for companies across Europe, Switzerland, France, Luxembourg, Spain and beyond. If you want to know whether your profile fits something I am currently working on, reach out and I will take a look.",
   keywords:
     "BDM jobs Switzerland, technical sales jobs Europe, semiconductor sales jobs, jobs in Switzerland for English speakers, business development manager Switzerland, water treatment sales jobs Europe, broker Stockholm, Scandinavian government bonds, RFID sales jobs, jobs Europe 2026, multilingual jobs Europe, independent recruiter Europe, finance jobs Switzerland, sales jobs Luxembourg, jobs France English speakers",
   alternates: { canonical: "https://landineuropecoaching.com/jobs" },
@@ -32,10 +32,10 @@ export default function JobsPage() {
             <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-6">Recruiting</p>
             <h1 className="font-serif text-4xl sm:text-5xl font-light text-white leading-tight mb-6">
               I place candidates across{" "}
-              <span className="text-[#C9A84C] italic font-normal">Switzerland, France and Luxembourg.</span>
+              <span className="text-[#C9A84C] italic font-normal">Europe.</span>
             </h1>
             <p className="text-white/50 text-lg leading-relaxed max-w-xl mx-auto">
-              I do not publish a job board. The mandates I work on are confidential and move fast. If you want to know whether your profile fits something I am currently filling, reach out and I will tell you honestly.
+              Switzerland, France, Luxembourg, Spain and beyond. I do not publish a job board. The mandates I work on are confidential and move fast. If you want to know whether your profile fits something I am currently filling, reach out and I will tell you honestly.
             </p>
           </div>
         </section>
