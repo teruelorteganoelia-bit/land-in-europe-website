@@ -9,7 +9,7 @@ const ROLES = {
       id: "hunter-b2b",
       title: "Hunter B2B",
       subtitle: "Servicios y Soluciones IT",
-      location: "Valencia · Híbrido",
+      location: "Valencia · Presencial (1-2 días remoto máx.)",
       languages: "Español nativo · Inglés B2 mínimo",
       summary: "Impulsar la captación de nuevos clientes y la apertura de mercado mediante la venta consultiva B2B de servicios y soluciones tecnológicas. Perfil claramente orientado a la prospección, la generación de oportunidades y el cierre de nuevo negocio, con foco en consultoras, integradores y empresas del sector IT.",
       responsibilities: [
@@ -38,7 +38,7 @@ const ROLES = {
       id: "hunter-startups",
       title: "Hunter Startups",
       subtitle: "Servicios y Soluciones Tecnológicas",
-      location: "Valencia · Híbrido",
+      location: "Valencia · Presencial (1-2 días remoto máx.)",
       languages: "Español nativo · Inglés B2 mínimo",
       summary: "Captar nuevas startups como clientes de servicios y soluciones IT, combinando la prospección directa con el desarrollo de relaciones con aceleradoras, incubadoras, fondos de inversión, venture builders y otros actores del ecosistema emprendedor.",
       responsibilities: [
@@ -69,9 +69,9 @@ const ROLES = {
   en: [
     {
       id: "hunter-b2b",
-      title: "B2B Hunter",
-      subtitle: "IT Services & Solutions",
-      location: "Valencia · Hybrid",
+      title: "Hunter B2B",
+      subtitle: "IT Services and Solutions",
+      location: "Valencia · On-site (1-2 remote days max.)",
       languages: "Native Spanish · English B2 minimum",
       summary: "Drive new client acquisition and market expansion through consultative B2B sales of technology services and solutions. We are looking for a profile clearly focused on prospecting, opportunity generation, and closing new business, with a focus on consultancies, integrators, and IT companies.",
       responsibilities: [
@@ -98,9 +98,9 @@ const ROLES = {
     },
     {
       id: "hunter-startups",
-      title: "Startup Hunter",
-      subtitle: "Technology Services & Solutions",
-      location: "Valencia · Hybrid",
+      title: "Hunter Startups",
+      subtitle: "Technology Services and Solutions",
+      location: "Valencia · On-site (1-2 remote days max.)",
       languages: "Native Spanish · English B2 minimum",
       summary: "Acquire new startups as clients for IT services and solutions, combining direct prospecting with relationship-building across accelerators, incubators, investment funds, venture builders and other players in the entrepreneurial ecosystem.",
       responsibilities: [
@@ -132,94 +132,98 @@ const ROLES = {
 
 const UI = {
   es: {
-    eyebrow: "Posiciones abiertas",
+    eyebrow: "Posiciones abiertas · Publicado octubre 2026",
     hero: "Roles comerciales en una",
-    heroAccent: "empresa tecnológica en Valencia.",
-    heroSub: "Proceso gestionado por Land in Europe Coaching. Reviso cada candidatura personalmente y te respondo con feedback honesto.",
-    apply: "Enviar candidatura",
-    confirm: "A confirmar",
+    heroAccent: "empresa tecnológica cotizada en Valencia.",
+    heroSub: "Proceso gestionado por Noelia Teruel Ortega, reclutadora independiente. Reviso cada candidatura personalmente. Si tu perfil encaja, te contacto en unos días. Si no, te lo comunico igualmente.",
+    applyCard: "Aplicar a este rol",
     objective: "Objetivo del puesto",
     responsibilities: "Responsabilidades",
     requirements: "Requisitos imprescindibles",
     valued: "Se valorará",
+    recruiterLabel: "Quién gestiona el proceso",
+    recruiterText: "Soy Noelia Teruel Ortega, reclutadora independiente especializada en perfiles internacionales y comerciales en Europa. Llevo estos procesos en exclusiva para la empresa cliente. No soy un portal, soy una persona: leo cada candidatura y respondo a todas.",
     formEyebrow: "Candidatura",
     formTitle: "Envía tu perfil",
-    formSub: "Reviso cada candidatura personalmente. Si tu perfil encaja con la posición te contactaré en los próximos días.",
+    formSub: "Reviso cada candidatura personalmente. Si tu perfil encaja con la posición te contactaré en los próximos días. Si no, también te lo comunico.",
     roleLabel: "Puesto al que aplicas *",
-    roleOptions: ["B2B Hunter — IT Services & Solutions", "Startup Hunter — Technology Services & Solutions"],
+    roleOptions: ["Hunter B2B — Servicios y Soluciones IT", "Hunter Startups — Servicios y Soluciones Tecnológicas"],
     nameLabel: "Nombre completo *",
     namePlaceholder: "Tu nombre",
     emailLabel: "Email *",
-    phoneLabel: "Teléfono *",
+    phoneLabel: "Teléfono",
     phonePlaceholder: "+34 600 000 000",
-    cityLabel: "Ciudad de residencia *",
+    cityLabel: "Ciudad de residencia",
     cityPlaceholder: "Valencia",
     linkedinLabel: "URL de LinkedIn *",
-    englishLabel: "Nivel de inglés *",
+    englishLabel: "Nivel de inglés",
     englishOptions: ["Selecciona", "B2", "C1", "C2", "Nativo"],
-    noticeLabel: "Preaviso *",
+    noticeLabel: "Preaviso",
     noticePlaceholder: "Ej: 1 mes, inmediata...",
-    salaryLabel: "Horquilla salarial anual bruta *",
-    salaryPlaceholder: "",
+    salaryLabel: "Expectativa salarial",
+    salaryHint: "Fijo + variable, según experiencia",
     workauthLabel: "Autorización de trabajo en España *",
     workauthOptions: ["Selecciona", "Sí", "No"],
     cvLabel: "CV (PDF o DOCX, máx. 4 MB) *",
     cvClick: "Haz clic para seleccionar tu CV",
     cvHint: "PDF o DOCX · Máximo 4 MB",
-    messageLabel: "Mensaje (opcional)",
+    messageLabel: "Mensaje",
     messagePlaceholder: "Algo que quieras añadir sobre tu candidatura...",
+    optionalSection: "Información adicional (opcional)",
     consent: "Acepto que mis datos sean tratados por Noelia Teruel Ortega (Land in Europe Coaching) con la finalidad de gestionar mi candidatura para el proceso de selección indicado. Los datos se conservarán durante el tiempo necesario para resolver el proceso y hasta un máximo de 2 años. Puedes ejercer tus derechos escribiendo a",
     consentPrivacy: "Política de privacidad completa.",
     submit: "Enviar candidatura",
     sending: "Enviando...",
     successTitle: "Candidatura recibida.",
-    successSub: "He recibido tu CV y tus datos. Si tu perfil encaja con la posición te contactaré en los próximos días.",
+    successSub: "He recibido tu CV y tus datos. Reviso cada candidatura personalmente y respondo a todas.",
     cvError: "Adjunta tu CV antes de enviar.",
     langToggle: "English",
   },
   en: {
-    eyebrow: "Open positions",
+    eyebrow: "Open positions · Published October 2026",
     hero: "Sales roles at a",
-    heroAccent: "tech company in Valencia.",
-    heroSub: "Recruitment managed by Land in Europe Coaching. I review every application personally and reply with honest feedback.",
-    apply: "Apply now",
-    confirm: "To be confirmed",
+    heroAccent: "listed tech company in Valencia.",
+    heroSub: "Managed by Noelia Teruel Ortega, independent recruiter. I review every application personally. If your profile is a fit, I will contact you within a few days. If not, I will let you know either way.",
+    applyCard: "Apply for this role",
     objective: "Role overview",
     responsibilities: "Responsibilities",
     requirements: "Requirements",
     valued: "Nice to have",
+    recruiterLabel: "Who manages this process",
+    recruiterText: "I'm Noelia Teruel Ortega, an independent recruiter specialising in international and commercial profiles across Europe. I run these searches exclusively for the client company. I'm not a job board, I'm a person: I read every application and reply to all of them.",
     formEyebrow: "Application",
     formTitle: "Send your profile",
-    formSub: "I review every application personally. If your profile is a fit I will contact you within the next few days.",
+    formSub: "I review every application personally. If your profile is a fit I will contact you within the next few days. If not, I will let you know either way.",
     roleLabel: "Role you are applying for *",
-    roleOptions: ["B2B Hunter — IT Services & Solutions", "Startup Hunter — Technology Services & Solutions"],
+    roleOptions: ["Hunter B2B — IT Services and Solutions", "Hunter Startups — Technology Services and Solutions"],
     nameLabel: "Full name *",
     namePlaceholder: "Your name",
     emailLabel: "Email *",
-    phoneLabel: "Phone *",
+    phoneLabel: "Phone",
     phonePlaceholder: "+34 600 000 000",
-    cityLabel: "City of residence *",
+    cityLabel: "City of residence",
     cityPlaceholder: "Valencia",
     linkedinLabel: "LinkedIn URL *",
-    englishLabel: "English level *",
+    englishLabel: "English level",
     englishOptions: ["Select", "B2", "C1", "C2", "Native"],
-    noticeLabel: "Notice period *",
+    noticeLabel: "Notice period",
     noticePlaceholder: "e.g. 1 month, immediate...",
-    salaryLabel: "Expected annual gross salary *",
-    salaryPlaceholder: "",
+    salaryLabel: "Salary expectation",
+    salaryHint: "Base + variable, depending on experience",
     workauthLabel: "Work authorisation in Spain *",
     workauthOptions: ["Select", "Yes", "No"],
     cvLabel: "CV (PDF or DOCX, max 4 MB) *",
     cvClick: "Click to select your CV",
     cvHint: "PDF or DOCX · Maximum 4 MB",
-    messageLabel: "Message (optional)",
+    messageLabel: "Message",
     messagePlaceholder: "Anything you would like to add about your application...",
+    optionalSection: "Additional information (optional)",
     consent: "I agree that my data will be processed by Noelia Teruel Ortega (Land in Europe Coaching) for the purpose of managing my application for the indicated recruitment process. Data will be retained for the time necessary to resolve the process and for a maximum of 2 years. You may exercise your rights by writing to",
     consentPrivacy: "Full privacy policy.",
     submit: "Submit application",
     sending: "Sending...",
     successTitle: "Application received.",
-    successSub: "I have received your CV and details. If your profile is a fit I will be in touch within the next few days.",
+    successSub: "I have received your CV and details. I review every application personally and reply to all of them.",
     cvError: "Please attach your CV before submitting.",
     langToggle: "Español",
   },
@@ -289,7 +293,7 @@ export default function RolesPage() {
                       onClick={() => handleApply(role.id)}
                       className="flex-shrink-0 inline-flex items-center gap-2 bg-[#C9A84C] text-[#0A0B0D] font-bold text-sm px-6 py-3 rounded-full hover:bg-[#E8C96A] transition-colors"
                     >
-                      {t.apply}
+                      {t.applyCard}
                     </button>
                   </div>
                   <div className="flex flex-wrap gap-4 text-xs text-white/40">
@@ -348,8 +352,23 @@ export default function RolesPage() {
           </div>
         </section>
 
+        {/* Recruiter trust block */}
+        <section className="py-10 px-6">
+          <div className="max-w-2xl mx-auto">
+            <div className="border border-white/8 rounded-2xl p-8 flex gap-6 items-start">
+              <div className="w-10 h-10 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/30 flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#C9A84C" strokeWidth="1.3"/><path d="M3 15c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#C9A84C" strokeWidth="1.3" strokeLinecap="round"/></svg>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.15em] mb-2">{t.recruiterLabel}</p>
+                <p className="text-white/50 text-sm leading-relaxed">{t.recruiterText}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Application form */}
-        <section ref={formRef} className="py-20 px-6" id="formulario">
+        <section ref={formRef} className="py-16 px-6" id="formulario">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-10">
               <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-4">{t.formEyebrow}</p>
@@ -427,6 +446,7 @@ function ApplicationForm({ preselectedRole, t, lang }: { preselectedRole: string
     <form onSubmit={submit} className="bg-[#1C1F26] border border-white/8 rounded-2xl p-8 space-y-5">
       <input type="text" name="website" value={form.website} onChange={ch} tabIndex={-1} aria-hidden="true" className="absolute opacity-0 pointer-events-none w-0 h-0" autoComplete="off" />
 
+      {/* Required fields */}
       <div>
         <label className={lbl}>{t.roleLabel}</label>
         <select name="role" value={preselectedRole ?? form.role} onChange={ch} className={inp} required>
@@ -440,31 +460,13 @@ function ApplicationForm({ preselectedRole, t, lang }: { preselectedRole: string
         <div><label className={lbl}>{t.emailLabel}</label><input required type="email" name="email" value={form.email} onChange={ch} placeholder="you@email.com" className={inp} /></div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div><label className={lbl}>{t.phoneLabel}</label><input required name="phone" value={form.phone} onChange={ch} placeholder={t.phonePlaceholder} className={inp} /></div>
-        <div><label className={lbl}>{t.cityLabel}</label><input required name="city" value={form.city} onChange={ch} placeholder={t.cityPlaceholder} className={inp} /></div>
-      </div>
-
       <div><label className={lbl}>{t.linkedinLabel}</label><input required type="url" name="linkedin" value={form.linkedin} onChange={ch} placeholder="https://linkedin.com/in/your-profile" className={inp} /></div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div>
-          <label className={lbl}>{t.englishLabel}</label>
-          <select required name="english" value={form.english} onChange={ch} className={inp}>
-            {t.englishOptions.map((o, i) => <option key={o} value={i === 0 ? "" : o}>{o}</option>)}
-          </select>
-        </div>
-        <div><label className={lbl}>{t.noticeLabel}</label><input required name="notice" value={form.notice} onChange={ch} placeholder={t.noticePlaceholder} className={inp} /></div>
-      </div>
-
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div><label className={lbl}>{t.salaryLabel}</label><input required name="salary" value={form.salary} onChange={ch} placeholder={t.salaryPlaceholder} className={inp} /></div>
-        <div>
-          <label className={lbl}>{t.workauthLabel}</label>
-          <select required name="workauth" value={form.workauth} onChange={ch} className={inp}>
-            {t.workauthOptions.map((o, i) => <option key={o} value={i === 0 ? "" : (i === 1 ? "yes" : "no")}>{o}</option>)}
-          </select>
-        </div>
+      <div>
+        <label className={lbl}>{t.workauthLabel}</label>
+        <select required name="workauth" value={form.workauth} onChange={ch} className={inp}>
+          {t.workauthOptions.map((o, i) => <option key={o} value={i === 0 ? "" : (i === 1 ? "yes" : "no")}>{o}</option>)}
+        </select>
       </div>
 
       <div>
@@ -475,7 +477,30 @@ function ApplicationForm({ preselectedRole, t, lang }: { preselectedRole: string
         </div>
       </div>
 
-      <div><label className={lbl}>{t.messageLabel}</label><textarea name="message" value={form.message} onChange={ch} rows={3} placeholder={t.messagePlaceholder} className={`${inp} resize-none`} /></div>
+      {/* Optional fields */}
+      <div className="pt-3 border-t border-white/6">
+        <p className="text-[10px] font-semibold text-white/20 uppercase tracking-widest mb-4">{t.optionalSection}</p>
+        <div className="space-y-4">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div><label className={lbl}>{t.phoneLabel}</label><input name="phone" value={form.phone} onChange={ch} placeholder={t.phonePlaceholder} className={inp} /></div>
+            <div><label className={lbl}>{t.cityLabel}</label><input name="city" value={form.city} onChange={ch} placeholder={t.cityPlaceholder} className={inp} /></div>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className={lbl}>{t.englishLabel}</label>
+              <select name="english" value={form.english} onChange={ch} className={inp}>
+                {t.englishOptions.map((o, i) => <option key={o} value={i === 0 ? "" : o}>{o}</option>)}
+              </select>
+            </div>
+            <div><label className={lbl}>{t.noticeLabel}</label><input name="notice" value={form.notice} onChange={ch} placeholder={t.noticePlaceholder} className={inp} /></div>
+          </div>
+          <div>
+            <label className={lbl}>{t.salaryLabel}</label>
+            <input name="salary" value={form.salary} onChange={ch} placeholder={t.salaryHint} className={inp} />
+          </div>
+          <div><label className={lbl}>{t.messageLabel}</label><textarea name="message" value={form.message} onChange={ch} rows={3} placeholder={t.messagePlaceholder} className={`${inp} resize-none`} /></div>
+        </div>
+      </div>
 
       <div className="flex items-start gap-3 pt-2">
         <input type="checkbox" id="consent" name="consent" checked={form.consent} onChange={ch} required className="mt-0.5 w-4 h-4 accent-[#C9A84C] flex-shrink-0" />

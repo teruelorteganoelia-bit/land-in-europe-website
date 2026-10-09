@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
   // Validation
   if (!role || !ROLES[role]) return NextResponse.json({ error: "Puesto no válido." }, { status: 400 });
-  if (!name || !email || !phone || !city || !linkedin || !english || !notice || !salary || !workauth) {
+  if (!name || !email || !linkedin || !workauth) {
     return NextResponse.json({ error: "Faltan campos obligatorios." }, { status: 400 });
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
