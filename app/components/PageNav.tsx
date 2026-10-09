@@ -9,7 +9,7 @@ export default function PageNav() {
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
           <Link href="/services" className="hover:text-gray-900 transition-colors">Services</Link>
-          <Link href="/jobs" className="hover:text-gray-900 transition-colors">Jobs</Link>
+          <Link href="/for-companies" className="hover:text-gray-900 transition-colors">For Companies</Link>
           <Link href="/roles" className="hover:text-gray-900 transition-colors">Roles</Link>
           <Link href="/blog" className="hover:text-gray-900 transition-colors">Blog</Link>
         </nav>
