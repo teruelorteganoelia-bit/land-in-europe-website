@@ -16,6 +16,7 @@ export default function PageFooter() {
             ["Coaching", "/career-coaching"],
             ["Blog", "/blog"],
             ["Contact", "/#contact"],
+            ["Privacidad", "/privacidad"],
           ].map(([l, h]) => (
             <Link key={h} href={h} className="text-sm text-white/30 hover:text-white transition-colors">
               {l}
