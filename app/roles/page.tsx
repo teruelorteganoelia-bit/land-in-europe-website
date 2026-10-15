@@ -11,20 +11,20 @@ export default function RolesPage() {
         className="text-4xl md:text-5xl font-light text-center mb-6 leading-snug"
         style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
       >
-        Siempre estoy buscando<br />
-        <em className="not-italic text-[#C9A84C]">buen talento.</em>
+        Good talent is always<br />
+        <em className="not-italic text-[#C9A84C]">worth a conversation.</em>
       </h1>
       <p className="text-white/40 text-base text-center max-w-md mb-10 leading-relaxed">
-        Aunque no haya un proceso abierto ahora mismo, me interesa conocer tu perfil. Escríbeme y te tengo en cuenta para las próximas oportunidades.
+        Send me your profile and I will keep you in mind for upcoming opportunities across Europe.
       </p>
       <a
         href="mailto:noelia@landineuropecoaching.com"
         className="inline-block border border-[#C9A84C]/50 text-[#C9A84C] text-sm tracking-widest uppercase px-8 py-3 hover:bg-[#C9A84C]/10 transition-colors"
       >
-        Contactar
+        Get in touch
       </a>
       <Link href="/" className="mt-8 text-white/20 text-xs hover:text-white/40 transition-colors">
-        Volver al inicio
+        Back to home
       </Link>
     </main>
   );
