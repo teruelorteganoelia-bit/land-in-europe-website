@@ -11,10 +11,11 @@ export default function RolesPage() {
         className="text-4xl md:text-5xl font-light text-center mb-6 leading-snug"
         style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
       >
-        No hay roles abiertos<br />en este momento.
+        Siempre estoy buscando<br />
+        <em className="not-italic text-[#C9A84C]">buen talento.</em>
       </h1>
       <p className="text-white/40 text-base text-center max-w-md mb-10 leading-relaxed">
-        Si quieres dejar tu perfil para futuras oportunidades o tienes alguna pregunta, escríbeme directamente.
+        Aunque no haya un proceso abierto ahora mismo, me interesa conocer tu perfil. Escríbeme y te tengo en cuenta para las próximas oportunidades.
       </p>
       <a
         href="mailto:noelia@landineuropecoaching.com"
