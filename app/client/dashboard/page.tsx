@@ -16,7 +16,8 @@ const STATUSES: { key: Application["status"]; label: string; dot: string; text: 
   { key: "waiting",   label: "Applied",   dot: "bg-yellow-400",  text: "text-yellow-400" },
   { key: "interview", label: "Interview", dot: "bg-blue-400",    text: "text-blue-300" },
   { key: "offer",     label: "Offer",     dot: "bg-emerald-400", text: "text-emerald-400" },
-  { key: "rejected",  label: "No reply",  dot: "bg-white/15",    text: "text-white/25" },
+  { key: "no_reply",  label: "No reply",  dot: "bg-white/15",    text: "text-white/25" },
+  { key: "rejected",  label: "Rejected",  dot: "bg-red-400",     text: "text-red-400" },
 ];
 
 function daysSince(dateStr: string) {
@@ -341,6 +342,7 @@ export default function ClientDashboard() {
                             app.status === "waiting"   ? "border-yellow-500/20 bg-yellow-500/8 text-yellow-400" :
                             app.status === "interview" ? "border-blue-500/20 bg-blue-500/8 text-blue-300" :
                             app.status === "offer"     ? "border-emerald-500/20 bg-emerald-500/8 text-emerald-400" :
+                            app.status === "rejected"  ? "border-red-500/20 bg-red-500/8 text-red-400" :
                             "border-white/8 bg-white/4 text-white/25"
                           }`}>
                           <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />

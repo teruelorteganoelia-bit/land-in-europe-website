@@ -20,7 +20,7 @@ export type Application = {
   company: string;
   role: string;
   appliedDate: string;
-  status: "waiting" | "interview" | "offer" | "rejected";
+  status: "waiting" | "interview" | "offer" | "no_reply" | "rejected";
   offerUrl?: string;
   cvLink?: string;
   contacts?: { name: string; linkedinUrl?: string }[];
