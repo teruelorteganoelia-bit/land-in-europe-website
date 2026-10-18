@@ -6,7 +6,6 @@ import type { Client, Application } from "@/lib/db";
 type SafeClient = Omit<Client, "passwordHash">;
 type Contact = { name: string; linkedinUrl?: string };
 
-// Normalise old string[] contacts to Contact[]
 function normaliseContacts(raw: unknown): Contact[] {
   if (!Array.isArray(raw)) return [];
   return raw.map(c => typeof c === "string" ? { name: c } : c as Contact);
@@ -36,6 +35,10 @@ function recruiterSearch(company: string) {
   return `https://www.google.com/search?q=${encodeURIComponent(`site:linkedin.com/in "${company}" ("talent acquisition" OR "recruiter" OR "HR manager" OR "hiring manager")`)}`;
 }
 
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+
 export default function ClientDashboard() {
   const router = useRouter();
   const [client, setClient] = useState<SafeClient | null>(null);
@@ -47,6 +50,9 @@ export default function ClientDashboard() {
   const [experienceDraft, setExperienceDraft] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState<Record<string, boolean>>({});
   const [statusPicker, setStatusPicker] = useState<string | null>(null);
+  const [notesOpen, setNotesOpen] = useState<Record<string, boolean>>({});
+  const [notesDraft, setNotesDraft] = useState<Record<string, string>>({});
+  const [filterStatus, setFilterStatus] = useState<Application["status"] | "all">("all");
 
   useEffect(() => {
     fetch("/api/client/me")
@@ -55,7 +61,6 @@ export default function ClientDashboard() {
       .finally(() => setLoading(false));
   }, [router]);
 
-  // Close status picker on outside click
   useEffect(() => {
     if (!statusPicker) return;
     const handler = () => setStatusPicker(null);
@@ -148,8 +153,26 @@ export default function ClientDashboard() {
 
   const completedSessions = client.sessions.filter(s => s.completed).length;
   const completedActions = client.actionPoints.filter(a => a.completed).length;
-  const followUpDue = client.applications.filter(a => a.status === "waiting" && !a.followUpSent && daysSince(a.appliedDate) >= 14);
+  const followUpDue = client.applications.filter(a => {
+    const targetDate = a.followUpDate ? a.followUpDate : null;
+    const autoTrigger = a.status === "waiting" && !a.followUpSent && daysSince(a.appliedDate) >= 14;
+    if (targetDate) return !a.followUpSent && new Date(targetDate) <= new Date();
+    return autoTrigger;
+  });
+  const upcomingInterviews = client.applications.filter(a => a.status === "interview" && a.interviewDate && new Date(a.interviewDate) >= new Date());
   const progress = client.sessions.length > 0 ? Math.round((completedSessions / client.sessions.length) * 100) : 0;
+
+  const statusCounts = STATUSES.reduce((acc, s) => {
+    acc[s.key] = client.applications.filter(a => a.status === s.key).length;
+    return acc;
+  }, {} as Record<string, number>);
+  const responseRate = client.applications.length > 0
+    ? Math.round((client.applications.filter(a => a.status !== "waiting" && a.status !== "no_reply").length / client.applications.length) * 100)
+    : 0;
+
+  const filteredApps = filterStatus === "all"
+    ? client.applications
+    : client.applications.filter(a => a.status === filterStatus);
 
   return (
     <main className="min-h-screen bg-[#0A0B0D]">
@@ -177,6 +200,23 @@ export default function ClientDashboard() {
 
       <div className="max-w-2xl mx-auto px-6 py-16 relative z-10">
 
+        {/* Interview reminders */}
+        {upcomingInterviews.length > 0 && (
+          <div className="mb-4 flex gap-4 rounded-2xl border border-blue-500/20 bg-blue-500/8 px-5 py-4">
+            <div className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="w-2 h-2 rounded-full bg-blue-400" />
+            </div>
+            <div>
+              <p className="text-blue-300 text-sm font-bold mb-0.5">
+                {upcomingInterviews.length === 1 ? "Upcoming interview" : `${upcomingInterviews.length} upcoming interviews`}
+              </p>
+              <p className="text-white/30 text-xs leading-relaxed">
+                {upcomingInterviews.map(a => `${a.company} · ${formatDate(a.interviewDate!)}`).join(" · ")}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Follow-up alert */}
         {followUpDue.length > 0 && (
           <div className="mb-10 flex gap-4 rounded-2xl border border-[#C9A84C]/20 bg-gradient-to-r from-[#C9A84C]/10 to-[#C9A84C]/5 px-5 py-4">
@@ -187,7 +227,7 @@ export default function ClientDashboard() {
               <p className="text-[#C9A84C] text-sm font-bold mb-0.5">
                 {followUpDue.length === 1 ? "1 application needs a follow-up" : `${followUpDue.length} applications need follow-ups`}
               </p>
-              <p className="text-white/30 text-xs leading-relaxed">No reply after 2 weeks from {followUpDue.map(a => a.company).join(", ")}. Use the message builder on each card below.</p>
+              <p className="text-white/30 text-xs leading-relaxed">No reply from {followUpDue.map(a => a.company).join(", ")}. Use the message builder below.</p>
             </div>
           </div>
         )}
@@ -273,6 +313,33 @@ export default function ClientDashboard() {
             </button>
           </div>
 
+          {/* Stats row */}
+          {client.applications.length > 0 && (
+            <div className="mb-5 rounded-2xl border border-white/6 bg-white/[0.018] px-5 py-4">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-white/20 text-[10px] uppercase tracking-widest font-bold">Overview</p>
+                <p className="text-white/30 text-xs">{responseRate}% response rate</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setFilterStatus("all")}
+                  className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${filterStatus === "all" ? "border-white/20 bg-white/8 text-white/70" : "border-white/8 text-white/25 hover:border-white/15"}`}
+                >
+                  All · {client.applications.length}
+                </button>
+                {STATUSES.filter(s => statusCounts[s.key] > 0).map(s => (
+                  <button
+                    key={s.key}
+                    onClick={() => setFilterStatus(filterStatus === s.key ? "all" : s.key)}
+                    className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${filterStatus === s.key ? `border-white/20 bg-white/8 ${s.text}` : `border-white/8 ${s.text} opacity-50 hover:opacity-80`}`}
+                  >
+                    {s.label} · {statusCounts[s.key]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {addingApp && (
             <form onSubmit={addApplication} className="mb-5 rounded-2xl border border-[#C9A84C]/20 bg-[#C9A84C]/5 p-5 space-y-3">
               <div className="grid sm:grid-cols-2 gap-3">
@@ -302,12 +369,14 @@ export default function ClientDashboard() {
             </div>
           ) : (
             <div className="space-y-3">
-              {client.applications.map(app => {
+              {filteredApps.map(app => {
                 const days = daysSince(app.appliedDate);
-                const isFollowUp = app.status === "waiting" && !app.followUpSent && days >= 14;
+                const followUpTarget = app.followUpDate ? new Date(app.followUpDate) <= new Date() && !app.followUpSent : app.status === "waiting" && !app.followUpSent && days >= 14;
+                const isFollowUp = !!followUpTarget;
                 const ms = messageState[app.id] || { open: false, generated: "" };
                 const contacts = normaliseContacts(app.contacts);
                 const statusInfo = STATUSES.find(s => s.key === app.status) || STATUSES[0];
+                const isNotesOpen = notesOpen[app.id] || false;
 
                 return (
                   <div key={app.id} className={`rounded-2xl border overflow-hidden transition-all ${isFollowUp ? "border-[#C9A84C]/25 bg-gradient-to-br from-[#C9A84C]/6 to-transparent" : "border-white/6 bg-white/[0.018]"}`}>
@@ -330,6 +399,12 @@ export default function ClientDashboard() {
                               <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                               CV used
                             </a>
+                          )}
+                          {app.interviewDate && app.status === "interview" && (
+                            <span className="inline-flex items-center gap-1 text-blue-300/70 text-xs">
+                              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                              {formatDate(app.interviewDate)}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -364,6 +439,22 @@ export default function ClientDashboard() {
                       </div>
                     </div>
 
+                    {/* Interview date field (visible when status is interview) */}
+                    {app.status === "interview" && (
+                      <div className="px-5 pb-3">
+                        <div className="flex items-center gap-2">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400/50 flex-shrink-0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                          <input
+                            type="date"
+                            defaultValue={app.interviewDate || ""}
+                            onBlur={e => { if (e.target.value !== (app.interviewDate || "")) updateApp(app.id, { interviewDate: e.target.value }); }}
+                            className="bg-transparent text-[11px] text-blue-300/50 placeholder:text-white/12 focus:outline-none focus:text-blue-300/80 transition-colors"
+                          />
+                          <span className="text-white/15 text-[10px]">Interview date</span>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Contacts */}
                     <div className="px-5 pb-3 space-y-2">
                       {contacts.map((c, i) => (
@@ -385,7 +476,6 @@ export default function ClientDashboard() {
                           <button onClick={() => removeContact(app.id, i)} className="text-white/15 hover:text-white/45 transition-colors leading-none text-sm flex-shrink-0">×</button>
                         </div>
                       ))}
-                      {/* Add new contact */}
                       <div className="flex items-center gap-2">
                         <input
                           value={newContact[app.id]?.name || ""}
@@ -416,6 +506,40 @@ export default function ClientDashboard() {
                         placeholder="Paste CV link used for this application (Drive, Dropbox…)"
                         className="w-full bg-transparent text-[11px] text-white/25 placeholder:text-white/12 focus:outline-none focus:text-white/55 transition-colors"
                       />
+                    </div>
+
+                    {/* Follow-up date */}
+                    <div className="px-5 pb-3 flex items-center gap-2">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/20 flex-shrink-0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      <input
+                        type="date"
+                        defaultValue={app.followUpDate || ""}
+                        onBlur={e => { if (e.target.value !== (app.followUpDate || "")) updateApp(app.id, { followUpDate: e.target.value }); }}
+                        className="bg-transparent text-[11px] text-white/20 focus:outline-none focus:text-white/50 transition-colors"
+                      />
+                      <span className="text-white/12 text-[10px]">Follow-up reminder</span>
+                    </div>
+
+                    {/* Notes */}
+                    <div className="px-5 pb-3">
+                      <button
+                        onClick={() => setNotesOpen(n => ({ ...n, [app.id]: !n[app.id] }))}
+                        className="flex items-center gap-1.5 text-white/20 text-[11px] hover:text-white/45 transition-colors"
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        {app.notes ? "Notes" : "Add notes"}
+                        {app.notes && <span className="w-1 h-1 rounded-full bg-[#C9A84C]/60" />}
+                      </button>
+                      {isNotesOpen && (
+                        <textarea
+                          value={notesDraft[app.id] ?? app.notes ?? ""}
+                          onChange={e => setNotesDraft(d => ({ ...d, [app.id]: e.target.value }))}
+                          onBlur={e => updateApp(app.id, { notes: e.target.value })}
+                          placeholder="Called on Monday, asked for a test, recruiter name is Ana..."
+                          rows={3}
+                          className="mt-2 w-full bg-white/4 border border-white/8 rounded-xl px-4 py-3 text-xs text-white/60 placeholder:text-white/18 focus:outline-none focus:border-white/15 transition-all resize-none leading-relaxed"
+                        />
+                      )}
                     </div>
 
                     {/* Follow-up notice */}

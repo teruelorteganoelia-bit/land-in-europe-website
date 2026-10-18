@@ -26,6 +26,9 @@ export type Application = {
   contacts?: { name: string; linkedinUrl?: string }[];
   experience?: string;
   followUpSent?: boolean;
+  followUpDate?: string;
+  interviewDate?: string;
+  notes?: string;
 };
 
 export type Client = {
