@@ -4,16 +4,16 @@ import PageNav from "../components/PageNav";
 import PageFooter from "../components/PageFooter";
 
 export const metadata: Metadata = {
-  title: "LinkedIn Optimization for International Professionals in Europe | Land in Europe",
+  title: "LinkedIn Optimization to Get Hired in Europe | Land in Europe",
   description:
-    "Get found by European recruiters before you even apply. LinkedIn profile optimization by a working European recruiter, including headline, summary, keywords, and visibility strategy.",
+    "Get found by European recruiters before you even apply. LinkedIn profile rewrite by a recruiter who uses LinkedIn every day to find and screen candidates across Spain, Sweden, and the EU.",
   keywords:
-    "LinkedIn optimization Europe, LinkedIn profile for expats, LinkedIn international job search, LinkedIn for jobs in Spain, LinkedIn profile Europe, get found by European recruiters",
+    "LinkedIn optimization Europe, LinkedIn profile expats Europe, get found by recruiters Europe, LinkedIn for job search Europe, LinkedIn profile Spain, LinkedIn keywords Europe, how to optimize LinkedIn for Europe, LinkedIn profile international professionals",
   alternates: { canonical: "/linkedin-optimization" },
   openGraph: {
-    title: "LinkedIn Optimization for International Professionals | Land in Europe",
+    title: "LinkedIn Optimization to Get Hired in Europe | Land in Europe",
     description:
-      "A LinkedIn profile that ranks higher in European recruiter searches, making the right people reach out to you.",
+      "Get found by European recruiters before you even apply. LinkedIn rewrite by a recruiter who uses LinkedIn every day.",
     url: "/linkedin-optimization",
   },
 };

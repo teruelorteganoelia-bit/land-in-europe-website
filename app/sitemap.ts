@@ -1,25 +1,19 @@
-import type { MetadataRoute } from "next";
-import { POSTS } from "./blog/posts";
+import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://landineuropecoaching.com";
+  const now = new Date();
 
-  const staticPages = [
-    { url: base, priority: 1.0, changeFrequency: "weekly" as const },
-    { url: `${base}/about`, priority: 0.9, changeFrequency: "monthly" as const },
-    { url: `${base}/cv-rewrite`, priority: 0.9, changeFrequency: "monthly" as const },
-    { url: `${base}/linkedin-optimization`, priority: 0.9, changeFrequency: "monthly" as const },
-    { url: `${base}/career-coaching`, priority: 0.9, changeFrequency: "monthly" as const },
-    { url: `${base}/blog`, priority: 0.8, changeFrequency: "weekly" as const },
-    { url: `${base}/jobs`, priority: 0.9, changeFrequency: "weekly" as const },
+  return [
+    { url: base, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${base}/career-coaching`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/cv-rewrite`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/linkedin-optimization`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/for-companies`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
+    { url: `${base}/roles`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${base}/cv-feedback`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${base}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
   ];
-
-  const blogPages = POSTS.map((post) => ({
-    url: `${base}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    priority: 0.7,
-    changeFrequency: "monthly" as const,
-  }));
-
-  return [...staticPages, ...blogPages];
 }

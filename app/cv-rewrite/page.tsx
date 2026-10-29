@@ -4,16 +4,16 @@ import PageNav from "../components/PageNav";
 import PageFooter from "../components/PageFooter";
 
 export const metadata: Metadata = {
-  title: "CV Rewrite for the European Job Market | Land in Europe",
+  title: "CV Rewrite for Jobs in Europe | Written by a Recruiter | Land in Europe",
   description:
-    "Professional CV rewriting service for international professionals targeting jobs in Europe. Written by a working European recruiter who screens CVs daily. ATS-optimised and achievement-led.",
+    "Your CV rewritten by someone who screens CVs for European companies every day. Not a template. Not AI. A real rewrite that gets you past the first filter and in front of the right people.",
   keywords:
-    "CV rewrite Europe, CV writing for expats, European CV format, ATS CV Europe, CV writing Spain, CV writing Portugal, CV writing Greece, international CV Europe",
+    "CV rewrite Europe, CV writing foreigners Europe, European CV format, ATS CV Europe, how to write a CV for Europe, CV writing Spain, CV for international job search, professional CV rewrite, CV writing service Europe",
   alternates: { canonical: "/cv-rewrite" },
   openGraph: {
-    title: "CV Rewrite for the European Job Market | Land in Europe",
+    title: "CV Rewrite for Jobs in Europe | Written by a Recruiter | Land in Europe",
     description:
-      "Your CV rewritten by a recruiter who screens applications for European companies every day.",
+      "Your CV rewritten by a recruiter who screens applications for European companies every day. Not a template, a real rewrite.",
     url: "/cv-rewrite",
   },
 };

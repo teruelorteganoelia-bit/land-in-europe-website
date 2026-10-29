@@ -4,16 +4,16 @@ import PageNav from "../components/PageNav";
 import PageFooter from "../components/PageFooter";
 
 export const metadata: Metadata = {
-  title: "Career Coaching for International Professionals in Europe | Land in Europe",
+  title: "Career Coaching for Foreigners Looking for a Job in Europe | Land in Europe",
   description:
-    "Career coaching by a working European recruiter. Strategy sessions, CV rewrites, LinkedIn optimization, and full job search support for internationals targeting Spain, Portugal and Greece.",
+    "Career coaching for people who want to work in Europe but do not know where to start. Strategy, CV, LinkedIn, and full job search support by a recruiter who hires in the European market every day.",
   keywords:
-    "career coaching Europe, career coach for expats, career coaching internationals, career coach Spain, career coach Portugal, career coach Greece, job search coaching Europe, expat career coach",
+    "career coach foreigners Europe, career coaching expats Europe, how to find a job in Europe, job search coaching Europe, career coach Spain, career coach Sweden, career coaching internationals, expat career coach Europe, work in Europe as a foreigner, career strategy Europe",
   alternates: { canonical: "/career-coaching" },
   openGraph: {
-    title: "Career Coaching for International Professionals in Europe | Land in Europe",
+    title: "Career Coaching for Foreigners Looking for a Job in Europe | Land in Europe",
     description:
-      "Career coaching by a working European recruiter. Strategy, CV, LinkedIn and full job search support for international professionals.",
+      "Career coaching for people who want to work in Europe. Strategy, CV, LinkedIn, and full job search support by a recruiter who hires in Europe every day.",
     url: "/career-coaching",
   },
 };
