@@ -12,6 +12,7 @@ export default function PageNav() {
           <Link href="/for-companies" className="hover:text-gray-900 transition-colors">For Companies</Link>
           <Link href="/roles" className="hover:text-gray-900 transition-colors">Roles</Link>
           <Link href="/blog" className="hover:text-gray-900 transition-colors">Blog</Link>
+          <Link href="/testimonials" className="hover:text-gray-900 transition-colors">Results</Link>
         </nav>
         <Link
           href="/cv-feedback"
