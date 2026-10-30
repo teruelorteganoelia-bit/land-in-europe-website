@@ -160,6 +160,33 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           </div>
         </section>
 
+        {/* Related guides */}
+        {post.relatedPosts && post.relatedPosts.length > 0 && (() => {
+          const guides = post.relatedPosts!.map((s) => POSTS.find((p) => p.slug === s)).filter(Boolean);
+          if (!guides.length) return null;
+          return (
+            <section className="py-10 px-6 bg-[#fafaf9] border-t border-gray-100">
+              <div className="max-w-3xl mx-auto">
+                <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-5">Related guides</p>
+                <div className="flex flex-col gap-3">
+                  {guides.map((g) => (
+                    <Link
+                      key={g!.slug}
+                      href={`/blog/${g!.slug}`}
+                      className="flex items-center justify-between gap-4 bg-white rounded-xl border border-gray-200 px-5 py-4 hover:border-[#C9A84C]/50 transition-colors group"
+                    >
+                      <span className="font-serif text-sm font-semibold text-gray-900 group-hover:text-[#C9A84C] transition-colors leading-snug">{g!.title}</span>
+                      <svg className="w-4 h-4 flex-shrink-0 text-gray-300 group-hover:text-[#C9A84C] transition-colors" viewBox="0 0 16 16" fill="none">
+                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </section>
+          );
+        })()}
+
         {/* Author CTA */}
         <section className="py-14 px-6 bg-gray-50 border-t border-gray-100">
           <div className="max-w-3xl mx-auto bg-gray-900 rounded-3xl p-8 sm:p-10">

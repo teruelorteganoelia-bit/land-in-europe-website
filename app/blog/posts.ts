@@ -6,6 +6,7 @@ export type Post = {
   readTime: string;
   category: string;
   content: Section[];
+  relatedPosts?: string[];
 };
 
 export type Section = {
@@ -59,6 +60,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "They know exactly which roles they are going for. They have adapted their documents to the local market. And they are not just applying and waiting. They are visible, they are reaching out, and they have a LinkedIn profile that shows up when a recruiter searches." },
       { type: "p", text: "Get those two things right before you start and you are already ahead of most people in the pile." },
     ],
+    relatedPosts: ["european-cv-vs-american-cv", "what-european-recruiters-look-for-on-linkedin", "mistakes-internationals-make-applying-in-europe"],
   },
   {
     slug: "european-cv-vs-american-cv",
@@ -104,6 +106,7 @@ export const POSTS: Post[] = [
         "Full street addresses or zip codes.",
       ]},
     ],
+    relatedPosts: ["what-european-recruiters-look-for-on-linkedin", "how-to-find-a-job-in-spain-as-a-foreigner", "mistakes-internationals-make-applying-in-europe"],
   },
   {
     slug: "what-european-recruiters-look-for-on-linkedin",
@@ -150,6 +153,7 @@ export const POSTS: Post[] = [
       { type: "h2", text: "The thing almost no one does" },
       { type: "p", text: "Set your location to your target city, not where you currently live. If you want to work in Barcelona, your profile should say Barcelona or your About section should mention you are relocating. Recruiters filter by location. A profile showing a city on another continent will not show up in a search for candidates in Europe." },
     ],
+    relatedPosts: ["european-cv-vs-american-cv", "mistakes-internationals-make-applying-in-europe", "career-coaching-vs-recruiter-difference"],
   },
   {
     slug: "mistakes-internationals-make-applying-in-europe",
@@ -184,6 +188,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "When the applications are going out and nothing is coming back, most people assume the market is hard or they need to apply more. Often the issue is something specific: a CV format that does not read right for this market, a LinkedIn profile that is not showing up in searches, a positioning that is not clear." },
       { type: "p", text: "Get a real review from someone who works in the European market. One conversation can explain months of silence." },
     ],
+    relatedPosts: ["european-cv-vs-american-cv", "what-european-recruiters-look-for-on-linkedin", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "how-to-prepare-for-a-job-interview-in-europe",
@@ -226,6 +231,7 @@ export const POSTS: Post[] = [
       { type: "h2", text: "After the interview" },
       { type: "p", text: "Send a short follow-up email the same day or the next morning. Three to four sentences. Thank them for their time, mention one specific thing from the conversation, and confirm your interest. Almost nobody does this in Europe. It will be noticed." },
     ],
+    relatedPosts: ["mistakes-internationals-make-applying-in-europe", "european-cv-vs-american-cv", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "will-ai-replace-your-job-in-europe",
@@ -256,6 +262,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "AI is not going to replace your job in the next year if you are a skilled professional with real experience and the ability to work across cultures. But it is changing how you get found, how your application gets filtered, and how quickly the wrong document gets discarded." },
       { type: "p", text: "The professionals I see getting hired fast are not the ones ignoring these changes. They are the ones who understood the new rules and adapted their positioning accordingly. That is the part you can control." },
     ],
+    relatedPosts: ["european-cv-vs-american-cv", "what-european-recruiters-look-for-on-linkedin", "career-coaching-vs-recruiter-difference"],
   },
   {
     slug: "bdm-jobs-switzerland-how-hiring-works",
@@ -298,6 +305,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "Right now I have active mandates for BDM profiles in the Food & Beverage sector and in the semiconductor / electronic modules space, both based in the Neuchâtel and Vaud regions. If your background sits in technical B2B sales in either of those sectors and you hold an EU/EFTA passport, it is worth a conversation." },
       { type: "p", text: "The full role descriptions are on the Jobs page. You can apply directly by email. No form, no platform, just send me your CV and a short note." },
     ],
+    relatedPosts: ["european-cv-vs-american-cv", "career-coaching-vs-recruiter-difference", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "independent-recruiter-stockholm-how-it-works",
@@ -329,6 +337,7 @@ export const POSTS: Post[] = [
       { type: "h2", text: "How to find me" },
       { type: "p", text: "You can see my active mandates on the Jobs page and apply directly by email. Or if you want to send your profile for future opportunities, you can do that too. I am based in Stockholm, I work in English and Spanish, and I try to reply to every message." },
     ],
+    relatedPosts: ["career-coaching-vs-recruiter-difference", "how-to-get-a-job-in-sweden-as-a-foreigner", "bdm-jobs-switzerland-how-hiring-works"],
   },
   {
     slug: "jobbcoach-stockholm-karriarcoach-sverige",
@@ -363,6 +372,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "Måste jag bo i Stockholm? Nej. Alla sessioner sker online. Jag har klienter i Europa, Mellanöstern, Latinamerika och Nordamerika." },
       { type: "p", text: "Hur lång tid tar det att se resultat? De flesta klienter börjar få svar inom två till fyra veckor efter att de implementerat förändringarna. Vissa snabbare. Det beror på bransch och hur aktiv marknaden är för din profil." },
     ],
+    relatedPosts: ["how-to-get-a-job-in-sweden-as-a-foreigner", "career-coaching-vs-recruiter-difference", "independent-recruiter-stockholm-how-it-works"],
   },
   {
     slug: "how-to-get-a-job-in-sweden-as-a-foreigner",
@@ -405,6 +415,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "Candidates with strong English (Sweden is among the highest-ranked non-native English speaking countries in the world, the standard is high), relevant technical or commercial experience, a CV adapted to the European format, and a clear story about why Sweden and why now." },
       { type: "p", text: "Some Swedish at even a basic level is a significant advantage wherever it is not strictly required. It tells employers you are here to stay." },
     ],
+    relatedPosts: ["european-cv-vs-american-cv", "what-european-recruiters-look-for-on-linkedin", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "career-coaching-vs-recruiter-difference",
@@ -441,6 +452,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "Ask yourself one question: are you getting interviews? If yes, coaching on interview performance and salary negotiation is what moves the needle. If no, the problem is upstream: your documents, your positioning, your visibility to recruiters, or your targeting strategy." },
       { type: "p", text: "Most people who come to me are stuck in the second category. They are qualified. They are applying. They are not hearing back. The fix is almost always specific and fixable. But you have to know what you are fixing first." },
     ],
+    relatedPosts: ["independent-recruiter-stockholm-how-it-works", "mistakes-internationals-make-applying-in-europe", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "how-to-get-a-job-in-germany-as-a-foreigner",
@@ -502,6 +514,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "And they are not waiting for the right ad to appear. They are reaching out directly, connecting with recruiters who place in their sector, and making themselves visible to the companies they want to work for." },
       { type: "p", text: "Germany rewards preparation. If you put in the work before you start, the market is more accessible than most people realise." },
     ],
+    relatedPosts: ["eu-blue-card-requirements-2026", "european-cv-vs-american-cv", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "how-to-get-a-job-in-the-netherlands-as-a-foreigner",
@@ -559,6 +572,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "Candidates with strong English, relevant technical or commercial experience, a clear story about why the Netherlands, and documents adapted to the European format. Multilingual candidates have a real edge. Dutch companies hire internationally because they need people who can work across cultures and markets." },
       { type: "p", text: "The Netherlands rewards directness. Know what you want, say it clearly, back it up with results. That is the job search approach that works here." },
     ],
+    relatedPosts: ["eu-blue-card-requirements-2026", "european-cv-vs-american-cv", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "eu-blue-card-requirements-2026",
@@ -603,6 +617,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "The Blue Card application comes after the job offer. Your job search strategy matters more than the permit itself. Focus on countries with strong labour markets for your sector (Germany, the Netherlands, Sweden), target companies that are registered Blue Card sponsors, and make sure your CV and LinkedIn are adapted to the European market before you start." },
       { type: "p", text: "Recruiters who work with European companies, particularly in Germany and the Netherlands, are familiar with the Blue Card process and can advise on whether a specific employer is set up to sponsor it. Asking early in the process is fine and shows you have done your homework." },
     ],
+    relatedPosts: ["how-to-get-a-job-in-germany-as-a-foreigner", "how-to-get-a-job-in-the-netherlands-as-a-foreigner", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "career-change-to-europe-over-40",
@@ -646,6 +661,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "A clear target, a sharp story, documents that speak the language of the European market, and visibility in front of the right recruiters. At this level, a conversation with one specialist recruiter who places in your sector is worth more than thirty job applications. Those relationships take time to build, but they are where most senior roles actually get filled." },
       { type: "p", text: "Your experience is real. The question is only whether the way you are presenting it is working in this market. Most of the time, when senior candidates are stuck, that is the only thing that needs to change." },
     ],
+    relatedPosts: ["career-coaching-vs-recruiter-difference", "european-cv-vs-american-cv", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "how-to-get-a-job-in-france-as-a-foreigner",
@@ -700,6 +716,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "And who build their presence deliberately: a LinkedIn profile that works in a French context, a CV adapted to local expectations, and a network that is not starting from zero on the day they decide to move." },
       { type: "p", text: "France rewards the candidates who did the preparation. The ones who show up without it tend to find the market harder than it needs to be." },
     ],
+    relatedPosts: ["european-cv-vs-american-cv", "what-european-recruiters-look-for-on-linkedin", "how-to-find-a-job-in-europe-as-a-foreigner"],
   },
   {
     slug: "how-to-find-a-job-in-europe-as-a-foreigner",
@@ -782,6 +799,7 @@ export const POSTS: Post[] = [
       { type: "p", text: "Most international professionals who come to me are qualified and motivated. They are not getting results because something specific is not working, not because the European market is closed to them. Finding out what that thing is, and fixing it, is what moves the search forward." },
       { type: "p", text: "If you want help working out exactly what is blocking yours, the free quiz on this site takes five minutes and gives you a specific answer. Or if you are ready to work directly, you can book a career strategy session and we will go through it together." },
     ],
+    relatedPosts: ["how-to-get-a-job-in-germany-as-a-foreigner", "how-to-get-a-job-in-the-netherlands-as-a-foreigner", "eu-blue-card-requirements-2026"],
   },
 ];
 
