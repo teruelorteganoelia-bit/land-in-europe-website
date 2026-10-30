@@ -15,12 +15,22 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: `${post.title} | Land in Europe`,
     description: post.description,
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: { canonical: `https://landineuropecoaching.com/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
-      url: `/blog/${post.slug}`,
+      url: `https://landineuropecoaching.com/blog/${post.slug}`,
       type: "article",
+      publishedTime: post.date,
+      authors: ["Noelia Teruel Ortega"],
+      siteName: "Land in Europe",
+      images: [{ url: "/noelia-photo.png", width: 800, height: 1000 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: ["/noelia-photo.png"],
     },
   };
 }
@@ -68,10 +78,47 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   const post = getPost(params.slug);
   if (!post) notFound();
 
-  const related = POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
+  const related = POSTS.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 2).length >= 2
+    ? POSTS.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 2)
+    : POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Person",
+      name: "Noelia Teruel Ortega",
+      url: "https://landineuropecoaching.com",
+      jobTitle: "Career Coach and International Recruiter",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Land in Europe",
+      url: "https://landineuropecoaching.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://landineuropecoaching.com/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://landineuropecoaching.com/blog/${post.slug}`,
+    },
+    url: `https://landineuropecoaching.com/blog/${post.slug}`,
+    inLanguage: "en",
+    image: "https://landineuropecoaching.com/noelia-photo.png",
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <PageNav />
       <main>
 
