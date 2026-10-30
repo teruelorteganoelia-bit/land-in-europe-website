@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     "Career coaching for foreigners looking for a job in Europe. CV rewrite, LinkedIn optimization, and job search strategy by a recruiter who works in the European market every day. Based in Stockholm, working across Spain, Sweden, and the EU.",
   keywords:
     "career coach for expats Europe, how to find a job in Europe as a foreigner, career coach internationals Europe, CV format Europe, job search Europe, LinkedIn optimization Europe, career coach Stockholm, jobbcoach Stockholm, karriärcoach Sverige, international recruiter Spain, recruiter startups Spain, expat job search Europe, CV rewrite Europe, work in Europe foreigner, career coaching Spain Sweden",
+  verification: {
+    google: "e0IPJruIt1Tat5gQl1WzujVZ3PzWFSOXdNRXPHNM348",
+  },
   alternates: {
     canonical: "https://landineuropecoaching.com",
     languages: {
