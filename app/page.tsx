@@ -552,8 +552,8 @@ function Hero() {
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="#services" className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/60 font-semibold px-7 py-4 rounded-full hover:border-white/30 hover:text-white transition-colors text-sm">
-                See services
+              <a href="/quiz" className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/60 font-semibold px-7 py-4 rounded-full hover:border-white/30 hover:text-white transition-colors text-sm">
+                Not sure where to start?
               </a>
             </Magnetic>
           </div>
