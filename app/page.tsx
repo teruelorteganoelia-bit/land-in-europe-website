@@ -616,6 +616,34 @@ function CountryStrip() {
   );
 }
 
+// ─── Quiz Banner ─────────────────────────────────────────────────────────────
+function QuizBanner() {
+  return (
+    <section className="py-14 px-6 bg-[#0A0B0D] border-t border-white/5">
+      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
+        <div className="flex-1 text-center sm:text-left">
+          <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.2em] mb-2">Free · 2 minutes</p>
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-snug mb-2">
+            Not sure where to start?
+          </h2>
+          <p className="text-white/40 text-sm leading-relaxed max-w-md">
+            Answer 5 questions and find out exactly what is holding back your European job search.
+          </p>
+        </div>
+        <a
+          href="/quiz"
+          className="flex-shrink-0 inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-8 py-4 rounded-full hover:bg-[#e8c96d] transition-colors shadow-lg shadow-[#C9A84C]/20 whitespace-nowrap"
+        >
+          Take the free assessment
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M1.5 6h9M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+  );
+}
+
 // ─── Approach ─────────────────────────────────────────────────────────────────
 function Approach() {
   const headRef  = useReveal();
@@ -1496,6 +1524,7 @@ export default function Home() {
       <VideoSection/>
       <Ticker/>
       <CountryStrip/>
+      <QuizBanner/>
       <Approach/>
       <SeniorBlock/>
       <Services/>
