@@ -160,6 +160,24 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           </div>
         </section>
 
+        {/* Checklist CTA */}
+        <section className="py-10 px-6 bg-white border-t border-gray-100">
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-[#0A0B0D] rounded-2xl px-7 py-6 flex flex-col sm:flex-row sm:items-center gap-5">
+              <div className="flex-1">
+                <p className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.15em] mb-1">Free checklist</p>
+                <p className="font-serif text-lg font-bold text-white leading-snug">25 things to check before your next application in Europe</p>
+              </div>
+              <Link
+                href="/checklist"
+                className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-6 py-3 rounded-full hover:bg-[#b8953f] transition-colors flex-shrink-0"
+              >
+                Get it free
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Related guides */}
         {post.relatedPosts && post.relatedPosts.length > 0 && (() => {
           const guides = post.relatedPosts!.map((s) => POSTS.find((p) => p.slug === s)).filter(Boolean);
