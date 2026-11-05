@@ -17,5 +17,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/testimonials`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/quiz`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/checklist`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/blog/how-to-hire-multilingual-sales-professionals-in-europe`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/blog/international-recruiter-for-tech-companies-in-spain`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/blog/how-to-hire-a-bdm-in-switzerland`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/blog/how-to-hire-english-speaking-candidates-in-sweden`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
   ];
 }

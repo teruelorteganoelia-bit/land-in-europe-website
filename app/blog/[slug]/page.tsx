@@ -72,6 +72,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Job Search": "bg-blue-50 text-blue-700",
   "CV Writing": "bg-amber-50 text-amber-700",
   "LinkedIn": "bg-sky-50 text-sky-700",
+  "Hiring": "bg-emerald-50 text-emerald-700",
 };
 
 export default function BlogPost({ params }: { params: { slug: string } }) {
