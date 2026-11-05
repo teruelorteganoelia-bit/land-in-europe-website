@@ -31,12 +31,23 @@ const WHY = [
   },
   {
     title: "European markets, not just job portals",
-    body: "We operate in Spain, Sweden, and across the EU. We understand how hiring works in each market and what candidates actually expect.",
+    body: "We operate across Spain, Sweden, Germany, the Netherlands, Switzerland, Luxembourg, Belgium, and France. We understand how hiring works in each market and what candidates actually expect.",
   },
   {
     title: "Boutique means you are not one of fifty",
     body: "We take a limited number of mandates at a time. Your role gets real attention, not a slot in a pipeline.",
   },
+];
+
+const PROFILES = [
+  { label: "Business Development Managers", markets: "Germany, Switzerland, France, Benelux" },
+  { label: "Technical Sales Managers", markets: "Spain, Sweden, Switzerland" },
+  { label: "Account Executives", markets: "Spain, Netherlands, Sweden" },
+  { label: "Country Managers", markets: "Spain, Sweden, Germany" },
+  { label: "Sales Engineers", markets: "Germany, Netherlands, Switzerland" },
+  { label: "Marketing Managers (multilingual)", markets: "Spain, Netherlands, Belgium" },
+  { label: "Customer Success Managers", markets: "Spain, Sweden, Netherlands" },
+  { label: "Finance and Operations profiles", markets: "Luxembourg, Switzerland, Sweden" },
 ];
 
 export default function ForCompaniesPage() {
@@ -153,6 +164,67 @@ export default function ForCompaniesPage() {
               </span>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Profiles we place */}
+      <section className="max-w-4xl mx-auto px-6 py-20">
+        <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/30 to-transparent mb-20" />
+        <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#C9A84C] mb-10">
+          Profiles we place
+        </p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {PROFILES.map((p) => (
+            <div key={p.label} className="border border-white/8 px-6 py-5 hover:border-[#C9A84C]/20 transition-colors">
+              <p className="text-white/85 text-sm font-medium mb-1">{p.label}</p>
+              <p className="text-white/30 text-xs tracking-wide">{p.markets}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-white/30 text-sm mt-8 leading-relaxed max-w-2xl">
+          Primarily commercial and technical profiles for technology companies, industrial B2B businesses, and financial services firms operating in Europe. Most of our mandates require candidates with multilingual capabilities and cross-border experience.
+        </p>
+      </section>
+
+      {/* FAQ for SEO */}
+      <section className="max-w-4xl mx-auto px-6 pb-20">
+        <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/30 to-transparent mb-20" />
+        <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#C9A84C] mb-12">
+          Common questions
+        </p>
+        <div className="flex flex-col gap-10">
+          {[
+            {
+              q: "How long does it take to fill a role?",
+              a: "For most commercial and technical profiles, we deliver a shortlist within two to three weeks of the briefing call. The full process from briefing to accepted offer typically takes four to eight weeks depending on seniority and market. We move faster than most agencies because we work on a limited number of mandates at a time.",
+            },
+            {
+              q: "Which markets do you recruit in?",
+              a: "We recruit across Spain, Sweden, Germany, the Netherlands, Switzerland, Luxembourg, Belgium, and France. We understand how hiring works in each of these markets: local salary expectations, candidate behaviour, language requirements, and what makes professionals actually move. We do not operate as a generalist agency across every country in Europe.",
+            },
+            {
+              q: "What types of roles do you fill?",
+              a: "Primarily commercial, technical sales, and operations profiles: Business Development Managers, Technical Sales Managers, Account Executives, Country Managers, Sales Engineers, and Customer Success Managers. Most of our mandates require multilingual candidates with European market experience.",
+            },
+            {
+              q: "Do you work with companies outside Spain and Sweden?",
+              a: "Yes. We work with companies based anywhere who need to hire in European markets. A German company hiring a Country Manager for Spain, a Dutch scale-up building a sales team in Stockholm, a Swiss industrial firm looking for a BDM in France. If the role is in one of our markets, we can help regardless of where the company is headquartered.",
+            },
+            {
+              q: "How is this different from using a large recruitment agency?",
+              a: "A boutique service means your mandate gets personal attention. You work directly with the recruiter running your search, not an account manager who passes the brief down. We take a limited number of mandates at a time, which means we are actively working your role rather than adding it to a large pipeline. We also have a direct connection to international candidates through our coaching practice, which gives us access to profiles that are not visible on job boards.",
+            },
+          ].map((item) => (
+            <div key={item.q}>
+              <h3
+                className="text-lg font-light text-white/85 mb-3 leading-snug"
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+              >
+                {item.q}
+              </h3>
+              <p className="text-white/45 text-sm leading-relaxed">{item.a}</p>
+            </div>
+          ))}
         </div>
       </section>
 
