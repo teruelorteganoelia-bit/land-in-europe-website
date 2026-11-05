@@ -75,9 +75,18 @@ const CATEGORY_COLORS: Record<string, string> = {
   "Hiring": "bg-emerald-50 text-emerald-700",
 };
 
+const HIRING_SLUGS = new Set([
+  "how-to-hire-multilingual-sales-professionals-in-europe",
+  "international-recruiter-for-tech-companies-in-spain",
+  "how-to-hire-a-bdm-in-switzerland",
+  "how-to-hire-english-speaking-candidates-in-sweden",
+]);
+
 export default function BlogPost({ params }: { params: { slug: string } }) {
   const post = getPost(params.slug);
   if (!post) notFound();
+
+  const isHiringArticle = HIRING_SLUGS.has(post.slug);
 
   const related = POSTS.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 2).length >= 2
     ? POSTS.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 2)
@@ -195,15 +204,31 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight">
               Noelia Teruel Ortega
             </h2>
-            <p className="text-white/50 text-sm leading-relaxed mb-6">
-              Career coach and international recruiter based in Stockholm. I help international professionals get hired in Europe through CV rewrites, LinkedIn optimization, and 1:1 coaching.
-            </p>
-            <Link
-              href="/#contact"
-              className="inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-8 py-3.5 rounded-full hover:bg-[#e8c96d] transition-colors"
-            >
-              Work with me
-            </Link>
+            {isHiringArticle ? (
+              <>
+                <p className="text-white/50 text-sm leading-relaxed mb-6">
+                  International recruiter and career coach based in Stockholm. I help companies across Europe hire multilingual commercial and technical profiles in Spain, Sweden, Germany, the Netherlands, Switzerland, and beyond.
+                </p>
+                <Link
+                  href="/for-companies"
+                  className="inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-8 py-3.5 rounded-full hover:bg-[#e8c96d] transition-colors"
+                >
+                  See how I can help you hire
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="text-white/50 text-sm leading-relaxed mb-6">
+                  Career coach and international recruiter based in Stockholm. I help international professionals get hired in Europe through CV rewrites, LinkedIn optimization, and 1:1 coaching.
+                </p>
+                <Link
+                  href="/#contact"
+                  className="inline-flex items-center gap-2 bg-[#C9A84C] text-black font-bold text-sm px-8 py-3.5 rounded-full hover:bg-[#e8c96d] transition-colors"
+                >
+                  Work with me
+                </Link>
+              </>
+            )}
           </div>
         </section>
 

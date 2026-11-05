@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 
 const STEPS = [
   {
@@ -50,7 +51,27 @@ const PROFILES = [
   { label: "Finance and Operations profiles", markets: "Luxembourg, Switzerland, Sweden" },
 ];
 
+const MARKETS = ["Spain", "Sweden", "Germany", "Netherlands", "Switzerland", "Luxembourg", "Belgium", "France", "Multiple markets"];
+
 export default function ForCompaniesPage() {
+  const [form, setForm] = useState({ name: "", company: "", role: "", market: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/hiring-inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      setStatus(res.ok ? "sent" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <main className="bg-[#0A0B0D] text-white min-h-screen font-['Inter',system-ui,sans-serif]">
 
@@ -228,24 +249,96 @@ export default function ForCompaniesPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="max-w-4xl mx-auto px-6 pb-32 text-center">
-        <h2
-          className="text-4xl md:text-5xl font-light mb-6"
-          style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-        >
-          Ready to hire differently?
-        </h2>
-        <p className="text-white/50 text-base mb-10 max-w-lg mx-auto">
-          Tell us about the role. We will tell you honestly whether we can help. No commitment, no pitch.
-        </p>
-        <a
-          href="mailto:noelia@landineuropecoaching.com"
-          className="inline-block bg-[#C9A84C] text-[#0A0B0D] text-sm font-semibold tracking-widest uppercase px-10 py-4 hover:bg-[#E8C96A] transition-colors"
-        >
-          Get in touch
-        </a>
-        <p className="text-white/20 text-xs mt-6 tracking-wide">landineuropecoaching.com</p>
+      {/* Contact form */}
+      <section className="max-w-4xl mx-auto px-6 pb-32">
+        <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/30 to-transparent mb-20" />
+        <div className="grid md:grid-cols-2 gap-16 items-start">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#C9A84C] mb-6">Start a search</p>
+            <h2
+              className="text-4xl md:text-5xl font-light mb-6 leading-tight"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              Tell us about the role.
+            </h2>
+            <p className="text-white/40 text-sm leading-relaxed">
+              We will come back to you within 24 hours with an honest view of whether we can help and what the search would look like. No commitment, no pitch.
+            </p>
+          </div>
+
+          {status === "sent" ? (
+            <div className="border border-[#C9A84C]/30 p-10 flex flex-col gap-3">
+              <p className="text-[#C9A84C] text-xs font-semibold tracking-[0.2em] uppercase">Received</p>
+              <p className="text-white/80 text-sm leading-relaxed">Thank you. I will come back to you within 24 hours.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-white/30 text-xs tracking-wide">Your name</label>
+                  <input
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className="bg-transparent border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[#C9A84C]/50 transition-colors placeholder:text-white/20"
+                    placeholder="Name"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-white/30 text-xs tracking-wide">Company</label>
+                  <input
+                    required
+                    value={form.company}
+                    onChange={(e) => setForm({ ...form, company: e.target.value })}
+                    className="bg-transparent border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[#C9A84C]/50 transition-colors placeholder:text-white/20"
+                    placeholder="Company name"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-white/30 text-xs tracking-wide">Role to fill</label>
+                <input
+                  required
+                  value={form.role}
+                  onChange={(e) => setForm({ ...form, role: e.target.value })}
+                  className="bg-transparent border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[#C9A84C]/50 transition-colors placeholder:text-white/20"
+                  placeholder="e.g. Business Development Manager"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-white/30 text-xs tracking-wide">Target market</label>
+                <select
+                  value={form.market}
+                  onChange={(e) => setForm({ ...form, market: e.target.value })}
+                  className="bg-[#0A0B0D] border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[#C9A84C]/50 transition-colors appearance-none"
+                >
+                  <option value="">Select a market</option>
+                  {MARKETS.map((m) => <option key={m} value={m}>{m}</option>)}
+                </select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-white/30 text-xs tracking-wide">Anything else (optional)</label>
+                <textarea
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  rows={3}
+                  className="bg-transparent border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[#C9A84C]/50 transition-colors placeholder:text-white/20 resize-none"
+                  placeholder="Timeline, seniority level, language requirements..."
+                />
+              </div>
+              {status === "error" && (
+                <p className="text-red-400 text-xs">Something went wrong. Please email noelia@landineuropecoaching.com directly.</p>
+              )}
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="bg-[#C9A84C] text-[#0A0B0D] text-sm font-semibold tracking-widest uppercase px-8 py-4 hover:bg-[#E8C96A] transition-colors disabled:opacity-50 mt-2"
+              >
+                {status === "sending" ? "Sending..." : "Send inquiry"}
+              </button>
+            </form>
+          )}
+        </div>
       </section>
 
       {/* Footer */}
