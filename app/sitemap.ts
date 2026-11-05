@@ -22,5 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog/international-recruiter-for-tech-companies-in-spain`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/blog/how-to-hire-a-bdm-in-switzerland`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/blog/how-to-hire-english-speaking-candidates-in-sweden`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/recruit/tech-sales-europe`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${base}/recruit/bdm-switzerland`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${base}/recruit/commercial-profiles-sweden`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
   ];
 }
