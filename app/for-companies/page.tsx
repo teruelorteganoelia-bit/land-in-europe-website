@@ -51,29 +51,6 @@ const PROFILES = [
   { label: "Finance and Operations profiles", markets: "Luxembourg, Switzerland, Sweden" },
 ];
 
-const TESTIMONIALS = [
-  {
-    quote: "We needed a Country Manager for Spain with real commercial experience and a network in the market. Noelia had a shortlist ready in four days. The person we hired closed three enterprise deals in the first quarter.",
-    name: "Placeholder Name",
-    role: "CEO",
-    company: "Tech company, Germany",
-    filled: "Country Manager, Spain",
-  },
-  {
-    quote: "We had been trying to fill a Senior BDM role in Switzerland for three months through a large agency. Noelia filled it in five weeks with a candidate we would never have found through a job board.",
-    name: "Placeholder Name",
-    role: "VP Sales",
-    company: "Scale-up, Netherlands",
-    filled: "Senior BDM, Switzerland",
-  },
-  {
-    quote: "What made the difference was that Noelia had already briefed the candidates on our product and culture before we spoke to them. The conversations started at a completely different level.",
-    name: "Placeholder Name",
-    role: "Head of People",
-    company: "SaaS company, Sweden",
-    filled: "Sales Engineer, Stockholm",
-  },
-];
 
 const MARKETS = ["Spain", "Sweden", "Germany", "Netherlands", "Switzerland", "Luxembourg", "Belgium", "France", "Multiple markets"];
 
@@ -273,29 +250,22 @@ export default function ForCompaniesPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Stats */}
       <section className="max-w-4xl mx-auto px-6 pb-20">
         <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/30 to-transparent mb-20" />
-        <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#C9A84C] mb-12">
-          What clients say
-        </p>
-        <div className="flex flex-col gap-8">
-          {TESTIMONIALS.map((t) => (
-            <div key={t.company} className="border border-white/8 p-8 hover:border-[#C9A84C]/15 transition-colors">
-              <p className="text-white/60 text-sm leading-relaxed mb-6 italic">"{t.quote}"</p>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                <div>
-                  <p className="text-white/70 text-xs font-medium">{t.name}, {t.role}</p>
-                  <p className="text-white/30 text-xs">{t.company}</p>
-                </div>
-                <span className="text-[#C9A84C]/60 text-xs tracking-wide border border-[#C9A84C]/20 px-3 py-1 self-start sm:self-auto">
-                  {t.filled}
-                </span>
-              </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/8">
+          {[
+            { n: "9", label: "European markets" },
+            { n: "3–5", label: "Days to first shortlist" },
+            { n: "8", label: "Profile types placed" },
+            { n: "1", label: "Recruiter. Your contact throughout." },
+          ].map((s) => (
+            <div key={s.label} className="bg-[#0A0B0D] px-6 py-8 flex flex-col gap-2">
+              <p className="text-[#C9A84C] text-3xl font-light" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>{s.n}</p>
+              <p className="text-white/35 text-xs leading-snug">{s.label}</p>
             </div>
           ))}
         </div>
-        <p className="text-white/20 text-xs mt-6 italic">* Names replaced with placeholders until confirmed for publication.</p>
       </section>
 
       {/* Contact form */}
