@@ -5,11 +5,11 @@ import "./globals.css";
 // #12 canonical + Open Graph
 export const metadata: Metadata = {
   metadataBase: new URL("https://landineuropecoaching.com"),
-  title: "Career Coach for Internationals in Europe | Land in Europe",
+  title: "Career Coach for Foreigners in Europe | Get Hired in Europe | Land in Europe",
   description:
-    "Career coaching for foreigners looking for a job in Europe. CV rewrite, LinkedIn optimization, and job search strategy by a recruiter who works in the European market every day. Based in Stockholm, working across Spain, Sweden, and the EU.",
+    "Career coach helping foreigners get hired in Europe. CV rewrite, LinkedIn optimization, and job search strategy by a recruiter based in Stockholm who works in the European market every day. Spain, Sweden, Germany, Netherlands, Switzerland.",
   keywords:
-    "career coach for expats Europe, how to find a job in Europe as a foreigner, career coach internationals Europe, CV format Europe, job search Europe, LinkedIn optimization Europe, career coach Stockholm, jobbcoach Stockholm, karriärcoach Sverige, international recruiter Spain, recruiter startups Spain, expat job search Europe, CV rewrite Europe, work in Europe foreigner, career coaching Spain Sweden",
+    "career coach for foreigners Europe, get hired in Europe as a foreigner, how to find a job in Europe, career coach expats Europe, CV rewrite Europe, LinkedIn optimization Europe, job search Europe foreigner, career coach Stockholm, jobbcoach Stockholm, karriärcoach Sverige, find job in Spain foreigner, find job in Sweden foreigner, find job in Germany foreigner, work permit Europe, international professional Europe, career coaching Spain Sweden Netherlands",
   verification: {
     google: "e0IPJruIt1Tat5gQl1WzujVZ3PzWFSOXdNRXPHNM348",
   },
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Career Coach for Internationals in Europe | Land in Europe",
+    title: "Career Coach for Foreigners in Europe | Get Hired in Europe | Land in Europe",
     description:
-      "Career coaching for foreigners looking for a job in Europe. CV rewrite, LinkedIn optimization, and job search strategy by a recruiter who works in the European market every day.",
+      "Career coach helping foreigners get hired in Europe. CV rewrite, LinkedIn optimization, and job search strategy by a recruiter based in Stockholm who works in the European market every day.",
     type: "website",
     url: "https://landineuropecoaching.com",
     siteName: "Land in Europe",
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Career Coach for Internationals in Europe | Land in Europe",
+    title: "Career Coach for Foreigners in Europe | Get Hired in Europe | Land in Europe",
     description:
-      "Career coaching for foreigners looking for a job in Europe. CV rewrite, LinkedIn and job search strategy by a recruiter based in Stockholm.",
+      "Career coach helping foreigners get hired in Europe. CV rewrite, LinkedIn and job search strategy by a recruiter based in Stockholm.",
     images: ["/noelia-photo.png"],
   },
   icons: {
