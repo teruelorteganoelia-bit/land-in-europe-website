@@ -25,7 +25,7 @@ const CREDENTIALS = [
   "Degree in Economics, University of Valencia",
   "Master's in Human Resources, European University of Valencia",
   "Based in Stockholm, working across European markets",
-  "Coached 50+ professionals from 15+ nationalities",
+  "Coached 100+ professionals from 15+ nationalities",
   "Works in English and Spanish",
 ];
 
@@ -165,7 +165,7 @@ export default function AboutPage() {
               {[
                 { n:"01", t:"I know how recruiters think", b:"Because I am one. I know what they search for, what they skip, and what makes them pick up the phone." },
                 { n:"02", t:"No generic advice", b:"Your background, your target country, your industry. The work we do together is built around your specific situation." },
-                { n:"03", t:"I have worked with 50+ professionals", b:"From 15+ nationalities. I have seen what works and what does not across very different profiles and markets." },
+                { n:"03", t:"I have worked with 100+ professionals", b:"From 15+ nationalities. I have seen what works and what does not across very different profiles and markets." },
               ].map((c) => (
                 <div key={c.n} className="bg-gray-50 rounded-2xl border border-gray-100 p-7 relative overflow-hidden">
                   <span className="font-serif font-bold text-5xl text-gray-100 absolute top-4 right-5 select-none leading-none">{c.n}</span>

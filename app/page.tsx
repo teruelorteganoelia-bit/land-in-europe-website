@@ -40,7 +40,7 @@ const COUNTRIES = [
 ];
 
 const STATS = [
-  { v: "50+", l: "Professionals coached" },
+  { v: "100+", l: "Professionals coached" },
   { v: "15+", l: "Nationalities" },
 ];
 
@@ -522,7 +522,7 @@ function Hero() {
             <span className="text-xs font-semibold text-[#C9A84C] uppercase tracking-[0.25em]">Career Coach · International Recruiter</span>
           </div>
 
-          <h1 className="font-serif text-[clamp(3rem,6vw,6.5rem)] font-light text-white leading-[1.02] mb-8">
+          <h1 className="font-serif text-[clamp(2.5rem,6vw,6.5rem)] font-light text-white leading-[1.02] mb-8">
             <span className="hero-line"><span>Get hired</span></span>
             <span className="hero-line"><span>in Europe.</span></span>
             <span className="hero-line italic text-[#C9A84C]"><span>As a foreigner.</span></span>

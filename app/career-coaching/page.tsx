@@ -175,7 +175,7 @@ export default function CareerCoachingPage() {
               </p>
               <div className="grid grid-cols-3 gap-6">
                 {[
-                  { v: "50+", l: "Professionals coached" },
+                  { v: "100+", l: "Professionals coached" },
                   { v: "15+", l: "Nationalities" },
                 ].map((s) => (
                   <div key={s.l}>
