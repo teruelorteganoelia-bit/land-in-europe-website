@@ -525,7 +525,7 @@ function Hero() {
           <h1 className="font-serif text-[clamp(2.2rem,6vw,6.5rem)] font-light text-white leading-[1.02] mb-8">
             <span className="hero-line"><span>Get hired</span></span>
             <span className="hero-line"><span>in Europe.</span></span>
-            <span className="hero-line italic text-[#C9A84C]"><span className="pr-[0.15em]">As a foreigner.</span></span>
+            <span className="hero-line italic text-[#C9A84C]"><span className="pr-[0.15em] pb-[0.2em] inline-block">As a foreigner.</span></span>
           </h1>
 
           <p className="hero-fade hero-fade-2 text-base sm:text-lg text-white/45 leading-relaxed max-w-md mb-6">
